@@ -9,7 +9,10 @@
   "envelope": {
     "addressedTo": "PLACEHOLDER — you and your family",
     "sealInitials": "BG",
-    "openLabel": "Open"
+    "openLabel": "Open",
+    "openAriaLabel": "Open the invitation",
+    "skipLabel": "Skip to the details",
+    "replayLabel": "Play the opening again"
   },
   "events": [
     {

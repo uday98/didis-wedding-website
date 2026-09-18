@@ -15,13 +15,27 @@ const SECTIONS = [
 ];
 
 export default function App() {
-  const { phase, open, skip, isOpen } = useEnvelope();
+  const { phase, runId, open, skip, replay, isOpen } = useEnvelope();
   const { monogram } = useContent('couple');
+  const { replayLabel } = useContent('envelope');
 
   return (
     <>
-      <Envelope phase={phase} onOpen={open} onSkip={skip} />
-      <Shell footer={<p>{monogram}</p>}>
+      <Envelope phase={phase} runId={runId} onOpen={open} onSkip={skip} />
+      <Shell
+        footer={
+          <>
+            <p>{monogram}</p>
+            {/* Gated on isOpen so it is not an unreachable tab stop behind the
+                sealed overlay. */}
+            {isOpen && (
+              <button type="button" className="invite-replay" onClick={replay}>
+                {replayLabel}
+              </button>
+            )}
+          </>
+        }
+      >
         <Nav items={SECTIONS.map(({ id, label }) => ({ id, label }))} />
         <Hero />
         {SECTIONS.map(({ id, Component }) => <Component key={id} />)}

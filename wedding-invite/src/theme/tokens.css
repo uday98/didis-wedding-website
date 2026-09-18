@@ -22,4 +22,11 @@
   --measure: 62ch;
   --radius-card: 2px;
   --ease-open: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Envelope depth. Static geometry, not motion — reduced motion keeps these.
+     Durations deliberately are not here; they live in theme/motion.js. */
+  --env-depth: 18px;          /* wall thickness: back plane 0 -> front plane */
+  --env-card-z: 6px;          /* card resting Z, inside the box */
+  --env-card-lift: 48px;      /* how far the card comes toward the viewer */
+  --env-perspective: 1100px;  /* shorter than 1400 = more visible depth */
 }
