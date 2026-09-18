@@ -1,0 +1,17 @@
+.section {
+  padding-block: var(--sp-5);
+  border-top: 1px solid var(--c-line);
+}
+.section__head { margin-bottom: var(--sp-3); }
+.section__title {
+  font-family: var(--font-display);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--c-ink);
+}
+.section__kicker {
+  margin-top: var(--sp-1);
+  max-width: var(--measure);
+  color: var(--c-ink-soft);
+}

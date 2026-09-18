@@ -1,0 +1,13 @@
+.shell { background: var(--c-paper); color: var(--c-ink); min-height: 100dvh; }
+.shell__main {
+  width: min(92vw, 62rem);
+  margin-inline: auto;
+  padding-bottom: var(--sp-5);
+}
+.shell__footer {
+  border-top: 1px solid var(--c-line);
+  padding: var(--sp-3) 0 var(--sp-4);
+  text-align: center;
+  color: var(--c-ink-soft);
+  font-size: var(--t-sm);
+}

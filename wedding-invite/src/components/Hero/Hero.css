@@ -1,0 +1,23 @@
+.hero { padding-block: var(--sp-5) var(--sp-4); }
+.hero__date {
+  color: var(--c-accent);
+  font-size: var(--t-sm);
+  letter-spacing: 0.08em;
+}
+.hero__names {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 9vw, var(--t-2xl));
+  line-height: 1.05;
+  margin-block: var(--sp-2);
+  display: grid;
+  gap: 0.1em;
+}
+.hero__amp {
+  font-family: var(--font-body);
+  font-size: 0.32em;
+  color: var(--c-ink-soft);
+  letter-spacing: 0.2em;
+  padding-left: 0.2em;
+}
+.hero__tagline { max-width: var(--measure); color: var(--c-ink-soft); }

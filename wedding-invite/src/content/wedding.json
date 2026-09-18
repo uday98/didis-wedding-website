@@ -1,0 +1,125 @@
+{
+  "couple": {
+    "brideName": "BRIDE NAME",
+    "groomName": "GROOM NAME",
+    "monogram": "B & G",
+    "tagline": "PLACEHOLDER — one line the families would actually say.",
+    "weddingDate": "2027-02-14"
+  },
+  "envelope": {
+    "addressedTo": "PLACEHOLDER — you and your family",
+    "sealInitials": "BG",
+    "openLabel": "Open"
+  },
+  "events": [
+    {
+      "id": "haldi",
+      "name": "Haldi",
+      "date": "2027-02-12",
+      "startTime": "10:00",
+      "venue": "PLACEHOLDER VENUE",
+      "address": "PLACEHOLDER, City",
+      "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
+      "dressCode": "Yellow, and nothing you mind staining",
+      "note": "PLACEHOLDER — one sentence of context."
+    },
+    {
+      "id": "mehendi",
+      "name": "Mehendi",
+      "date": "2027-02-12",
+      "startTime": "17:00",
+      "venue": "PLACEHOLDER VENUE",
+      "address": "PLACEHOLDER, City",
+      "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
+      "dressCode": "Bright, comfortable",
+      "note": "PLACEHOLDER."
+    },
+    {
+      "id": "sangeet",
+      "name": "Sangeet",
+      "date": "2027-02-13",
+      "startTime": "19:00",
+      "venue": "PLACEHOLDER VENUE",
+      "address": "PLACEHOLDER, City",
+      "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
+      "dressCode": "Whatever you can dance in",
+      "note": "PLACEHOLDER."
+    },
+    {
+      "id": "wedding",
+      "name": "Wedding",
+      "date": "2027-02-14",
+      "startTime": "06:30",
+      "venue": "PLACEHOLDER VENUE",
+      "address": "PLACEHOLDER, City",
+      "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
+      "dressCode": "Traditional",
+      "note": "PLACEHOLDER — the muhurat is early. Plan the night before."
+    },
+    {
+      "id": "reception",
+      "name": "Reception",
+      "date": "2027-02-14",
+      "startTime": "19:30",
+      "venue": "PLACEHOLDER VENUE",
+      "address": "PLACEHOLDER, City",
+      "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
+      "dressCode": "Formal",
+      "note": "PLACEHOLDER."
+    }
+  ],
+  "travel": {
+    "intro": "PLACEHOLDER — one paragraph for guests travelling in.",
+    "arrivals": [
+      {
+        "id": "air",
+        "mode": "By air",
+        "hub": "PLACEHOLDER Airport (CODE)",
+        "detail": "PLACEHOLDER — distance and usual drive time to the venue."
+      },
+      {
+        "id": "rail",
+        "mode": "By train",
+        "hub": "PLACEHOLDER Junction",
+        "detail": "PLACEHOLDER — which station to book to, and why."
+      },
+      {
+        "id": "road",
+        "mode": "By road",
+        "hub": "PLACEHOLDER highway",
+        "detail": "PLACEHOLDER — parking at the venue."
+      }
+    ],
+    "stays": [
+      {
+        "id": "stay-1",
+        "name": "PLACEHOLDER HOTEL",
+        "tier": "Rooms held for guests",
+        "distance": "PLACEHOLDER min from the venue",
+        "priceNote": "Held under PLACEHOLDER until DD Mon",
+        "bookingUrl": "",
+        "phone": ""
+      },
+      {
+        "id": "stay-2",
+        "name": "PLACEHOLDER HOTEL",
+        "tier": "Nearby alternative",
+        "distance": "PLACEHOLDER min from the venue",
+        "priceNote": "PLACEHOLDER",
+        "bookingUrl": "",
+        "phone": ""
+      }
+    ],
+    "localHelp": {
+      "transportNote": "PLACEHOLDER — shuttle timings, or how to get a cab locally.",
+      "contacts": [
+        {
+          "id": "c1",
+          "name": "PLACEHOLDER",
+          "role": "Travel and stay",
+          "phone": "+91 00000 00000"
+        }
+      ]
+    }
+  }
+}
