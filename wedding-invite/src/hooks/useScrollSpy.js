@@ -27,8 +27,7 @@ import { useEffect, useRef, useState } from 'react';
  * gaps: at any scroll position exactly one section's top is the last one above
  * the line, whatever the heights are.
  *
- * Implemented with an observer per section whose bottom margin is pulled up to
- * that line, so "is this section's top above the line" becomes "does this
+ * Implemented with one observer whose bottom margin is pulled up to that line, so "is this section's top above the line" becomes "does this
  * section intersect at all" -- no scroll listener, no per-frame work.
  */
 export function useScrollSpy(ids) {
@@ -43,11 +42,21 @@ export function useScrollSpy(ids) {
 
     const map = crossed.current;
 
-    /* The line sits a little below the nav. It is NOT read from --nav-h: the
-       nav shrinks 3px the moment you scroll, which would change the margin and
-       tear down and rebuild every observer on every scroll. Quantised to a
-       round number that clears the bar at any of its heights. */
-    const LINE = 72;
+    /* The line is a PERCENTAGE of the viewport, not a pixel offset from the nav.
+       It used to be 72px, chosen to sit just below a 44px nav -- which meant it
+       silently depended on the nav's height. When the nav gained a fade zone
+       (68px), an anchor jump landed the section's top at ~92px, just BELOW the
+       line, so clicking "Travel & stay" left the highlight on "Functions".
+       A pixel constant tied to another component's geometry will do that every
+       time that geometry changes.
+
+       35% sits well clear of wherever a jump lands (nav + scroll-margin is well
+       under a third of any phone screen), and is also a natural reading
+       position: the section occupying the upper part of the screen is the one
+       you are in. rootMargin takes percentages relative to the viewport, so it
+       tracks the mobile URL bar showing and hiding with no innerHeight read and
+       no rebuild on resize. */
+    const LINE = 35;
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -60,7 +69,7 @@ export function useScrollSpy(ids) {
         }
         setActive((prev) => (prev === next ? prev : next));
       },
-      { rootMargin: `0px 0px -${Math.max(0, window.innerHeight - LINE)}px 0px`, threshold: 0 },
+      { rootMargin: `0px 0px -${100 - LINE}% 0px`, threshold: 0 },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
