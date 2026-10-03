@@ -1,0 +1,43 @@
+/* There were no print styles before this change, and none were needed: the page
+   was static. Scroll reveals make them mandatory -- an unrevealed section is
+   opacity:0, and the sealed envelope is a fixed full-viewport cover, so without
+   this the invitation prints as a blank first page followed by nothing.
+
+   Guests do print these. Assume someone's parent will. */
+
+@media print {
+  /* The envelope, both dev switchers and the grain are screen furniture. */
+  .envelope-stage,
+  .palette-switcher,
+  .look-switcher,
+  .grain,
+  .invite-replay {
+    display: none !important;
+  }
+
+  /* Whatever the reveal state was at the moment of printing, show everything. */
+  [data-reveal],
+  [data-stagger] > *,
+  .hero > *,
+  .hero__names > span {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .nav { display: none; }
+
+  body { background: none; }
+  .shell { min-height: 0; }
+  .shell__main { width: auto; }
+
+  /* Keep a function and its details together across a page break. */
+  .event,
+  .stay,
+  .day { break-inside: avoid; }
+  .section { break-before: auto; border-top: 1px solid var(--c-line); }
+
+  /* A map link is useless on paper; the address beneath it is not. */
+  .event__venue a { text-decoration: none; }
+}

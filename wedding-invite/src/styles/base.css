@@ -33,3 +33,30 @@ a { color: inherit; }
   border: 1px solid var(--c-line); cursor: pointer;
 }
 .palette-switcher button[aria-pressed='true'] { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+
+/* Dev tool, bottom-LEFT so it never collides with .palette-switcher at
+   bottom-right. Both sit above the envelope stage (z-index 50) because the
+   look has to be judgeable while the envelope is still sealed. */
+.look-switcher {
+  position: fixed; left: var(--sp-2); bottom: var(--sp-2);
+  z-index: 60; display: grid; gap: 4px;
+  padding: 8px; background: var(--c-paper);
+  border: 1px solid var(--c-line); border-radius: 6px;
+  font-size: var(--t-xs); font-family: var(--font-body);
+  max-width: 15rem;
+}
+.look-switcher__presets { display: flex; gap: 4px; align-items: center; margin-bottom: 2px; }
+.look-switcher__custom { color: var(--c-ink-soft); font-style: italic; }
+.look-switcher__row { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.look-switcher__label { color: var(--c-ink-soft); cursor: help; }
+.look-switcher__values { display: flex; gap: 3px; }
+.look-switcher button {
+  font: inherit; cursor: pointer; padding: 1px 6px;
+  background: none; color: var(--c-ink-soft);
+  border: 1px solid var(--c-line); border-radius: 3px;
+}
+.look-switcher button:hover { color: var(--c-ink); border-color: var(--c-ink-soft); }
+.look-switcher button[aria-pressed='true'] {
+  background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink);
+}
+.look-switcher__preset { text-transform: capitalize; }

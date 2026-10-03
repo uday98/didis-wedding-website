@@ -9,7 +9,7 @@ export function DayGroup({ date, items }) {
         {formatWeekday(date)}
         <span className="day__date">{formatDate(date, { day: 'numeric', month: 'short' })}</span>
       </h3>
-      <div className="day__events">
+      <div className="day__events" data-stagger>
         {items.map((event) => <EventCard key={event.id} event={event} />)}
       </div>
     </section>

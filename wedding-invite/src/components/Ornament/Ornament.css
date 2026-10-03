@@ -1,0 +1,35 @@
+/* Every mark inherits its colour through currentColor, which is why these are
+   inline SVG rather than CSS url() data-URIs -- a data-URI cannot resolve
+   currentColor, so it would need a literal hex and break the rule that
+   palettes.js owns every colour in the project. */
+
+.jaali { display: block; color: var(--c-line); }
+[data-ornament='none'] .jaali { display: none; }
+[data-ornament='light'] .jaali { max-width: 7rem; color: var(--c-line); }
+[data-ornament='full'] .jaali { max-width: 100%; color: var(--c-metal); opacity: 0.55; }
+
+/* Joins --c-metal's established gilt-small-type role (.event__time,
+   .stay__tier) rather than inventing a new one. */
+.sigil { color: var(--c-metal); display: block; }
+[data-ornament='none'] .sigil { display: none; }
+[data-ornament='light'] .sigil { opacity: 0.7; }
+[data-ornament='full'] .sigil { opacity: 1; }
+
+.event__mark { display: flex; align-items: baseline; gap: var(--sp-1); }
+
+.rosette,
+.torana { color: var(--c-metal); }
+.rosette { position: absolute; top: 0; right: 0; opacity: 0.5; pointer-events: none; }
+.torana { display: block; margin-top: var(--sp-2); opacity: 0.65; }
+
+/* Both are rich-only. Hidden rather than unmounted so toggling the switcher
+   does not remount the hero and restart its entrance. */
+[data-ornament='none'] .rosette,
+[data-ornament='light'] .rosette,
+[data-ornament='none'] .torana,
+[data-ornament='light'] .torana { display: none; }
+
+/* The rosette is absolutely positioned against the hero. */
+.hero { position: relative; }
+/* It overhangs on narrow screens, where there is no corner to spare. */
+@media (max-width: 34rem) { .rosette { display: none; } }
