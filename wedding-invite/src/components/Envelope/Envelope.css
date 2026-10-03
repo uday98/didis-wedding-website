@@ -46,6 +46,19 @@
 .envelope-stage[data-phase='closing'] { opacity: 0; pointer-events: none; }
 .envelope-stage[data-phase='open'] { opacity: 0; visibility: hidden; pointer-events: none; }
 
+/* Re-arming for a replay is instant, never a fade.
+   The transition above is one-directional in intent -- it exists for the
+   hand-off OUT. Coming back in, it meant the overlay faded up over ~1.2s while
+   the page was still visible underneath, so a replay read as: the page jumps to
+   the top, and only then does the envelope appear. Cutting the transition here
+   makes the stage opaque in the same paint as the scroll reset, so the jump
+   happens behind it and is never seen. */
+.envelope-stage[data-phase='closed'] {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
 .envelope {
   position: relative;
   width: min(86vw, 30rem);

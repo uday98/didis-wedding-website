@@ -8,6 +8,26 @@
     "photo": "",
     "photoAlt": ""
   },
+  "families": {
+    "invocation": "॥ श्री गणेशाय नमः ॥",
+    "invocationRoman": "Shri Ganeshaya Namah",
+    "hosts": "bride",
+    "bride": {
+      "honorific": "Shri & Smt.",
+      "father": "PLACEHOLDER — bride's father",
+      "mother": "PLACEHOLDER — bride's mother",
+      "relation": "daughter"
+    },
+    "groom": {
+      "honorific": "Shri & Smt.",
+      "father": "PLACEHOLDER — groom's father",
+      "mother": "PLACEHOLDER — groom's mother",
+      "relation": "son"
+    },
+    "requestLine": "request the honour of your presence at the marriage of their",
+    "withLine": "with",
+    "closingLine": "PLACEHOLDER — a closing blessing, or leave empty"
+  },
   "envelope": {
     "addressedTo": "PLACEHOLDER — you and your family",
     "sealInitials": "BG",

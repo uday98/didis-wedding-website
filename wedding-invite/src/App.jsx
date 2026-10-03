@@ -4,6 +4,7 @@ import { StageProvider } from './hooks/useStage';
 import { Shell } from './components/Layout/Shell';
 import { Nav } from './components/Layout/Nav';
 import { Hero } from './components/Hero/Hero';
+import { Invitation } from './components/Invitation/Invitation';
 import { Events } from './components/Events/Events';
 import { Travel } from './components/Travel/Travel';
 import { DevPanel } from './components/DevPanel';
@@ -48,6 +49,9 @@ export default function App() {
         >
           <Nav items={SECTIONS.map(({ id, label }) => ({ id, label }))} />
           <Hero />
+          {/* The formal invitation sits between the hero and the details:
+              it is the card, the sections below are the logistics. */}
+          <Invitation />
           {SECTIONS.map(({ id, Component }) => <Component key={id} />)}
         </Shell>
       </StageProvider>

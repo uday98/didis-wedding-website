@@ -19,11 +19,25 @@ You can just reply point by point. 🙏
 - Wedding date
 - A one-line phrase for under the names — something the families would actually say, not a quote off the internet *(optional, but it makes a difference)*
 
-*2. The envelope*
+*2. The families*
+This is the formal invitation line, the way it reads on a printed card.
+
+- Bride's father's name, and bride's mother's name — exactly as they should be printed
+- Groom's father's name, and groom's mother's name — same
+- Which honorific to use: "Shri & Smt.", "Mr. & Mrs.", or something else
+- Which side is issuing the invitation — bride's family, groom's family, or both together
+- Do you want an invocation line at the top? e.g. ॥ श्री गणेशाय नमः ॥ — tell me if you'd
+  like a different one, or none at all *(optional)*
+- A closing blessing line, if there's one the family uses *(optional)*
+
+Also — should grandparents be named? Some families include them, some don't. Tell me if yes
+and I'll add them.
+
+*3. The envelope*
 - Who should the invitation be addressed to? e.g. "You and your family"
 - Two initials for the wax seal — e.g. if it's Anjali and Rohan, "AR"
 
-*3. The functions*
+*4. The functions*
 There are five set up right now — Haldi, Mehendi, Sangeet, Wedding, Reception.
 Tell me if any should be removed, or if there are more.
 
@@ -37,7 +51,7 @@ For **each** function:
 - Dress code *(optional)*
 - One line of context — anything a guest would want to know. e.g. "the muhurat is early, plan the night before"  *(optional)*
 
-*4. Travel*
+*5. Travel*
 - A short paragraph for guests travelling in — one or two sentences is plenty
 
 By air:
@@ -50,7 +64,7 @@ By train:
 By road:
 - Which highway, and whether there's parking at the venue
 
-*5. Where to stay*
+*6. Where to stay*
 Two hotels are set up. For each:
 - Hotel name
 - Are rooms held for guests there, or is it just a nearby option?
@@ -59,11 +73,11 @@ Two hotels are set up. For each:
 - Booking link *(optional)*
 - Phone number *(optional)*
 
-*6. Getting around*
+*7. Getting around*
 - Anything about shuttles, timings, or how to get a cab locally
 - One or two people a guest can call about travel and stay — name, what they're handling, and phone number
 
-*7. Photos (optional)*
+*8. Photos (optional)*
 If there's one good photo of the couple you'd want on the page, send the highest quality version
 you have — straight from the camera or phone, not forwarded on WhatsApp, since that compresses it.
 Landscape works better than portrait. The site works fine without one.
@@ -77,6 +91,7 @@ That's everything. Thank you! 💐
 | Section | Asked | Received | In `wedding.json` |
 |---|---|---|---|
 | Couple | ✅ | ☐ | ☐ |
+| Families (parents' names) | ✅ | ☐ | ☐ |
 | Envelope | ✅ | ☐ | ☐ |
 | Functions ×5 | ✅ | ☐ | ☐ |
 | Travel — arrivals | ✅ | ☐ | ☐ |

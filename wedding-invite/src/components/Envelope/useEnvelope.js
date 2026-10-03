@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { safeGet, safeSet, safeRemove } from '../../lib/storage';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { openTotalMs, exitTotalMs } from '../../theme/motion';
@@ -48,14 +48,25 @@ export function useEnvelope() {
   const skip = finish;
 
   /** Replay is a transition back to `closed`, a state the machine already has,
-   *  so no extra phase is needed. The scroll reset matters because whoever
-   *  triggers this is by definition at the foot of the page. */
+   *  so no extra phase is needed. */
   const replay = useCallback(() => {
     safeRemove(KEY);
     setRunId((n) => n + 1);
     setPhase('closed');
-    window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
+
+  /* The scroll reset lives here, not in `replay`, and in a LAYOUT effect.
+     Called directly it ran synchronously, before React had committed
+     phase='closed' -- so the page scrolled to the top while the overlay was
+     still hidden, and only then did the envelope come back. Running it after
+     the commit but before paint means the overlay is already opaque when the
+     scroll happens, so the jump is never seen. runId, not phase, because only a
+     replay should move the page. */
+  const firstRun = useRef(true);
+  useLayoutEffect(() => {
+    if (firstRun.current) { firstRun.current = false; return; }
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [runId]);
 
   // opening -> closing, once the card has risen and held
   useEffect(() => {
