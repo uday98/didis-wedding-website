@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react';
 import { ACTIVE_LOOK, DIMENSIONS, dimensionNames, PRESETS, isValid } from './looks';
+import { applyPaceVar } from './motion';
+import { applyPairingVars, ensurePairing } from './fonts';
 import { safeLocalGet, safeLocalSet } from '../lib/storage';
 
 const LookContext = createContext(null);
@@ -33,7 +35,17 @@ export function LookProvider({ children }) {
   useLayoutEffect(() => {
     const root = document.documentElement;
     dimensionNames.forEach((d) => root.setAttribute(`data-${d}`, look[d]));
+    /* Two dimensions need more than an attribute. Both write inline custom
+       properties, so neither can be expressed as a [data-*] rule -- see the
+       note at the top of tokens.css. */
+    applyPaceVar(look.pace, root);
+    applyPairingVars(look.pairing, root);
   }, [look]);
+
+  /* Separate from the attribute effect because it touches the network: appends
+     a stylesheet the first time a pairing is auditioned, and does nothing at
+     all for the one index.html already shipped. */
+  useLayoutEffect(() => { ensurePairing(look.pairing); }, [look.pairing]);
 
   const set = useCallback((dimension, value) => {
     if (!isValid(dimension, value)) return;

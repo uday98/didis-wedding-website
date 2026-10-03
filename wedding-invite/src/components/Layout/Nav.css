@@ -17,6 +17,10 @@
 @supports (background: color-mix(in srgb, red 50%, transparent)) {
   .nav { background: color-mix(in srgb, var(--c-paper) 92%, transparent); }
 }
+/* Zero-height marker just above the nav. Once it scrolls out of view the nav
+   is stuck, which an IntersectionObserver reports without any per-frame work. */
+.nav__sentinel { height: 1px; margin-bottom: -1px; }
+
 .nav__list {
   display: flex;
   gap: var(--sp-3);
@@ -40,3 +44,35 @@
 .nav__link:hover { color: var(--c-accent); }
 .nav__link:focus-visible { color: var(--c-accent); }
 .nav__link:active { color: var(--c-accent-soft); }
+
+/* Shrink capped at 3px of padding deliberately: --nav-h feeds scroll-margin-top,
+   and the shrink fires as soon as you scroll 1px -- which during a smooth anchor
+   jump is immediately. A larger change would move the target mid-flight and you
+   would land short. Anything bigger needs --nav-h frozen while stuck. */
+.nav {
+  transition:
+    box-shadow calc(var(--d-hover, 220ms) * var(--pace-k, 1.35)) ease,
+    border-color calc(var(--d-hover, 220ms) * var(--pace-k, 1.35)) ease;
+}
+.nav__list {
+  transition: padding-block calc(var(--d-hover, 220ms) * var(--pace-k, 1.35)) ease;
+}
+.nav[data-stuck] .nav__list { padding-block: calc(var(--sp-1) - 3px) var(--sp-1); }
+.nav[data-stuck] {
+  box-shadow: 0 1px 12px -6px rgb(var(--c-shade-rgb, 0 0 0) / 0.45);
+  border-bottom-color: var(--c-ink-soft);
+}
+
+/* The active section. A border rather than a background so it costs no layout
+   and reads at a glance on a small screen. */
+.nav__link {
+  border-bottom: 1px solid transparent;
+}
+.nav__link[aria-current='location'] {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav, .nav__list { transition: none; }
+}

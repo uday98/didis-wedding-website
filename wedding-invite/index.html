@@ -7,7 +7,16 @@
     <meta name="description" content="Invitation, functions, travel and stay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Karla:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- The stylesheet for ACTIVE_PAIRING, kept in the initial HTML so the preload
+         scanner finds it before the module script is parsed. data-pairing-src is
+         how fonts.js recognises it and avoids fetching the same faces twice; the
+         href must match PAIRINGS['prata-karla'].href, and a dev assertion warns
+         if the two drift. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prata&family=Karla:wght@400;700&display=swap"
+      rel="stylesheet"
+      data-pairing-src="prata-karla"
+    />
   </head>
   <body>
     <div id="root"></div>

@@ -21,6 +21,11 @@ export function Jaali({ className = '', height = 16, cell = 28 }) {
       className={`jaali ${className}`.trim()}
       width="100%"
       height={height}
+      /* The cell width is the unit CSS needs to reason about this element: the
+         end fade and the `light` cap are both measured in cells. Published here
+         so the number lives in this one signature rather than in Ornament.css
+         as well. Not a palette value, so an inline style is fine. */
+      style={{ '--jaali-cell': `${cell}px` }}
       aria-hidden="true"
       focusable="false"
     >

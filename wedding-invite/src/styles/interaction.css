@@ -1,21 +1,41 @@
 /* Motion and interaction state.
-   Durations come from theme/motion.js as --d-*, which applyMotionVars writes
-   INLINE on <html>. An inline custom property beats any attribute rule, so this
-   file never redefines a --d-*; it multiplies by --motion-k instead. */
 
-:root { --motion-k: 0.85; --reveal-rise: 8px; --reveal-blur: 0px; }
+   Two multipliers, and they do NOT overlap:
 
+     --pace-k   scales TIME. One number for the whole site, written inline on
+                <html> by applyPaceVar from PACE_SCALE. Never define it in a
+                rule here -- inline wins and the override would silently lose.
+     --motion-k GATES time: 1 or 0, nothing else. It used to be 0.85/1.15, i.e.
+                a speed factor, which meant the numbers lived here AND in
+                motion.js's MOTION_SCALE, which nothing imported -- it had
+                already drifted out of use. Speed moved to --pace-k; what is
+                left of `motion` is amplitude plus the off switch.
+
+   calc(--d-x * --motion-k * --pace-k) therefore never double-scales: the gate
+   is 1 or 0. Durations come from theme/motion.js as --d-*, also written inline,
+   so this file never redefines one either. */
+
+:root {
+  --motion-k: 1;
+  --pace-k: 1.35;          /* fallback only; applyPaceVar overrides it inline */
+  --reveal-rise: 8px;
+  --reveal-blur: 0px;
+}
+
+/* Only `off` changes the gate. A future speed factor would have to delete this
+   line rather than edit a number, which is the point. */
+[data-motion] { --motion-k: 1; }
 [data-motion='off'] { --motion-k: 0; --reveal-rise: 0px; --reveal-blur: 0px; }
-[data-motion='subtle'] { --motion-k: 0.85; --reveal-rise: 8px; --reveal-blur: 0px; }
-[data-motion='full'] { --motion-k: 1.15; --reveal-rise: 22px; --reveal-blur: 2px; }
+[data-motion='subtle'] { --reveal-rise: 8px; --reveal-blur: 0px; }
+[data-motion='full'] { --reveal-rise: 22px; --reveal-blur: 2px; }
 
 /* --- scroll reveal ------------------------------------------------------- */
 
 [data-reveal] {
   transition:
-    opacity calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
-    transform calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
-    filter calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open);
+    opacity calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    filter calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 /* transform here creates a containing block: a position:fixed descendant of a
    revealed section would anchor to the section, not the viewport. None exist
@@ -35,22 +55,22 @@
    never leaves the last row waiting a noticeable amount of time. */
 [data-stagger] > * {
   transition:
-    opacity calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
-    transform calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open);
+    opacity calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 [data-stagger][data-reveal='out'] > * {
   opacity: 0;
   transform: translateY(var(--reveal-rise));
 }
 [data-stagger][data-reveal='in'] > * { opacity: 1; transform: none; }
-[data-stagger] > *:nth-child(1) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 0); }
-[data-stagger] > *:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 1); }
-[data-stagger] > *:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 2); }
-[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 3); }
-[data-stagger] > *:nth-child(5) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 4); }
-[data-stagger] > *:nth-child(6) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 5); }
-[data-stagger] > *:nth-child(7) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 6); }
-[data-stagger] > *:nth-child(n + 8) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 7); }
+[data-stagger] > *:nth-child(1) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 0); }
+[data-stagger] > *:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 1); }
+[data-stagger] > *:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 2); }
+[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3); }
+[data-stagger] > *:nth-child(5) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 4); }
+[data-stagger] > *:nth-child(6) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 5); }
+[data-stagger] > *:nth-child(7) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 6); }
+[data-stagger] > *:nth-child(n + 8) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 7); }
 
 /* --- hero entrance -------------------------------------------------------
    Keyed off the envelope finishing, not off scroll position, so the opening
@@ -62,8 +82,8 @@
 .hero__names,
 .hero__say {
   transition:
-    opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open),
-    transform calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open);
+    opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 .hero[data-enter='out'] .hero__date,
 .hero[data-enter='out'] .hero__names,
@@ -74,25 +94,33 @@
 .hero[data-enter='in'] .hero__date,
 .hero[data-enter='in'] .hero__names,
 .hero[data-enter='in'] .hero__say { opacity: 1; transform: none; }
-.hero[data-enter] .hero__names { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 1.5); }
-.hero[data-enter] .hero__say { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 3); }
+.hero[data-enter] .hero__names { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 1.5); }
+.hero[data-enter] .hero__say { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3); }
 
 .hero[data-enter='out'] .rosette { opacity: 0; }
-.rosette { transition: opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open); }
+.rosette { transition: opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open); }
 
 /* Rich only: the three names arrive one after another rather than as a block. */
 [data-motion='full'] .hero__names > span {
   transition:
-    opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open),
-    transform calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open);
+    opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 [data-motion='full'] .hero[data-enter='out'] .hero__names > span {
   opacity: 0;
   transform: translateY(0.18em);
 }
 [data-motion='full'] .hero[data-enter='in'] .hero__names > span { opacity: 1; transform: none; }
-[data-motion='full'] .hero__names > span:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * 2); }
-[data-motion='full'] .hero__names > span:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * 3.4); }
+/* These two were the only duration calcs in this file without --motion-k.
+   Harmless while `motion` was a speed factor and the selector only matched
+   `full`; with --pace-k they would be the only hero delays that do not scale,
+   so a per-name stagger would overrun the block it sits inside. */
+[data-motion='full'] .hero__names > span:nth-child(2) {
+  transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 2);
+}
+[data-motion='full'] .hero__names > span:nth-child(3) {
+  transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3.4);
+}
 
 /* --- micro-interactions --------------------------------------------------
    Everything below had no hover, no focus treatment and no pressed state.

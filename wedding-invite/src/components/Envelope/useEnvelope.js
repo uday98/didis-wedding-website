@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { safeGet, safeSet, safeRemove } from '../../lib/storage';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { OPEN_TOTAL_MS } from '../../theme/motion';
+import { openTotalMs } from '../../theme/motion';
+import { useLook } from '../../theme/LookProvider';
 
 const KEY = 'invite.opened';
 
@@ -12,11 +13,13 @@ const KEY = 'invite.opened';
  * and `replay` exists for the one guest who wants to show a parent.
  *
  * The opening's length comes from theme/motion.js, the same module that feeds
- * the CSS its --d-* values, so the timer cannot drift from the animation it is
- * timing. It used to: the hook waited 2000ms for a 1600ms animation.
+ * the CSS its --d-* values and its --pace-k multiplier, so the timer cannot
+ * drift from the animation it is timing. It used to: the hook waited 2000ms
+ * for a 1600ms animation.
  */
 export function useEnvelope() {
   const reduced = useReducedMotion();
+  const { look } = useLook();
   const [phase, setPhase] = useState(() => (safeGet(KEY) ? 'open' : 'closed'));
   const [runId, setRunId] = useState(0);
 
@@ -44,9 +47,9 @@ export function useEnvelope() {
   useEffect(() => {
     if (phase !== 'opening') return undefined;
     if (reduced) { finish(); return undefined; }
-    const t = setTimeout(finish, OPEN_TOTAL_MS);
+    const t = setTimeout(finish, openTotalMs(look.pace));
     return () => clearTimeout(t);
-  }, [phase, reduced, finish]);
+  }, [phase, reduced, finish, look.pace]);
 
   return { phase, runId, open, skip, replay, isOpen: phase === 'open' };
 }
