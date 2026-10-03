@@ -14,9 +14,17 @@ export function useNavMetrics(ref) {
     const el = ref.current;
     if (!el) return undefined;
 
+    /* Only write when the value changed. --nav-h lives on <html> and custom
+       properties inherit, so every write restyles the whole document. While the
+       nav's 3px shrink was animating, this observer fired on every frame of it
+       and rewrote the property 39 times for a 3px change (counted, not guessed). */
+    let last = -1;
     const publish = () => {
       const h = Math.round(el.getBoundingClientRect().height);
-      if (h > 0) document.documentElement.style.setProperty('--nav-h', `${h}px`);
+      if (h > 0 && h !== last) {
+        last = h;
+        document.documentElement.style.setProperty('--nav-h', `${h}px`);
+      }
     };
     publish();
 

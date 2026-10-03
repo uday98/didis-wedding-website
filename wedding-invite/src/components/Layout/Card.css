@@ -25,20 +25,19 @@
     0 14px 34px -18px rgb(var(--c-cast-rgb, 0 0 0) / 0.33);
 }
 
-/* Fine grain on the paper itself. A mask over a flat shade fill rather than a
-   blended image, so it darkens the paper without tinting it and without forcing
-   the whole page to composite the way a fixed blended overlay did. */
+/* Fine grain on the paper itself: a tiled noise bitmap at low opacity. NOT a
+   mask -- see tokens.css for why the mask version made scrolling janky. */
 .card::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: rgb(var(--c-shade-rgb, 0 0 0));
-  -webkit-mask-image: var(--tex-fine);
-  mask-image: var(--tex-fine);
+  background-image: var(--tex-ink);
+  background-size: 128px 128px;
   opacity: 0;
 }
+[data-scheme='dark'] .card::after { background-image: var(--tex-glow); }
 [data-ornament='light'] .card::after { opacity: 0.035; }
 [data-ornament='full'] .card::after { opacity: 0.06; }
 
@@ -67,8 +66,10 @@
   height: 6px;
   pointer-events: none;
   background: var(--c-surface);
-  -webkit-mask-image: var(--tex-fine);
-  mask-image: var(--tex-fine);
-  -webkit-mask-size: 180px 6px;
-  mask-size: 180px 6px;
+  /* A mask is fine HERE: the layer is 6px tall, so there is almost nothing to
+     rasterise. The cost that mattered was masking a whole 842px card. */
+  -webkit-mask-image: var(--tex-ink);
+  mask-image: var(--tex-ink);
+  -webkit-mask-size: 128px 128px;
+  mask-size: 128px 128px;
 }
