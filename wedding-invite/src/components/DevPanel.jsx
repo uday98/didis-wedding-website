@@ -21,7 +21,7 @@ const KEY = 'invite.dev.open';
  * The shortcut is a bare `d` because there is no text input on this site for it
  * to collide with.
  */
-export function DevPanel() {
+export function DevPanel({ onPaceChange }) {
   const [open, setOpen] = useState(() => safeLocalGet(KEY) === '1');
 
   useEffect(() => { safeLocalSet(KEY, open ? '1' : '0'); }, [open]);
@@ -51,9 +51,9 @@ export function DevPanel() {
       {/* Mounted either way and hidden with an attribute: unmounting would throw
           away the sheet's scroll position every time it closes. */}
       <div className="dev__sheet" id="dev-sheet" data-open={open ? '' : undefined}>
-        <LookSwitcher />
+        <LookSwitcher onPaceChange={onPaceChange} />
         <PaletteSwitcher />
-        <p className="dev__hint">Press d to toggle. Delete DevPanel before launch.</p>
+        <p className="dev__hint">Press d to toggle. Changing pace replays the opening. Delete DevPanel before launch.</p>
       </div>
     </div>
   );

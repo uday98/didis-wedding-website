@@ -8,20 +8,20 @@
 }
 @media (max-width: 34rem) { .arrival { grid-template-columns: 1fr; } }
 .arrival__mode { color: var(--c-accent); font-size: var(--t-sm); grid-row: span 2; }
-.arrival__hub { margin: 0; font-family: var(--font-display); font-size: var(--t-md); }
+.arrival__hub { margin: 0; font-family: var(--font-display); font-size: var(--td-md); }
 .arrival__detail { margin: 0; color: var(--c-ink-soft); max-width: var(--measure); }
 
 .travel__subhead {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: var(--t-lg);
+  font-size: var(--td-lg);
   margin: var(--sp-4) 0 var(--sp-2);
 }
 
 .stays { display: grid; gap: var(--sp-2); grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
 .stay { border: 1px solid var(--c-line); padding: var(--sp-2); border-radius: var(--radius-card); }
 .stay__tier { font-size: var(--t-xs); color: var(--c-metal); letter-spacing: 0.08em; }
-.stay__name { font-family: var(--font-display); font-weight: 400; font-size: var(--t-md); margin: 0.2em 0 0.4em; }
+.stay__name { font-family: var(--font-display); font-weight: 400; font-size: var(--td-md); margin: 0.2em 0 0.4em; }
 .stay__meta { color: var(--c-ink-soft); font-size: var(--t-sm); }
 .stay__actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-1); }
 .stay__actions a { color: var(--c-accent); font-size: var(--t-sm); }

@@ -6,9 +6,18 @@ import { dimensionNames, matchPreset, presetNames } from '../theme/looks';
  * Remove this file and its one line in App.jsx before going live -- the chosen
  * look lives in ACTIVE_LOOK, so deleting this bakes it in rather than loses it.
  */
-export function LookSwitcher() {
+export function LookSwitcher({ onPaceChange }) {
   const { look, set, applyPreset, dimensions } = useLook();
   const current = matchPreset(look);
+
+  /* Pace is the one dimension with nothing on screen to demonstrate it: the
+     envelope plays once per session and the reveals are one-shot, so changing
+     it used to look like it did nothing at all. Replaying the opening is the
+     only way to actually see the difference. */
+  const choose = (dimension, value) => {
+    set(dimension, value);
+    if (dimension === 'pace') onPaceChange?.();
+  };
 
   return (
     <div className="look-switcher" role="group" aria-label="Preview look">
@@ -39,7 +48,7 @@ export function LookSwitcher() {
               <button
                 key={v}
                 type="button"
-                onClick={() => set(d, v)}
+                onClick={() => choose(d, v)}
                 aria-pressed={v === look[d]}
                 aria-label={`${dimensions[d].label}: ${v}`}
               >

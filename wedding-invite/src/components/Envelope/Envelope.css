@@ -1,10 +1,12 @@
 /* The envelope is a real box in 3D.
 
-   Shading uses rgb(var(--c-shade-rgb) / A) rather than a literal black: on a
-   dark-paper palette every black wash disappears and the box collapses into
-   flat overlapping rectangles. --c-shade-rgb is '0 0 0' on light palettes and
-   '255 255 255' on dark ones, so the same declarations describe "shade" rather
-   than "black".
+   Two different colours, and conflating them is a real bug:
+     --c-shade-rgb  how THIS surface's own form is shaded (the wall gradients,
+                    the inset at the back wall). Flips to white on dark paper,
+                    or the box collapses into flat overlapping rectangles.
+     --c-cast-rgb   a shadow thrown ONTO something else (the drop shadows
+                    below). Dark on every palette -- a white shadow under an
+                    object is a glow, not a shadow.
    .envelope__back is the far wall at Z=0, the three .envelope__wall strips are
    its sides, .envelope__body is the front panel one --env-depth nearer, and the
    card sits in the gap between them.
@@ -30,7 +32,32 @@
      subtree to render flat and silently delete the whole effect. */
   overflow: hidden;
 }
-.envelope-stage[data-phase='open'] { display: none; }
+/* The hand-off. This used to be `display: none` -- an instant cut from a 1.8s
+   cinematic to a dead still page. Now the stage fades while the shell rises
+   underneath it, and only leaves the layout once it is invisible. visibility is
+   what makes it non-interactive and out of the tab order at the end; display
+   cannot be transitioned. */
+.envelope-stage {
+  opacity: 1;
+  transition:
+    opacity calc(var(--d-exit, 890ms) * var(--pace-k, 1.35)) var(--ease-open),
+    visibility 0s linear calc(var(--d-exit, 890ms) * var(--pace-k, 1.35));
+}
+.envelope-stage[data-phase='closing'] { opacity: 0; pointer-events: none; }
+.envelope-stage[data-phase='open'] { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Re-arming for a replay is instant, never a fade.
+   The transition above is one-directional in intent -- it exists for the
+   hand-off OUT. Coming back in, it meant the overlay faded up over ~1.2s while
+   the page was still visible underneath, so a replay read as: the page jumps to
+   the top, and only then does the envelope appear. Cutting the transition here
+   makes the stage opaque in the same paint as the scroll reset, so the jump
+   happens behind it and is never seen. */
+.envelope-stage[data-phase='closed'] {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
 
 .envelope {
   position: relative;
@@ -100,7 +127,7 @@
   border: 1px solid var(--c-line);
   transform: translateZ(var(--env-depth, 18px));
   backface-visibility: hidden;
-  box-shadow: 0 26px 60px -28px rgb(var(--c-shade-rgb, 0 0 0) / 0.5);
+  box-shadow: 0 26px 60px -28px rgb(var(--c-cast-rgb, 0 0 0) / 0.5);
 }
 .envelope__body::before,
 .envelope__body::after {
@@ -126,12 +153,14 @@
   transform-style: preserve-3d;
   transform-origin: top center;
   transform: translateZ(var(--env-depth, 18px)) rotateX(0deg);
-  transition: transform calc(var(--d-flap, 900ms) * var(--pace-k, 1.35)) var(--ease-open);
+  transition: transform calc(var(--d-flap, 1180ms) * var(--pace-k, 1.35)) var(--ease-open)
+              calc(var(--d-flap-delay, 220ms) * var(--pace-k, 1.35));
   /* The flap spans the seal's top half at a similar Z and can otherwise steal
      the click. */
   pointer-events: none;
 }
 .envelope[data-phase='opening'] .envelope__flap,
+.envelope[data-phase='closing'] .envelope__flap,
 .envelope[data-phase='open'] .envelope__flap {
   /* 168deg, not 175: paper does not lie perfectly flat, and stopping a few
      degrees short keeps the lining edge catching light. */
@@ -195,7 +224,7 @@
   letter-spacing: 0.04em;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 16px -6px rgb(var(--c-shade-rgb, 0 0 0) / 0.5);
+  box-shadow: 0 6px 16px -6px rgb(var(--c-cast-rgb, 0 0 0) / 0.5);
   transition: transform calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) var(--ease-open),
               opacity calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) ease;
 }
@@ -204,6 +233,7 @@
 }
 .envelope__seal:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 .envelope[data-phase='opening'] .envelope__seal,
+.envelope[data-phase='closing'] .envelope__seal,
 .envelope[data-phase='open'] .envelope__seal {
   opacity: 0;
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 3px)) scale(0.7);
@@ -225,25 +255,43 @@
   text-align: center;
   padding: var(--sp-2);
   transform: translate3d(0, 0, var(--env-card-z, 6px));
-  box-shadow: 0 10px 22px -14px rgb(var(--c-shade-rgb, 0 0 0) / 0.45);
+  box-shadow: 0 10px 22px -14px rgb(var(--c-cast-rgb, 0 0 0) / 0.45);
 }
 
-.envelope[data-phase='opening'] .envelope__card {
-  /* `both`, not `forwards`: the delayed start must hold frame 0, or the card
-     flashes at its resting position for one frame. */
-  /* Paced by the same multiplier the hook scales its timer with, so the
-     animation and the wall clock cannot drift apart. */
-  animation: envelope-card-rise calc(var(--d-card, 1100ms) * var(--pace-k, 1.35)) var(--ease-open)
-             calc(var(--d-card-delay, 450ms) * var(--pace-k, 1.35)) both;
+/* `both`, not `forwards`: the delayed start must hold frame 0, or the card
+   flashes at its resting position for one frame. Paced by the same multiplier
+   the hook scales its timer with, so the animation and the wall clock cannot
+   drift apart. It persists through `closing` so the card stays risen while the
+   stage fades around it. */
+.envelope[data-phase='opening'] .envelope__card,
+.envelope[data-phase='closing'] .envelope__card {
+  animation: envelope-card-rise calc(var(--d-card, 1480ms) * var(--pace-k, 1.35)) var(--ease-open)
+             calc(var(--d-card-delay, 1400ms) * var(--pace-k, 1.35)) both;
 }
 
+/* The card now leaves the envelope completely rather than peeking out of it.
+   -108% puts its bottom edge above the mouth, so for the hold beat it is a
+   letter on its own -- which is what the sequence is building to. */
 @keyframes envelope-card-rise {
   0% { transform: translate3d(0, 0, var(--env-card-z, 6px)); }
   /* clears the mouth while still inside the box in Z */
-  58% { transform: translate3d(0, -50%, var(--env-card-z, 6px)); }
-  /* then leans out toward the viewer */
-  100% { transform: translate3d(0, -58%, var(--env-card-lift, 48px)); }
+  46% { transform: translate3d(0, -52%, var(--env-card-z, 6px)); }
+  /* then rises free and leans toward the viewer */
+  100% { transform: translate3d(0, -108%, var(--env-card-lift, 48px)); }
 }
+
+/* The box dims as the card leaves it so the eye follows the letter. Not a fade
+   to nothing -- the envelope should still be there, just secondary. */
+.envelope__back, .envelope__wall, .envelope__body {
+  transition: opacity calc(var(--d-card, 1480ms) * var(--pace-k, 1.35)) var(--ease-open)
+              calc(var(--d-card-delay, 1400ms) * var(--pace-k, 1.35));
+}
+.envelope[data-phase='opening'] .envelope__back,
+.envelope[data-phase='closing'] .envelope__back,
+.envelope[data-phase='opening'] .envelope__wall,
+.envelope[data-phase='closing'] .envelope__wall,
+.envelope[data-phase='opening'] .envelope__body,
+.envelope[data-phase='closing'] .envelope__body { opacity: 0.5; }
 
 /* The envelope is min(86vw, 30rem), so it shrinks with the viewport -- but this
    type was a fixed token, and at a 280px fold the two names wrapped to four
@@ -257,7 +305,7 @@
 }
 .envelope__names {
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 5.2vw, var(--t-lg));
+  font-size: clamp(0.95rem, 5.2vw, var(--td-lg));
   line-height: 1.15;
   color: var(--c-ink);
   margin-block: var(--sp-1);

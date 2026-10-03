@@ -5,6 +5,10 @@
 
 .jaali {
   display: block;
+  /* Centred. `light` caps the width at five cells, and an auto inline margin is
+     what makes a capped block sit in the middle of its column instead of
+     hugging the left edge. A no-op at `full`, where it fills the column. */
+  margin-inline: auto;
   color: var(--c-line);
 
   /* The <pattern> cell is --jaali-cell wide and the element is almost never an

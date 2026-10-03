@@ -1,11 +1,13 @@
+/* The rule between sections is gone: a card separates itself from the surface,
+   and a border on top of that reads as two devices doing one job. */
 .section {
   padding-block: var(--sp-5);
-  border-top: 1px solid var(--c-line);
+  margin-block-end: var(--sp-3);
 }
 .section__head { margin-bottom: var(--sp-3); }
 .section__title {
   font-family: var(--font-display);
-  font-size: var(--t-xl);
+  font-size: var(--td-xl);
   font-weight: 400;
   line-height: 1.1;
   color: var(--c-ink);

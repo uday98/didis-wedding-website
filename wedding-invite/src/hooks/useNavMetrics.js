@@ -25,7 +25,13 @@ export function useNavMetrics(ref) {
       return () => window.removeEventListener('resize', publish);
     }
     const ro = new ResizeObserver(publish);
-    ro.observe(el);
+    /* border-box, not the default content-box. The nav's own padding is part of
+       its height (the fade zone IS padding), and a change to it never alters the
+       content box -- so with the default this observer silently missed it and
+       --nav-h went stale when the nav style changed. Browsers that do not know
+       the option ignore it and fall back to content-box, which is no worse than
+       before. */
+    ro.observe(el, { box: 'border-box' });
     return () => ro.disconnect();
   }, [ref]);
 }

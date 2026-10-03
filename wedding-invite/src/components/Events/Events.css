@@ -20,14 +20,14 @@
 
 .event__time {
   font-family: var(--font-display);
-  font-size: var(--t-md);
+  font-size: var(--td-sm);
   color: var(--c-metal);
   padding-top: 0.1em;
 }
 .event__name {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: var(--t-md);
+  font-size: var(--td-md);
   margin-bottom: 0.2em;
 }
 .event__venue { display: grid; gap: 0.15em; }

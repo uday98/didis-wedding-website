@@ -15,7 +15,18 @@ export function PaletteSwitcher() {
           type="button"
           onClick={() => setName(key)}
           aria-pressed={key === name}
-          style={{ background: palettes[key].tokens['c-accent'] }}
+          /* Three tones, not just the accent. A flat accent dot made midnight --
+             a dark palette with a gold accent -- look like a yellow palette, and
+             told you nothing about the paper you would actually be reading on.
+             Paper fills the dot, the accent takes the lower half, metal a sliver. */
+          style={{
+            background: palettes[key].tokens['c-paper'],
+            borderColor: palettes[key].tokens['c-line'],
+            backgroundImage: `linear-gradient(to top,
+              ${palettes[key].tokens['c-accent']} 0 38%,
+              ${palettes[key].tokens['c-metal']} 38% 46%,
+              transparent 46%)`,
+          }}
           title={palettes[key].label}
         >
           <span className="sr-only">{palettes[key].label}</span>
