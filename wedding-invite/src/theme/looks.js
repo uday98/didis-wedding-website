@@ -62,6 +62,16 @@ export const DIMENSIONS = {
     restrained: 'grand',
     help: 'How large the names are set.',
   },
+  nav: {
+    label: 'Nav',
+    values: ['flat', 'fade', 'floating'],
+    restrained: 'fade',
+    /* Declared: the three are not an intensity scale, and `rich` should differ
+       from `restrained` in the dimensions that ARE one. Otherwise clicking it
+       would change the nav as well and muddy what you are judging. */
+    rich: 'fade',
+    help: 'flat: a strip with a hairline. fade: the page colour, fading out. floating: no strip, just chips.',
+  },
   rhythm: {
     label: 'Rhythm',
     values: ['normal', 'generous'],
@@ -80,6 +90,7 @@ export const ACTIVE_LOOK = {
   type: 'refined',
   pairing: 'prata-karla',
   headline: 'grand',
+  nav: 'fade',
   rhythm: 'normal',
 };
 

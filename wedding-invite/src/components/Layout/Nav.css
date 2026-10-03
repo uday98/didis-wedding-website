@@ -1,21 +1,28 @@
-/* Not a bar. It was a paper-coloured strip with a hairline border, a blur and a
-   shadow once stuck -- and because the page surface is darker than paper, a
-   paper-coloured strip read as a white box dropped onto the page.
+/* The nav has three bar treatments, chosen by [data-nav] from the look switcher:
 
-   It still cannot simply be transparent: it is sticky, so cards scroll up
-   underneath it and would run straight through the links. So it is the
-   SURFACE's own colour, solid behind the links and fading to nothing below
-   them. There is no edge for the eye to find: content sinks into the page
-   instead of sliding under a header.
+     flat      a strip in the page colour with a hairline underneath
+     fade      the same strip, with no edge: it fades out below the links
+     floating  no strip at all, just a chip per link
 
-   No blur, no border, no shadow -- each of those is a way of saying "this is a
-   separate object", which is the opposite of the intent. And no color-mix, so
-   none of the @supports machinery the old translucent fill needed. */
+   It cannot simply be transparent. It is sticky, so cards scroll up underneath
+   it and would run straight through the links. Each treatment solves that
+   differently -- flat and fade with an opaque page-coloured fill, floating by
+   making each link opaque and leaving the space between them empty.
+
+   The original was a PAPER-coloured strip with a border, a blur and a shadow,
+   and since the page surface is darker than paper it read as a white box
+   dropped onto the page. All three use the surface colour instead. */
+
 .nav {
   position: sticky;
   top: 0;
   z-index: 20;
-  /* The fade zone. Solid up to here, transparent at the bottom edge. */
+}
+
+/* fade is the default so the very first frame is right, before the look's
+   attribute has been written. */
+.nav,
+[data-nav='fade'] .nav {
   padding-bottom: var(--sp-3);
   background: linear-gradient(
     to bottom,
@@ -24,13 +31,35 @@
   );
 }
 
+[data-nav='flat'] .nav {
+  padding-bottom: 0;
+  background: var(--c-surface, var(--c-paper));
+  border-bottom: 1px solid var(--c-line);
+}
+
+/* Floating: the strip disappears and the chips carry the legibility. The nav
+   box itself must not catch clicks, or it would block whatever is underneath the
+   empty space between and beside the chips. */
+[data-nav='floating'] .nav {
+  padding-bottom: 0;
+  background: none;
+  pointer-events: none;
+}
+[data-nav='floating'] .nav__link {
+  pointer-events: auto;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  box-shadow: 0 2px 8px -3px rgb(var(--c-cast-rgb, 0 0 0) / 0.35);
+}
+[data-nav='floating'] .nav__list { gap: var(--sp-1); padding-block: var(--sp-1); }
+
 /* Zero-height marker just above the nav. Once it scrolls out of view the nav
    is stuck, which an IntersectionObserver reports without any per-frame work. */
 .nav__sentinel { height: 1px; margin-bottom: -1px; }
 
 .nav__list {
   display: flex;
-  gap: var(--sp-3);
+  gap: var(--sp-1);
   list-style: none;
   margin: 0;
   padding: var(--sp-1) 0;
@@ -41,22 +70,23 @@
 
 /* Inactive links are --c-ink, not --c-ink-soft. Soft was chosen when the links
    sat on a paper-coloured bar; on the darker surface it falls to 3.6-4.4:1 in
-   seven of the eight palettes, below AA for text this size. Ink is 9:1 or
-   better everywhere -- and, measured, it also separates from the accent MORE
-   than soft did in the worst case (sage: dE 13 -> 27), which matters because
-   colour is now the only thing marking the current section. */
+   seven of the eight palettes, below AA for text this size. */
 .nav__link {
   color: var(--c-ink);
   text-decoration: none;
   font-size: var(--t-sm);
   white-space: nowrap;
-  padding-block: var(--sp-1);
-  transition: color var(--d-tap, 160ms) ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition:
+    color var(--d-tap, 160ms) ease,
+    background-color var(--d-tap, 160ms) ease;
 }
 
 /* Hover only where there is a real hover. On a touch screen :hover sticks to
-   whatever was last tapped, so a tapped link would stay accent-coloured after
-   the reader scrolled on -- indistinguishable from the genuinely current one. */
+   whatever was last tapped, so a tapped link would stay highlighted after the
+   reader scrolled on -- indistinguishable from the genuinely current one. */
 @media (hover: hover) {
   .nav__link:hover { color: var(--c-accent); }
 }
@@ -65,10 +95,22 @@
 .nav__link:focus-visible { color: var(--c-accent); }
 .nav__link:active { color: var(--c-accent-soft); }
 
-/* The current section is shown by colour alone. It used to carry an underline
-   as well; that is gone by request, and with it the transparent base border
-   that existed only to stop the underline shifting the layout. */
-.nav__link[aria-current='location'] { color: var(--c-accent); }
+/* The current section is a FILLED PILL, not just a colour.
+   It was colour alone, and in the default palette the active colour (dark
+   oxblood) and the inactive one (near-black brown) are indistinguishable at this
+   text size -- a measured difference that did not survive being 14px tall. A
+   shape is what the eye finds. Paper on accent is 5.1:1 or better in every
+   palette.
+
+   MUST stay the last colour rule above this point in the cascade: it has the
+   same specificity as :hover, :focus-visible and :active, and relies on coming
+   after them so a hovered or focused current link does not turn accent-on-accent
+   and vanish. */
+.nav__link[aria-current='location'] {
+  color: var(--c-paper);
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
 
 /* Shrink capped at 3px of padding deliberately: --nav-h feeds scroll-margin-top,
    and the shrink fires as soon as you scroll 1px -- which during a smooth anchor
@@ -80,5 +122,5 @@
 .nav[data-stuck] .nav__list { padding-block: calc(var(--sp-1) - 3px) var(--sp-1); }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav__list { transition: none; }
+  .nav__list, .nav__link { transition: none; }
 }
