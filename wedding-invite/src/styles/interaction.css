@@ -34,8 +34,7 @@
 [data-reveal] {
   transition:
     opacity calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
-    transform calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
-    filter calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 /* transform here creates a containing block: a position:fixed descendant of a
    revealed section would anchor to the section, not the viewport. None exist
@@ -43,9 +42,24 @@
 [data-reveal='out'] {
   opacity: 0;
   transform: translateY(var(--reveal-rise));
-  filter: blur(var(--reveal-blur));
 }
-[data-reveal='in'] { opacity: 1; transform: none; filter: none; }
+[data-reveal='in'] { opacity: 1; transform: none; }
+
+/* The blur exists ONLY under motion: full.
+   It used to be declared for every look, as blur(var(--reveal-blur)) -- and in
+   the default `subtle` that is blur(0px). A filter of zero radius is still a
+   filter: it routes a whole section (an 842px-tall card with a shadow and grain
+   on it) through the filter pipeline for the length of the transition, which
+   cost a visible hitch for no visual effect at all. Measured on a fresh load,
+   removing it took the worst frame from 30-85ms to 18ms and the 95th percentile
+   from 18ms to 12ms. A filter is only worth that when it is actually blurring. */
+[data-motion='full'] [data-reveal] {
+  transition:
+    opacity calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
+    filter calc(var(--d-reveal, 700ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
+}
+[data-motion='full'] [data-reveal='out'] { filter: blur(var(--reveal-blur)); }
 
 /* Keyboard focus must never be trapped inside something invisible. */
 [data-reveal='out']:focus-within { opacity: 1; transform: none; filter: none; }

@@ -24,20 +24,22 @@
   font-size: var(--t-sm);
 }
 
-/* Coarse grain on the surface, as a mask over a flat shade fill so it textures
-   without tinting. Fixed, because the surface is conceptually one continuous
-   thing the page scrolls over. */
+/* Coarse grain on the surface. The same 128px tile as the paper, drawn at twice
+   the size, which is what makes it read as a coarser material than the cards
+   without a second asset. Fixed, because the surface is conceptually one
+   continuous thing the page scrolls over -- and a fixed layer is composited
+   once and not repainted by scrolling. */
 .shell::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: rgb(var(--c-shade-rgb, 0 0 0));
-  -webkit-mask-image: var(--tex-coarse);
-  mask-image: var(--tex-coarse);
+  background-image: var(--tex-ink);
+  background-size: 256px 256px;
   opacity: 0;
 }
+[data-scheme='dark'] .shell::before { background-image: var(--tex-glow); }
 [data-ornament='light'] .shell::before { opacity: 0.055; }
 [data-ornament='full'] .shell::before { opacity: 0.085; }
 
