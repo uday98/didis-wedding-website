@@ -1,4 +1,10 @@
 /* The envelope is a real box in 3D.
+
+   Shading uses rgb(var(--c-shade-rgb) / A) rather than a literal black: on a
+   dark-paper palette every black wash disappears and the box collapses into
+   flat overlapping rectangles. --c-shade-rgb is '0 0 0' on light palettes and
+   '255 255 255' on dark ones, so the same declarations describe "shade" rather
+   than "black".
    .envelope__back is the far wall at Z=0, the three .envelope__wall strips are
    its sides, .envelope__body is the front panel one --env-depth nearer, and the
    card sits in the gap between them.
@@ -43,7 +49,7 @@
   background: var(--c-paper-deep);
   border: 1px solid var(--c-line);
   transform: translateZ(0);
-  box-shadow: inset 0 14px 22px -14px rgba(0, 0, 0, 0.38);
+  box-shadow: inset 0 14px 22px -14px rgb(var(--c-shade-rgb, 0 0 0) / 0.38);
 }
 
 /* --- side and bottom walls ----------------------------------------------
@@ -70,13 +76,13 @@
   left: 0;
   transform-origin: left center;
   transform: rotateY(-90deg);
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to right, rgb(var(--c-shade-rgb, 0 0 0) / 0.10), rgb(var(--c-shade-rgb, 0 0 0) / 0));
 }
 .envelope__wall--right {
   right: 0;
   transform-origin: right center;
   transform: rotateY(90deg);
-  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to left, rgb(var(--c-shade-rgb, 0 0 0) / 0.20), rgb(var(--c-shade-rgb, 0 0 0) / 0));
 }
 .envelope__wall--bottom {
   left: 0;
@@ -85,7 +91,7 @@
   height: var(--env-depth, 18px);
   transform-origin: center bottom;
   transform: rotateX(-90deg);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to top, rgb(var(--c-shade-rgb, 0 0 0) / 0.24), rgb(var(--c-shade-rgb, 0 0 0) / 0));
 }
 
 /* --- front panel: Z = --env-depth, keeps its existing triangles ---------- */
@@ -94,7 +100,7 @@
   border: 1px solid var(--c-line);
   transform: translateZ(var(--env-depth, 18px));
   backface-visibility: hidden;
-  box-shadow: 0 26px 60px -28px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 26px 60px -28px rgb(var(--c-shade-rgb, 0 0 0) / 0.5);
 }
 .envelope__body::before,
 .envelope__body::after {
@@ -120,7 +126,7 @@
   transform-style: preserve-3d;
   transform-origin: top center;
   transform: translateZ(var(--env-depth, 18px)) rotateX(0deg);
-  transition: transform var(--d-flap, 900ms) var(--ease-open);
+  transition: transform calc(var(--d-flap, 900ms) * var(--pace-k, 1.35)) var(--ease-open);
   /* The flap spans the seal's top half at a similar Z and can otherwise steal
      the click. */
   pointer-events: none;
@@ -142,7 +148,7 @@
   -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   background: var(--c-paper-deep);
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.08));
+  background-image: linear-gradient(to bottom, rgb(var(--c-shade-rgb, 0 0 0) / 0), rgb(var(--c-shade-rgb, 0 0 0) / 0.08));
   transform: translateZ(0.5px);
 }
 
@@ -189,9 +195,9 @@
   letter-spacing: 0.04em;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
-  transition: transform var(--d-seal, 400ms) var(--ease-open),
-              opacity var(--d-seal, 400ms) ease;
+  box-shadow: 0 6px 16px -6px rgb(var(--c-shade-rgb, 0 0 0) / 0.5);
+  transition: transform calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) var(--ease-open),
+              opacity calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) ease;
 }
 .envelope__seal:hover {
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 6px)) scale(1.05);
@@ -219,14 +225,16 @@
   text-align: center;
   padding: var(--sp-2);
   transform: translate3d(0, 0, var(--env-card-z, 6px));
-  box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 10px 22px -14px rgb(var(--c-shade-rgb, 0 0 0) / 0.45);
 }
 
 .envelope[data-phase='opening'] .envelope__card {
   /* `both`, not `forwards`: the delayed start must hold frame 0, or the card
      flashes at its resting position for one frame. */
-  animation: envelope-card-rise var(--d-card, 1100ms) var(--ease-open)
-             var(--d-card-delay, 450ms) both;
+  /* Paced by the same multiplier the hook scales its timer with, so the
+     animation and the wall clock cannot drift apart. */
+  animation: envelope-card-rise calc(var(--d-card, 1100ms) * var(--pace-k, 1.35)) var(--ease-open)
+             calc(var(--d-card-delay, 450ms) * var(--pace-k, 1.35)) both;
 }
 
 @keyframes envelope-card-rise {
@@ -237,14 +245,20 @@
   100% { transform: translate3d(0, -58%, var(--env-card-lift, 48px)); }
 }
 
+/* The envelope is min(86vw, 30rem), so it shrinks with the viewport -- but this
+   type was a fixed token, and at a 280px fold the two names wrapped to four
+   lines and spilled 62px out of the bottom of the card. Scaling with the same
+   viewport the envelope scales with keeps the card's contents inside it.
+   The clamp ceiling is the original --t-lg, so nothing changes above ~510px. */
 .envelope__addressee {
-  font-size: var(--t-sm);
+  font-size: clamp(0.72rem, 3vw, var(--t-sm));
   color: var(--c-ink-soft);
   max-width: 24ch;
 }
 .envelope__names {
   font-family: var(--font-display);
-  font-size: var(--t-lg);
+  font-size: clamp(0.95rem, 5.2vw, var(--t-lg));
+  line-height: 1.15;
   color: var(--c-ink);
   margin-block: var(--sp-1);
 }

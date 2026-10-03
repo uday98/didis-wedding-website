@@ -10,9 +10,9 @@
 [data-type='refined'] .section__title,
 [data-type='refined'] .event__name,
 [data-type='refined'] .stay__name {
-  /* Prata is a high-contrast display face; at hero sizes the default spacing
-     reads loose. Negative tracking only on display type, never on body. */
-  letter-spacing: -0.012em;
+  /* Tracking comes from the pairing, since the right value is a property of
+     the face, not of the site. Was hardcoded to Prata's -0.012em. */
+  letter-spacing: var(--font-display-track, 0);
   /* Ignored by browsers that do not know it, which is the correct degradation:
      the heading just wraps the usual way. */
   text-wrap: balance;
@@ -60,6 +60,12 @@
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* multiply over near-black is a no-op, so the texture would simply vanish on a
+   dark palette. screen is the same idea inverted: grain as light, not as dirt. */
+[data-scheme='dark'] .grain { mix-blend-mode: screen; }
+[data-scheme='dark'][data-ornament='light'] .grain { opacity: 0.045; }
+[data-scheme='dark'][data-ornament='full'] .grain { opacity: 0.075; }
+
 [data-ornament='none'] .grain { display: none; }
 [data-ornament='light'] .grain { opacity: 0.030; }
 [data-ornament='full'] .grain { opacity: 0.055; }
@@ -78,3 +84,12 @@
       transparent
     ) 1;
 }
+
+/* --- headline scale ------------------------------------------------------
+   The hero names are the single biggest typographic decision, and the right
+   answer depends on how long the real names are. Multiplies the clamp in
+   Hero.css rather than replacing it, so the fold floor still applies. */
+
+[data-headline='modest'] { --headline-k: 0.82; }
+[data-headline='grand'] { --headline-k: 1; }
+[data-headline='monumental'] { --headline-k: 1.22; }

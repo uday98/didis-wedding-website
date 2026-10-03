@@ -1,4 +1,18 @@
-/* Non-colour tokens. Colour lives in palettes.js and arrives as --c-* at runtime. */
+/* Non-colour tokens. Colour lives in palettes.js and arrives as --c-* at runtime.
+ *
+ * INLINE-ONLY CUSTOM PROPERTIES -- read this before trying to override one.
+ * These are written as inline styles on <html> at runtime, and an inline
+ * declaration beats every stylesheet rule no matter how specific. A rule like
+ * `[data-pace='slow'] { --pace-k: 1.8 }` parses fine and silently does nothing.
+ *
+ *   --c-*            ThemeProvider, from palettes.js
+ *   --d-*            applyMotionVars, from motion.js MOTION
+ *   --pace-k         applyPaceVar, from motion.js PACE_SCALE
+ *   --font-*         applyPairingVars, from fonts.js PAIRINGS
+ *   --nav-h          useNavMetrics, measured from the nav
+ *
+ * To change one of these, change it at its source. Everything below is an
+ * ordinary token and can be overridden normally. */
 :root {
   --font-display: 'Prata', Georgia, serif;
   --font-body: 'Karla', system-ui, sans-serif;
@@ -22,6 +36,10 @@
   --measure: 62ch;
   --radius-card: 2px;
   --ease-open: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Fallbacks for the inline-only properties above, used for the frame before
+     their effects run and by anything rendered outside the providers. */
+  --headline-k: 1;
 
   /* Envelope depth. Static geometry, not motion — reduced motion keeps these.
      Durations deliberately are not here; they live in theme/motion.js. */

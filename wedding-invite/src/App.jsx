@@ -6,8 +6,7 @@ import { Nav } from './components/Layout/Nav';
 import { Hero } from './components/Hero/Hero';
 import { Events } from './components/Events/Events';
 import { Travel } from './components/Travel/Travel';
-import { PaletteSwitcher } from './components/PaletteSwitcher';
-import { LookSwitcher } from './components/LookSwitcher';
+import { DevPanel } from './components/DevPanel';
 import { useContent } from './hooks/useContent';
 import './components/Ornament/Ornament.css';
 
@@ -49,9 +48,8 @@ export default function App() {
         </Shell>
       </StageProvider>
       <div className="grain" aria-hidden="true" />
-      {/* Remove both before launch */}
-      <PaletteSwitcher />
-      <LookSwitcher />
+      {/* Remove before launch */}
+      <DevPanel />
       {!isOpen && <div className="sr-only" aria-live="polite">Invitation sealed</div>}
     </>
   );

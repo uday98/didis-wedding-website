@@ -3,10 +3,47 @@
    currentColor, so it would need a literal hex and break the rule that
    palettes.js owns every colour in the project. */
 
-.jaali { display: block; color: var(--c-line); }
+.jaali {
+  display: block;
+  color: var(--c-line);
+
+  /* The <pattern> cell is --jaali-cell wide and the element is almost never an
+     exact multiple of it, so the last tile is sliced mid-star. Fading both ends
+     hides the slice at ANY width -- the only property that holds from a 280px
+     fold to a desktop -- and it matches the rule that fades at both ends under
+     [data-ornament='full'] in look.css.
+
+     currentColor, not a literal: a mask consumes only the alpha channel, so the
+     colour is inert, but a hex here would still put a colour value in a file
+     that is not palettes.js. Both prefixes: unprefixed is Safari 15.4+, the
+     -webkit- form reaches old Android WebView. A browser with neither gets the
+     previous behaviour, which is the correct degradation. */
+  --jaali-fade: var(--jaali-cell, 28px);
+  -webkit-mask-image: linear-gradient(to right,
+    transparent, currentColor var(--jaali-fade),
+    currentColor calc(100% - var(--jaali-fade)), transparent);
+  mask-image: linear-gradient(to right,
+    transparent, currentColor var(--jaali-fade),
+    currentColor calc(100% - var(--jaali-fade)), transparent);
+}
+
 [data-ornament='none'] .jaali { display: none; }
-[data-ornament='light'] .jaali { max-width: 7rem; color: var(--c-line); }
-[data-ornament='full'] .jaali { max-width: 100%; color: var(--c-metal); opacity: 0.55; }
+
+[data-ornament='light'] .jaali {
+  /* Was `max-width: 7rem`, which is 4 cells only while the root font size is
+     16px. Android's font-size slider and Chrome's minimum-font-size both move
+     it, and at an 18px root 7rem is 4.5 cells -- so `light` was cutting
+     mid-star too, just not on a dev machine. In cells it cannot drift. */
+  max-width: calc(var(--jaali-cell, 28px) * 5);
+  --jaali-fade: calc(var(--jaali-cell, 28px) * 0.75);
+  color: var(--c-line);
+}
+
+[data-ornament='full'] .jaali {
+  max-width: 100%;
+  color: var(--c-metal);
+  opacity: 0.55;
+}
 
 /* Joins --c-metal's established gilt-small-type role (.event__time,
    .stay__tier) rather than inventing a new one. */
