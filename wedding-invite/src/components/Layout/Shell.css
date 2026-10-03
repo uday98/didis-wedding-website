@@ -1,4 +1,11 @@
-.shell { background: var(--c-paper); color: var(--c-ink); min-height: 100dvh; }
+.shell {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  /* 100dvh is a literal, so an unsupporting browser drops it at parse time and
+     keeps this line. (Contrast Nav.css, where var() forces an @supports.) */
+  min-height: 100vh;
+  min-height: 100dvh;
+}
 .shell__main {
   width: min(92vw, 62rem);
   margin-inline: auto;

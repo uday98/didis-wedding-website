@@ -1,0 +1,169 @@
+/* Motion and interaction state.
+   Durations come from theme/motion.js as --d-*, which applyMotionVars writes
+   INLINE on <html>. An inline custom property beats any attribute rule, so this
+   file never redefines a --d-*; it multiplies by --motion-k instead. */
+
+:root { --motion-k: 0.85; --reveal-rise: 8px; --reveal-blur: 0px; }
+
+[data-motion='off'] { --motion-k: 0; --reveal-rise: 0px; --reveal-blur: 0px; }
+[data-motion='subtle'] { --motion-k: 0.85; --reveal-rise: 8px; --reveal-blur: 0px; }
+[data-motion='full'] { --motion-k: 1.15; --reveal-rise: 22px; --reveal-blur: 2px; }
+
+/* --- scroll reveal ------------------------------------------------------- */
+
+[data-reveal] {
+  transition:
+    opacity calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
+    filter calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open);
+}
+/* transform here creates a containing block: a position:fixed descendant of a
+   revealed section would anchor to the section, not the viewport. None exist
+   today -- a future sticky sub-header inside a section would need to know. */
+[data-reveal='out'] {
+  opacity: 0;
+  transform: translateY(var(--reveal-rise));
+  filter: blur(var(--reveal-blur));
+}
+[data-reveal='in'] { opacity: 1; transform: none; filter: none; }
+
+/* Keyboard focus must never be trapped inside something invisible. */
+[data-reveal='out']:focus-within { opacity: 1; transform: none; filter: none; }
+
+/* --- stagger -------------------------------------------------------------
+   Children of a staggered group arrive in sequence. Capped at 8 so a long list
+   never leaves the last row waiting a noticeable amount of time. */
+[data-stagger] > * {
+  transition:
+    opacity calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open),
+    transform calc(var(--d-reveal, 700ms) * var(--motion-k)) var(--ease-open);
+}
+[data-stagger][data-reveal='out'] > * {
+  opacity: 0;
+  transform: translateY(var(--reveal-rise));
+}
+[data-stagger][data-reveal='in'] > * { opacity: 1; transform: none; }
+[data-stagger] > *:nth-child(1) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 0); }
+[data-stagger] > *:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 1); }
+[data-stagger] > *:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 2); }
+[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 3); }
+[data-stagger] > *:nth-child(5) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 4); }
+[data-stagger] > *:nth-child(6) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 5); }
+[data-stagger] > *:nth-child(7) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 6); }
+[data-stagger] > *:nth-child(n + 8) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 7); }
+
+/* --- hero entrance -------------------------------------------------------
+   Keyed off the envelope finishing, not off scroll position, so the opening
+   hands straight into this instead of into stillness. */
+/* Named explicitly rather than `.hero > *`: the rosette is a direct child too,
+   and it is absolutely positioned, so a shared translateY would drag it and a
+   shared nth-child would shift every delay by one. */
+.hero__date,
+.hero__names,
+.hero__say {
+  transition:
+    opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open),
+    transform calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open);
+}
+.hero[data-enter='out'] .hero__date,
+.hero[data-enter='out'] .hero__names,
+.hero[data-enter='out'] .hero__say {
+  opacity: 0;
+  transform: translateY(calc(var(--reveal-rise) * 1.4));
+}
+.hero[data-enter='in'] .hero__date,
+.hero[data-enter='in'] .hero__names,
+.hero[data-enter='in'] .hero__say { opacity: 1; transform: none; }
+.hero[data-enter] .hero__names { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 1.5); }
+.hero[data-enter] .hero__say { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * 3); }
+
+.hero[data-enter='out'] .rosette { opacity: 0; }
+.rosette { transition: opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open); }
+
+/* Rich only: the three names arrive one after another rather than as a block. */
+[data-motion='full'] .hero__names > span {
+  transition:
+    opacity calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open),
+    transform calc(var(--d-hero, 900ms) * var(--motion-k)) var(--ease-open);
+}
+[data-motion='full'] .hero[data-enter='out'] .hero__names > span {
+  opacity: 0;
+  transform: translateY(0.18em);
+}
+[data-motion='full'] .hero[data-enter='in'] .hero__names > span { opacity: 1; transform: none; }
+[data-motion='full'] .hero__names > span:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * 2); }
+[data-motion='full'] .hero__names > span:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * 3.4); }
+
+/* --- micro-interactions --------------------------------------------------
+   Everything below had no hover, no focus treatment and no pressed state.
+   --c-accent-soft is defined in all four palettes and had zero consumers. */
+
+.stay {
+  transition:
+    border-color var(--d-hover, 220ms) ease,
+    transform var(--d-hover, 220ms) var(--ease-open);
+}
+.stay:hover { border-color: var(--c-ink-soft); transform: translateY(-2px); }
+[data-motion='off'] .stay:hover { transform: none; }
+
+.stay__actions a,
+.local__contacts a,
+.event__venue a {
+  transition: color var(--d-hover, 220ms) ease,
+              text-decoration-color var(--d-hover, 220ms) ease;
+}
+.stay__actions a:hover,
+.local__contacts a:hover,
+.event__venue a:hover { color: var(--c-accent); text-decoration-color: var(--c-accent); }
+.stay__actions a:active,
+.local__contacts a:active,
+.event__venue a:active { color: var(--c-accent-soft); }
+
+/* .envelope__skip had cursor:pointer and a focus ring but no hover, while
+   .invite-replay -- visually identical -- had one. */
+.envelope__skip {
+  transition: color var(--d-hover, 220ms) ease,
+              border-bottom-color var(--d-hover, 220ms) ease;
+}
+.envelope__skip:hover { color: var(--c-ink); border-bottom-color: var(--c-ink-soft); }
+.envelope__skip:active,
+.invite-replay:active { color: var(--c-accent-soft); }
+.invite-replay {
+  transition: color var(--d-hover, 220ms) ease,
+              border-bottom-color var(--d-hover, 220ms) ease;
+}
+
+.palette-switcher button,
+.look-switcher button {
+  transition: outline-color var(--d-tap, 160ms) ease,
+              border-color var(--d-tap, 160ms) ease;
+}
+
+/* The media query is a second, independent guard: data-motion is a dev tool and
+   will be gone before launch, but this must still hold for guests. */
+/* Mirrors the hidden-state selectors one for one, at matching specificity.
+   A shorter catch-all such as `[data-reveal] { opacity: 1 }` reads as if it
+   covers everything, but it loses to `.hero[data-enter='out'] .hero__date`
+   (two classes and an attribute) and the hero would stay invisible. A media
+   query adds no specificity of its own. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-stagger] > *,
+  .hero__date,
+  .hero__names,
+  .hero__say,
+  .hero__names > span,
+  .rosette { transition: none; }
+
+  [data-reveal='out'],
+  [data-stagger][data-reveal='out'] > *,
+  .hero[data-enter='out'] .hero__date,
+  .hero[data-enter='out'] .hero__names,
+  .hero[data-enter='out'] .hero__say,
+  .hero[data-enter='out'] .rosette,
+  [data-motion='full'] .hero[data-enter='out'] .hero__names > span {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

@@ -15,7 +15,21 @@ export const MOTION = {
   'd-card-delay': 450,  // card waits for the flap to clear
   'd-seal': 400,        // wax seal fades out
   'd-hold': 220,        // beat on the risen card before the reveal cuts
+
+  'd-reveal': 700,      // a section fading up as it enters the viewport
+  'd-stagger': 70,      // gap between consecutive children in a staggered group
+  'd-hero': 900,        // hero entrance once the envelope is done
+  'd-hover': 220,       // colour and border on hover
+  'd-tap': 160,         // the pressed state, deliberately quicker than hover
 };
+
+/**
+ * Scaling durations is done with this multiplier, never by redefining --d-*.
+ * applyMotionVars writes those INLINE on <html>, and an inline custom property
+ * beats any [data-motion='full'] rule, so an override would silently lose.
+ * CSS reads calc(var(--d-reveal) * var(--motion-k)) instead.
+ */
+export const MOTION_SCALE = { off: 0, subtle: 0.85, full: 1.15 };
 
 /** Wall-clock length of the whole opening, for the one timer that needs it. */
 export const OPEN_TOTAL_MS =

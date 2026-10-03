@@ -11,7 +11,7 @@ export function Travel() {
     <Section id="travel" title="Getting there and staying" kicker={intro}>
       <ArrivalList arrivals={arrivals} />
       <h3 className="travel__subhead">Where to stay</h3>
-      <div className="stays">
+      <div className="stays" data-stagger>
         {stays.map((stay) => <StayCard key={stay.id} stay={stay} />)}
       </div>
       <h3 className="travel__subhead">Getting around</h3>
