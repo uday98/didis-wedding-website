@@ -1,3 +1,13 @@
+/* The envelope is a real box in 3D.
+   .envelope__back is the far wall at Z=0, the three .envelope__wall strips are
+   its sides, .envelope__body is the front panel one --env-depth nearer, and the
+   card sits in the gap between them.
+
+   Inside transform-style: preserve-3d, depth sorting by translateZ decides what
+   paints on top -- z-index does not reliably apply. Every child of .envelope is
+   therefore positioned in Z and carries no z-index at all. Do not reintroduce
+   one; it looks right in Chrome and inverts in Safari. */
+
 .envelope-stage {
   position: fixed;
   inset: 0;
@@ -5,7 +15,14 @@
   display: grid;
   place-items: center;
   background: var(--c-paper-deep);
-  perspective: 1400px;
+  perspective: var(--env-perspective, 1100px);
+  /* Looking slightly down into the box is what reads as a tray rather than a
+     stack of flat rectangles. */
+  perspective-origin: 50% 42%;
+  /* The flap sweeps well past the element box and the projection widens it.
+     Safe here because the stage is flat; on .envelope it would force the
+     subtree to render flat and silently delete the whole effect. */
+  overflow: hidden;
 }
 .envelope-stage[data-phase='open'] { display: none; }
 
@@ -16,15 +33,68 @@
   transform-style: preserve-3d;
 }
 
+.envelope__back,
 .envelope__body,
 .envelope__flap,
 .envelope__card { position: absolute; inset: 0; }
 
+/* --- back wall: Z = 0, the floor of the box ----------------------------- */
+.envelope__back {
+  background: var(--c-paper-deep);
+  border: 1px solid var(--c-line);
+  transform: translateZ(0);
+  box-shadow: inset 0 14px 22px -14px rgba(0, 0, 0, 0.38);
+}
+
+/* --- side and bottom walls ----------------------------------------------
+   Each strip is --env-depth thick, hinged on the edge it belongs to and rotated
+   out of the XY plane so it spans Z = 0 -> --env-depth.
+   rotateY(-90deg) about a LEFT origin sends +x to +z;
+   rotateY( 90deg) about a RIGHT origin sends -x to +z;
+   rotateX(-90deg) about a BOTTOM origin sends -y (upward) to +z.
+   No top wall: that edge is the mouth the card comes out of. */
+.envelope__wall {
+  position: absolute;
+  background: var(--c-paper);
+  backface-visibility: hidden;
+}
+
+.envelope__wall--left,
+.envelope__wall--right {
+  top: 0;
+  height: 100%;
+  width: var(--env-depth, 18px);
+}
+/* Light reads as coming from the upper left. */
+.envelope__wall--left {
+  left: 0;
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0));
+}
+.envelope__wall--right {
+  right: 0;
+  transform-origin: right center;
+  transform: rotateY(90deg);
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
+}
+.envelope__wall--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--env-depth, 18px);
+  transform-origin: center bottom;
+  transform: rotateX(-90deg);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0));
+}
+
+/* --- front panel: Z = --env-depth, keeps its existing triangles ---------- */
 .envelope__body {
   background: var(--c-paper);
   border: 1px solid var(--c-line);
-  box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.45);
-  z-index: 3;
+  transform: translateZ(var(--env-depth, 18px));
+  backface-visibility: hidden;
+  box-shadow: 0 26px 60px -28px rgba(0, 0, 0, 0.5);
 }
 .envelope__body::before,
 .envelope__body::after {
@@ -39,31 +109,73 @@
 .envelope__body::before { left: 0; clip-path: polygon(0 0, 0 100%, 100% 100%); }
 .envelope__body::after { right: 0; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
 
+/* --- flap ----------------------------------------------------------------
+   Hinged on the top edge of the FRONT plane, because a real flap folds over the
+   front of the envelope, not the back.
+   No clip-path and no backface-visibility on this element: either would force
+   the preserve-3d subtree flat and kill the two-face flip. They belong on the
+   faces below. */
 .envelope__flap {
   height: 50%;
-  background: var(--c-paper-deep);
-  border: 1px solid var(--c-line);
-  border-bottom: none;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-style: preserve-3d;
   transform-origin: top center;
-  transform: rotateX(0deg);
-  transition: transform 0.9s var(--ease-open), z-index 0s linear 0.45s;
-  z-index: 4;
-  backface-visibility: hidden;
+  transform: translateZ(var(--env-depth, 18px)) rotateX(0deg);
+  transition: transform var(--d-flap, 900ms) var(--ease-open);
+  /* The flap spans the seal's top half at a similar Z and can otherwise steal
+     the click. */
+  pointer-events: none;
 }
 .envelope[data-phase='opening'] .envelope__flap,
 .envelope[data-phase='open'] .envelope__flap {
-  transform: rotateX(-175deg);
-  z-index: 1;
+  /* 168deg, not 175: paper does not lie perfectly flat, and stopping a few
+     degrees short keeps the lining edge catching light. */
+  transform: translateZ(var(--env-depth, 18px)) rotateX(-168deg);
 }
 
+.envelope__flap-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.envelope__flap-face--outer {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: var(--c-paper-deep);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.08));
+  transform: translateZ(0.5px);
+}
+
+/* Lining: a solid metal triangle with paper inset a hairline on top, which
+   leaves a gilded rim on all three edges. A border cannot do this -- it would
+   be clipped away with everything else outside the polygon. */
+.envelope__flap-face--inner {
+  /* Mirrored in Y, because rotateX(180deg) flips the polygon vertically. */
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  background: var(--c-metal);
+  transform: rotateX(180deg) translateZ(0.5px);
+}
+.envelope__flap-face--inner::before {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  /* Shaded with the palette's own deeper paper rather than a black wash: 14%
+     black over warm paper resolves to a cold grey that fights every palette.
+     The crease sits at the hinge, which is the bottom of the mirrored polygon. */
+  background: var(--c-paper);
+  background-image: linear-gradient(to bottom, var(--c-paper), var(--c-paper-deep));
+}
+
+/* --- seal ----------------------------------------------------------------
+   Sits ON the flap, so it must be nearer in Z. Every transform variant repeats
+   the translateZ; omit it from one and the seal teleports backward mid-move. */
 .envelope__seal {
   position: absolute;
   left: 50%;
   top: 46%;
   width: 4.25rem;
   height: 4.25rem;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 3px));
   border-radius: 50%;
   background: var(--c-accent);
   color: var(--c-paper);
@@ -74,19 +186,25 @@
   letter-spacing: 0.04em;
   border: none;
   cursor: pointer;
-  z-index: 6;
   box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5);
-  transition: transform 0.4s var(--ease-open), opacity 0.4s ease;
+  transition: transform var(--d-seal, 400ms) var(--ease-open),
+              opacity var(--d-seal, 400ms) ease;
 }
-.envelope__seal:hover { transform: translate(-50%, -50%) scale(1.05); }
+.envelope__seal:hover {
+  transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 6px)) scale(1.05);
+}
 .envelope__seal:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 .envelope[data-phase='opening'] .envelope__seal,
 .envelope[data-phase='open'] .envelope__seal {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.7);
+  transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 3px)) scale(0.7);
   pointer-events: none;
 }
 
+/* --- card ----------------------------------------------------------------
+   Rests inside the box, so the front panel genuinely occludes its lower part.
+   Two-stage motion needs keyframes: a single transition to a combined transform
+   does both at once and reads like the card is dragged out on a diagonal. */
 .envelope__card {
   top: 8%;
   height: 84%;
@@ -97,11 +215,24 @@
   place-items: center;
   text-align: center;
   padding: var(--sp-2);
-  z-index: 2;
-  transform: translateY(0);
-  transition: transform 1.1s var(--ease-open) 0.5s;
+  transform: translate3d(0, 0, var(--env-card-z, 6px));
+  box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.45);
 }
-.envelope[data-phase='opening'] .envelope__card { transform: translateY(-58%); }
+
+.envelope[data-phase='opening'] .envelope__card {
+  /* `both`, not `forwards`: the delayed start must hold frame 0, or the card
+     flashes at its resting position for one frame. */
+  animation: envelope-card-rise var(--d-card, 1100ms) var(--ease-open)
+             var(--d-card-delay, 450ms) both;
+}
+
+@keyframes envelope-card-rise {
+  0% { transform: translate3d(0, 0, var(--env-card-z, 6px)); }
+  /* clears the mouth while still inside the box in Z */
+  58% { transform: translate3d(0, -50%, var(--env-card-z, 6px)); }
+  /* then leans out toward the viewer */
+  100% { transform: translate3d(0, -58%, var(--env-card-lift, 48px)); }
+}
 
 .envelope__addressee {
   font-size: var(--t-sm);
@@ -115,6 +246,8 @@
   margin-block: var(--sp-1);
 }
 
+/* Child of .envelope-stage, not .envelope, so it sits outside the 3D context
+   and plain absolute positioning still applies. */
 .envelope__skip {
   position: absolute;
   bottom: var(--sp-3);
@@ -131,6 +264,28 @@
 }
 .envelope__skip:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 
+/* Lives in the Shell footer but belongs to the envelope, so its styles stay
+   with the component that owns the behaviour. */
+.invite-replay {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-ink-soft);
+  font-family: var(--font-body);
+  font-size: var(--t-sm);
+  padding-bottom: 2px;
+  margin-top: var(--sp-1);
+  cursor: pointer;
+}
+.invite-replay:hover { color: var(--c-ink); border-bottom-color: var(--c-ink-soft); }
+.invite-replay:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+
 @media (prefers-reduced-motion: reduce) {
-  .envelope__flap, .envelope__card, .envelope__seal { transition: none; }
+  /* Depth is geometry, not motion, so --env-* and preserve-3d stay. Removing
+     them collapses the walls into overlapping rectangles, which looks broken
+     rather than calm. Only movement goes. */
+  .envelope__flap,
+  .envelope__seal { transition: none; }
+  .envelope__card { animation: none; }
+  .envelope-stage { perspective-origin: 50% 50%; }
 }

@@ -6,3 +6,7 @@ export function safeGet(key) {
 export function safeSet(key, value) {
   try { window.sessionStorage.setItem(key, value); } catch { /* ignore */ }
 }
+
+export function safeRemove(key) {
+  try { window.sessionStorage.removeItem(key); } catch { /* ignore */ }
+}
