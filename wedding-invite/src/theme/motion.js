@@ -6,22 +6,38 @@
  * place and fresh in the other -- which is exactly what went wrong before:
  * the hook waited 2000ms for an animation that finished at 1600ms.
  *
- * Invariant: d-flap <= d-card-delay + d-card, or the timer cuts the stage
- * while the flap is still moving. PACE_SCALE multiplies both sides of that
- * inequality, so a single multiplier can never break it.
+ * The opening is a sequence of beats, authored here at `brisk` (unscaled). At
+ * the default `measured` pace (x1.35) they land on the intended shape:
+ *
+ *   0.0s  sealed
+ *   0.3s  flap hinges back                        (1.6s)
+ *   1.9s  card rises clear of the box             (2.0s)
+ *   3.9s  card settles, alone, and holds          (0.7s)
+ *   4.6s  stage fades as the shell rises under it (1.2s)
+ *   5.8s  done
  */
-export const MOTION = {
-  'd-flap': 900,        // flap swings open
-  'd-card': 1100,       // card rises and comes forward
-  'd-card-delay': 450,  // card waits for the flap to clear
-  'd-seal': 400,        // wax seal fades out
-  'd-hold': 220,        // beat on the risen card before the reveal cuts
+const BEATS = {
+  'd-flap-delay': 220,  // a beat before the flap moves at all
+  'd-flap': 1180,       // flap swings back
+  'd-card': 1480,       // card rises clear of the box and leans forward
+  'd-hold': 520,        // the risen card alone, before the hand-off
+  'd-exit': 890,        // stage fades out while the shell rises underneath
+  'd-seal': 400,        // wax seal fades, inside the flap's first beat
 
   'd-reveal': 700,      // a section fading up as it enters the viewport
   'd-stagger': 70,      // gap between consecutive children in a staggered group
   'd-hero': 900,        // hero entrance once the envelope is done
   'd-hover': 220,       // colour and border on hover
   'd-tap': 160,         // the pressed state, deliberately quicker than hover
+};
+
+export const MOTION = {
+  ...BEATS,
+  /* DERIVED, not authored: the card starts exactly as the flap finishes. This
+     file used to state "d-flap <= d-card-delay + d-card" as an invariant and
+     author both sides of it, so editing one number could break it. Computing it
+     means it cannot be. */
+  'd-card-delay': BEATS['d-flap-delay'] + BEATS['d-flap'],
 };
 
 /**
@@ -42,15 +58,21 @@ export const MOTION = {
 export const PACE_SCALE = { brisk: 1, measured: 1.35, slow: 1.8 };
 export const DEFAULT_PACE = 'measured';
 
-/** Unscaled length of the opening. For documentation; never time anything with it. */
+/** Sealed until the card is risen and has held. The `opening` phase. */
 export const BASE_OPEN_MS =
-  MOTION['d-card-delay'] + MOTION['d-card'] + MOTION['d-hold']; // 1770
+  MOTION['d-card-delay'] + MOTION['d-card'] + MOTION['d-hold']; // 3400
+/** The hand-off, while the shell rises underneath. The `closing` phase. */
+export const BASE_EXIT_MS = MOTION['d-exit'];                   // 890
+/** Documentation only; never time anything with it.
+ *  brisk 4290 - measured 5792 - slow 7722 */
+export const BASE_TOTAL_MS = BASE_OPEN_MS + BASE_EXIT_MS;
 
-/** Length of the whole opening at a given pace.
- *  brisk 1770ms - measured 2390ms - slow 3186ms */
-export function openTotalMs(pace) {
-  return Math.round(BASE_OPEN_MS * (PACE_SCALE[pace] ?? PACE_SCALE[DEFAULT_PACE]));
-}
+const k = (pace) => PACE_SCALE[pace] ?? PACE_SCALE[DEFAULT_PACE];
+
+/** brisk 3400 - measured 4590 - slow 6120 */
+export function openTotalMs(pace) { return Math.round(BASE_OPEN_MS * k(pace)); }
+/** brisk 890 - measured 1202 - slow 1602 */
+export function exitTotalMs(pace) { return Math.round(BASE_EXIT_MS * k(pace)); }
 
 export function applyMotionVars(root = document.documentElement) {
   Object.entries(MOTION).forEach(([k, v]) => root.style.setProperty(`--${k}`, `${v}ms`));

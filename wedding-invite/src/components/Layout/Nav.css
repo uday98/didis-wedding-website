@@ -59,7 +59,7 @@
 }
 .nav[data-stuck] .nav__list { padding-block: calc(var(--sp-1) - 3px) var(--sp-1); }
 .nav[data-stuck] {
-  box-shadow: 0 1px 12px -6px rgb(var(--c-shade-rgb, 0 0 0) / 0.45);
+  box-shadow: 0 1px 12px -6px rgb(var(--c-cast-rgb, 0 0 0) / 0.45);
   border-bottom-color: var(--c-ink-soft);
 }
 

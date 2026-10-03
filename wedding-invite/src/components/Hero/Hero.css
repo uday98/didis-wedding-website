@@ -7,15 +7,16 @@
 .hero__names {
   font-family: var(--font-display);
   font-weight: 400;
-  /* --headline-k comes from the headline dimension, --font-display-scale from
-     the pairing (faces differ in how large they run on the em). At 280px the
-     clamp floor wins, and a long name in a 257px column can still overflow --
-     hence the wrap guard below, which is what keeps a fold phone from gaining a
-     sideways scroll. */
+  /* The top of the display track, so the pairing's scale and the headline ramp
+     reach the hero through the same mechanism as every other display element
+     rather than through arithmetic that lived only here. The hero takes the
+     ramp at full strength, which is what makes it the top of the hierarchy.
+     At 280px the clamp floor wins; the wrap guard below is what stops a long
+     name giving a fold phone a sideways scroll. */
   font-size: clamp(
-    calc(2.1rem * var(--headline-k, 1) * var(--font-display-scale, 1)),
-    calc(9vw * var(--headline-k, 1) * var(--font-display-scale, 1)),
-    calc(var(--t-2xl) * var(--headline-k, 1) * var(--font-display-scale, 1))
+    calc(2.1rem * var(--font-display-scale, 1) * var(--headline-k, 1)),
+    calc(9vw * var(--font-display-scale, 1) * var(--headline-k, 1)),
+    calc(var(--t-2xl) * var(--font-display-scale, 1) * var(--headline-k, 1))
   );
   overflow-wrap: break-word;
   line-height: 1.05;
@@ -41,3 +42,44 @@
   padding-left: 0.2em;
 }
 .hero__tagline { max-width: var(--measure); color: var(--c-ink-soft); }
+
+/* --- optional photograph --------------------------------------------------
+   Absent by default. Everything here is scoped to [data-photo], so the hero is
+   byte-for-byte its old self when there is no image. */
+.hero[data-photo] {
+  /* Full bleed out of the shell's column, back to the viewport edges. */
+  margin-inline: calc(50% - 50vw);
+  padding-inline: var(--sp-3);
+  padding-block: var(--sp-5) var(--sp-4);
+  color: var(--c-on-photo, #fff);
+}
+.hero__photo { position: absolute; inset: 0; overflow: hidden; }
+.hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Fixed ratio so the box exists before the bytes do and nothing shifts. */
+  aspect-ratio: 4 / 5;
+}
+@media (min-width: 40rem) { .hero__photo img { aspect-ratio: 16 / 9; } }
+
+/* Always dark, never palette-derived. There is no direction that works for both
+   ink (near-white paper) and midnight (near-white ink), so the scrim commits to
+   dark and --c-on-photo commits to light, on every palette. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.68),
+    rgb(0 0 0 / 0.42) 45%,
+    rgb(0 0 0 / 0.22)
+  );
+}
+.hero[data-photo] .hero__date,
+.hero[data-photo] .hero__names,
+.hero[data-photo] .hero__tagline { position: relative; color: inherit; }
+.hero[data-photo] .hero__date { color: var(--c-on-photo, #fff); opacity: 0.9; }
+.hero[data-photo] .hero__tagline { color: var(--c-on-photo, #fff); opacity: 0.85; }
+/* The corner mark would sit on the photograph and fight it. */
+.hero[data-photo] .rosette { display: none; }

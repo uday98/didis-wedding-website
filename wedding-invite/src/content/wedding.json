@@ -4,7 +4,9 @@
     "groomName": "GROOM NAME",
     "monogram": "B & G",
     "tagline": "PLACEHOLDER — one line the families would actually say.",
-    "weddingDate": "2027-02-14"
+    "weddingDate": "2027-02-14",
+    "photo": "",
+    "photoAlt": ""
   },
   "envelope": {
     "addressedTo": "PLACEHOLDER — you and your family",

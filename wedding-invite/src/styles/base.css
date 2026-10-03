@@ -51,7 +51,7 @@ a { color: inherit; }
   cursor: pointer;
   display: grid;
   place-items: center;
-  box-shadow: 0 2px 10px -4px rgb(var(--c-shade-rgb, 0 0 0) / 0.4);
+  box-shadow: 0 2px 10px -4px rgb(var(--c-cast-rgb, 0 0 0) / 0.4);
 }
 .dev__launcher:hover { color: var(--c-ink); border-color: var(--c-ink-soft); }
 
@@ -67,7 +67,7 @@ a { color: inherit; }
   padding: var(--sp-2) var(--sp-2) calc(var(--sp-2) + 3rem);
   background: var(--c-paper);
   border-top: 1px solid var(--c-line);
-  box-shadow: 0 -4px 24px -12px rgb(var(--c-shade-rgb, 0 0 0) / 0.5);
+  box-shadow: 0 -4px 24px -12px rgb(var(--c-cast-rgb, 0 0 0) / 0.5);
   font-family: var(--font-body);
 }
 .dev__sheet[data-open] { display: grid; gap: var(--sp-2); }

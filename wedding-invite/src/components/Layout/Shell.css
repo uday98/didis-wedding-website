@@ -1,5 +1,10 @@
+/* The shell is the SURFACE the cards lie on, not the paper. This is the change
+   that stops the page reading as one flat sheet. z-index gives it a stacking
+   context so the envelope's exit can fade over it. */
 .shell {
-  background: var(--c-paper);
+  position: relative;
+  z-index: 0;
+  background: var(--c-surface, var(--c-paper));
   color: var(--c-ink);
   /* 100dvh is a literal, so an unsupporting browser drops it at parse time and
      keeps this line. (Contrast Nav.css, where var() forces an @supports.) */
@@ -17,4 +22,35 @@
   text-align: center;
   color: var(--c-ink-soft);
   font-size: var(--t-sm);
+}
+
+/* Coarse grain on the surface, as a mask over a flat shade fill so it textures
+   without tinting. Fixed, because the surface is conceptually one continuous
+   thing the page scrolls over. */
+.shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgb(var(--c-shade-rgb, 0 0 0));
+  -webkit-mask-image: var(--tex-coarse);
+  mask-image: var(--tex-coarse);
+  opacity: 0;
+}
+[data-ornament='light'] .shell::before { opacity: 0.055; }
+[data-ornament='full'] .shell::before { opacity: 0.085; }
+
+/* The shell rises as the envelope fades over it. Starts in its entered state so
+   a returning guest, who never sees the envelope, never sees this move. */
+.shell { opacity: 1; transform: none; }
+.shell[data-enter='out'] { opacity: 0; transform: translateY(1.2rem); }
+.shell[data-enter] {
+  transition:
+    opacity calc(var(--d-exit, 890ms) * var(--pace-k, 1.35)) var(--ease-open),
+    transform calc(var(--d-exit, 890ms) * var(--pace-k, 1.35)) var(--ease-open);
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell[data-enter] { transition: none; }
+  .shell[data-enter='out'] { opacity: 1; transform: none; }
 }

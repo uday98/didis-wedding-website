@@ -17,18 +17,22 @@ const SECTIONS = [
 ];
 
 export default function App() {
-  const { phase, runId, open, skip, replay, isOpen } = useEnvelope();
+  const { phase, stage, runId, open, skip, replay, isOpen } = useEnvelope();
   const { monogram } = useContent('couple');
   const { replayLabel } = useContent('envelope');
 
   return (
     <>
       <Envelope phase={phase} runId={runId} onOpen={open} onSkip={skip} />
-      {/* Nothing behind the envelope may reveal while it is still sealed: the
-          overlay is fixed over a fully laid-out page and body scroll is not
-          locked, so every section is intersecting the viewport the whole time. */}
-      <StageProvider live={isOpen}>
+      {/* `stage`, not `isOpen`. Reveals must start while the overlay is still
+          FADING, so the page has settled by the time it clears -- gating on
+          isOpen would mean the overlay lifts onto a blank sheet and the sections
+          pop in afterwards. Nothing may reveal while it is sealed, though: the
+          overlay is fixed over a laid-out page and body scroll is not locked, so
+          every section is intersecting the viewport the whole time. */}
+      <StageProvider live={stage !== 'sealed'}>
         <Shell
+          enter={stage === 'sealed' ? 'out' : 'in'}
           footer={
             <>
               <p>{monogram}</p>
@@ -49,7 +53,7 @@ export default function App() {
       </StageProvider>
       <div className="grain" aria-hidden="true" />
       {/* Remove before launch */}
-      <DevPanel />
+      <DevPanel onPaceChange={replay} />
       {!isOpen && <div className="sr-only" aria-live="polite">Invitation sealed</div>}
     </>
   );

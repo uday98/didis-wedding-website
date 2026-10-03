@@ -1,0 +1,74 @@
+/* Paper laid on a surface.
+   The page used to be one flat sheet of --c-paper, which is most of why it read
+   as a website rather than an invitation. Now the shell paints --c-surface and
+   each section is a card of --c-paper lifted off it.
+
+   What actually makes this read as paper at phone size, in order of how much it
+   matters: a surface colour genuinely different from the paper; a two-layer
+   shadow whose first layer is a tight contact shadow; and texture on BOTH
+   planes rather than one overlay across everything. A literal deckled edge is
+   last by a distance -- at 280px a torn edge is a few pixels and illegible, and
+   masking the card masks its shadow away too. It is available under
+   ornament: full to be judged, not as the mechanism. */
+
+.card {
+  position: relative;
+  background: var(--c-paper);
+  border-radius: var(--radius-card);
+  padding-inline: var(--sp-3);
+  /* Contact shadow first, then the diffuse one. A single large soft shadow
+     reads as a floating rectangle; the tight layer is what puts it ON something.
+     --c-cast-rgb, never --c-shade-rgb: the latter is white on dark palettes,
+     which turns every shadow into a glow. */
+  box-shadow:
+    0 1px 2px -1px rgb(var(--c-cast-rgb, 0 0 0) / 0.28),
+    0 14px 34px -18px rgb(var(--c-cast-rgb, 0 0 0) / 0.33);
+}
+
+/* Fine grain on the paper itself. A mask over a flat shade fill rather than a
+   blended image, so it darkens the paper without tinting it and without forcing
+   the whole page to composite the way a fixed blended overlay did. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: rgb(var(--c-shade-rgb, 0 0 0));
+  -webkit-mask-image: var(--tex-fine);
+  mask-image: var(--tex-fine);
+  opacity: 0;
+}
+[data-ornament='light'] .card::after { opacity: 0.035; }
+[data-ornament='full'] .card::after { opacity: 0.06; }
+
+/* On a dark palette the surface is darker than the paper, so a cast shadow has
+   little to separate against. A rim light does the work instead. */
+[data-scheme='dark'] .card {
+  box-shadow:
+    0 1px 2px -1px rgb(var(--c-cast-rgb, 0 0 0) / 0.5),
+    0 14px 34px -18px rgb(var(--c-cast-rgb, 0 0 0) / 0.55),
+    inset 0 1px 0 0 rgb(var(--c-shade-rgb, 255 255 255) / 0.07);
+}
+
+/* Opt-in, so it can be judged rather than assumed.
+
+   Painted as a strip of SURFACE colour bitten out of the card's bottom edge,
+   not as a mask on the card. A mask on .card would clip its box-shadow away
+   too -- shadows are painted inside the masked area -- and the card would lose
+   the thing that actually makes it read as lifted. This way the card's box is
+   untouched and only the pixels of the edge change. */
+[data-ornament='full'] .card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  pointer-events: none;
+  background: var(--c-surface);
+  -webkit-mask-image: var(--tex-fine);
+  mask-image: var(--tex-fine);
+  -webkit-mask-size: 180px 6px;
+  mask-size: 180px 6px;
+}

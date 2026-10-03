@@ -5,12 +5,18 @@
  * To switch the whole site: change ACTIVE_PALETTE below.
  * To audition one without committing: add ?palette=marigold to the URL.
  *
- * c-shade-rgb is the colour that shadows and washes are made of, as space-
- * separated channels for rgb(... / alpha). It is black on light palettes and
- * white on dark ones, which is what lets the envelope's 3D shading and the nav
- * shadow describe "shade" rather than "black" -- on a dark-paper palette every
- * black wash would otherwise vanish and the envelope would collapse into flat
- * overlapping rectangles.
+ * c-shade-rgb vs c-cast-rgb -- these are different questions, and conflating
+ * them is why the dark palette read flat. c-shade-rgb is how a SURFACE'S OWN
+ * FORM is shaded, so it flips to white on dark paper or the envelope's walls
+ * collapse into flat rectangles. c-cast-rgb is the colour of a shadow THROWN
+ * ONTO ANOTHER SURFACE, so it stays dark everywhere -- a white shadow under a
+ * card is a glow, and every box-shadow on the site was white on midnight.
+ *
+ * c-surface is what the cards lie on; it must differ from c-paper by enough to
+ * see a card's edge without drawing a border.
+ * c-on-photo is type over a photograph. It cannot be derived from the palette:
+ * ink's paper and midnight's ink are both near-white and point opposite ways,
+ * so the scrim is always dark and this is always light.
  */
 
 export const palettes = {
@@ -27,6 +33,9 @@ export const palettes = {
       'c-accent-soft': '#A8434F',
       'c-metal': '#C2A35A',
       'c-line': '#DDD1BE',
+      'c-surface': '#DFD2BC',       // the linen the cards lie on
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FFFBF4',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -44,6 +53,9 @@ export const palettes = {
       'c-accent-soft': '#2E7370',
       'c-metal': '#E09B2D',
       'c-line': '#DCCBA7',
+      'c-surface': '#E2CFA6',       // raw turmeric-dyed cloth
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FFFCF2',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -60,6 +72,9 @@ export const palettes = {
       'c-accent-soft': '#8E5372',
       'c-metal': '#B99361',
       'c-line': '#DCC9C8',
+      'c-surface': '#D8C2C2',       // dusty rose, a shade under the paper
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FFF8F7',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -69,7 +84,9 @@ export const palettes = {
   ink: {
     label: 'Ink',
     tokens: {
-      'c-paper': '#FDFBF7',
+      // Was #FDFBF7. The one palette near enough to white that the page read as
+      // type on white, and the one most likely to ship.
+      'c-paper': '#FBF8F2',
       'c-paper-deep': '#F2EDE4',
       'c-ink': '#191817',
       'c-ink-soft': '#5E5A55',
@@ -77,6 +94,9 @@ export const palettes = {
       'c-accent-soft': '#D9705F',
       'c-metal': '#9A8A6B',
       'c-line': '#E2DACB',
+      'c-surface': '#DED6C6',       // oatmeal; the paper is the lightest thing
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FFFDF9',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -94,6 +114,9 @@ export const palettes = {
       'c-accent-soft': '#3C7A62',
       'c-metal': '#BFA063',
       'c-line': '#D8CFBA',
+      'c-surface': '#D6CDB4',       // dry grass under green
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FBFAF3',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -111,6 +134,9 @@ export const palettes = {
       'c-accent-soft': '#7A9070',
       'c-metal': '#A99A6B',
       'c-line': '#D7DACD',
+      'c-surface': '#CFD4C6',       // the same green, pushed back
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FAFBF7',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -128,6 +154,9 @@ export const palettes = {
       'c-accent-soft': '#C47551',
       'c-metal': '#C09055',
       'c-line': '#E2CDBC',
+      'c-surface': '#E3C9B4',      // unglazed clay
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#FFFAF5',
       'c-shade-rgb': '0 0 0',
     },
   },
@@ -147,6 +176,9 @@ export const palettes = {
       'c-accent-soft': '#E0C25E',
       'c-metal': '#B9C0D4',
       'c-line': '#343954',
+      'c-surface': '#0C0E1B',       // darker than the paper, deliberately
+      'c-cast-rgb': '0 0 0',       // a cast shadow is dark on every palette
+      'c-on-photo': '#F2F0F7',
       'c-shade-rgb': '255 255 255',
     },
   },
