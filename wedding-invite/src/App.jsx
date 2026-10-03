@@ -1,5 +1,6 @@
 import { Envelope } from './components/Envelope/Envelope';
 import { useEnvelope } from './components/Envelope/useEnvelope';
+import { useScrollLock } from './hooks/useScrollLock';
 import { StageProvider } from './hooks/useStage';
 import { Shell } from './components/Layout/Shell';
 import { Nav } from './components/Layout/Nav';
@@ -20,6 +21,9 @@ const SECTIONS = [
 export default function App() {
   const { phase, stage, runId, open, skip, replay, isOpen } = useEnvelope();
   const { monogram } = useContent('couple');
+  // The page stays put while the envelope is sealed. Released at `live`, so the
+  // scrollbar returns as the overlay starts to fade rather than after it.
+  useScrollLock(stage === 'sealed');
   const { replayLabel } = useContent('envelope');
 
   return (

@@ -12,6 +12,9 @@ import { Jaali } from '../Ornament/Jaali';
  * (`families.hosts`), because it is not always the bride's side, and the whole
  * block reorders around it rather than being written twice.
  *
+ * The couple line is the page's <h1>. The hero used to carry the names and
+ * did that job, but the names are said here, once, in their proper setting.
+ *
  * Every string is from wedding.json. Nothing here hardcodes a name, an
  * honorific or a connective phrase -- including "and", which is not "and" in
  * every family's wording.
@@ -55,11 +58,11 @@ export function Invitation() {
         </p>
       )}
 
-      <p className="invitation__couple">
+      <h1 className="invitation__couple">
         <span className="invitation__name">{hostChild}</span>
         {withLine && <span className="invitation__with">{withLine}</span>}
         <span className="invitation__name">{otherChild}</span>
-      </p>
+      </h1>
 
       {otherSide.relation && (
         <p className="invitation__request">

@@ -19,7 +19,7 @@
   [data-reveal],
   [data-stagger] > *,
   .hero > *,
-  .hero__names > span {
+  .hero__say {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;

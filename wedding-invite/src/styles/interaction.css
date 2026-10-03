@@ -66,7 +66,7 @@
 [data-stagger] > *:nth-child(1) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 0); }
 [data-stagger] > *:nth-child(2) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 1); }
 [data-stagger] > *:nth-child(3) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 2); }
-[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3); }
+[data-stagger] > *:nth-child(4) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 2); }
 [data-stagger] > *:nth-child(5) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 4); }
 [data-stagger] > *:nth-child(6) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 5); }
 [data-stagger] > *:nth-child(7) { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 6); }
@@ -79,48 +79,22 @@
    and it is absolutely positioned, so a shared translateY would drag it and a
    shared nth-child would shift every delay by one. */
 .hero__date,
-.hero__names,
 .hero__say {
   transition:
     opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
     transform calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
 }
 .hero[data-enter='out'] .hero__date,
-.hero[data-enter='out'] .hero__names,
 .hero[data-enter='out'] .hero__say {
   opacity: 0;
   transform: translateY(calc(var(--reveal-rise) * 1.4));
 }
 .hero[data-enter='in'] .hero__date,
-.hero[data-enter='in'] .hero__names,
 .hero[data-enter='in'] .hero__say { opacity: 1; transform: none; }
-.hero[data-enter] .hero__names { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 1.5); }
 .hero[data-enter] .hero__say { transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3); }
 
 .hero[data-enter='out'] .rosette { opacity: 0; }
 .rosette { transition: opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open); }
-
-/* Rich only: the three names arrive one after another rather than as a block. */
-[data-motion='full'] .hero__names > span {
-  transition:
-    opacity calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open),
-    transform calc(var(--d-hero, 900ms) * var(--motion-k) * var(--pace-k, 1.35)) var(--ease-open);
-}
-[data-motion='full'] .hero[data-enter='out'] .hero__names > span {
-  opacity: 0;
-  transform: translateY(0.18em);
-}
-[data-motion='full'] .hero[data-enter='in'] .hero__names > span { opacity: 1; transform: none; }
-/* These two were the only duration calcs in this file without --motion-k.
-   Harmless while `motion` was a speed factor and the selector only matched
-   `full`; with --pace-k they would be the only hero delays that do not scale,
-   so a per-name stagger would overrun the block it sits inside. */
-[data-motion='full'] .hero__names > span:nth-child(2) {
-  transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 2);
-}
-[data-motion='full'] .hero__names > span:nth-child(3) {
-  transition-delay: calc(var(--d-stagger, 70ms) * var(--motion-k) * var(--pace-k, 1.35) * 3.4);
-}
 
 /* --- micro-interactions --------------------------------------------------
    Everything below had no hover, no focus treatment and no pressed state.
@@ -178,18 +152,14 @@
   [data-reveal],
   [data-stagger] > *,
   .hero__date,
-  .hero__names,
   .hero__say,
-  .hero__names > span,
   .rosette { transition: none; }
 
   [data-reveal='out'],
   [data-stagger][data-reveal='out'] > *,
   .hero[data-enter='out'] .hero__date,
-  .hero[data-enter='out'] .hero__names,
   .hero[data-enter='out'] .hero__say,
-  .hero[data-enter='out'] .rosette,
-  [data-motion='full'] .hero[data-enter='out'] .hero__names > span {
+  .hero[data-enter='out'] .rosette {
     opacity: 1;
     transform: none;
     filter: none;

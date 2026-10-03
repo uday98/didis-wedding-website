@@ -4,43 +4,6 @@
   font-size: var(--t-sm);
   letter-spacing: 0.08em;
 }
-.hero__names {
-  font-family: var(--font-display);
-  font-weight: 400;
-  /* The top of the display track, so the pairing's scale and the headline ramp
-     reach the hero through the same mechanism as every other display element
-     rather than through arithmetic that lived only here. The hero takes the
-     ramp at full strength, which is what makes it the top of the hierarchy.
-     At 280px the clamp floor wins; the wrap guard below is what stops a long
-     name giving a fold phone a sideways scroll. */
-  font-size: clamp(
-    calc(2.1rem * var(--font-display-scale, 1) * var(--headline-k, 1)),
-    calc(9vw * var(--font-display-scale, 1) * var(--headline-k, 1)),
-    calc(var(--t-2xl) * var(--font-display-scale, 1) * var(--headline-k, 1))
-  );
-  overflow-wrap: break-word;
-  line-height: 1.05;
-  /* Grid items default to min-width: auto, so they refuse to shrink below
-     min-content -- and overflow-wrap: break-word does NOT reduce min-content
-     width (only `anywhere` does). Without this, a long name at `monumental` on
-     a 280px fold claimed 468px and gave the whole page a horizontal scrollbar.
-     Verified: "VENKATARAGHAVAN" at 280px goes from scrollWidth 479 to 280. */
-  min-width: 0;
-  margin-block: var(--sp-2);
-  display: grid;
-  gap: 0.1em;
-}
-/* The spans are the grid items, and min-width: auto on THEM is what refused to
-   shrink. Setting it on the container alone does nothing for this. */
-.hero__names > span { min-width: 0; }
-
-.hero__amp {
-  font-family: var(--font-body);
-  font-size: 0.32em;
-  color: var(--c-ink-soft);
-  letter-spacing: 0.2em;
-  padding-left: 0.2em;
-}
 .hero__tagline { max-width: var(--measure); color: var(--c-ink-soft); }
 
 /* --- optional photograph --------------------------------------------------
@@ -77,7 +40,6 @@
   );
 }
 .hero[data-photo] .hero__date,
-.hero[data-photo] .hero__names,
 .hero[data-photo] .hero__tagline { position: relative; color: inherit; }
 .hero[data-photo] .hero__date { color: var(--c-on-photo, #fff); opacity: 0.9; }
 .hero[data-photo] .hero__tagline { color: var(--c-on-photo, #fff); opacity: 0.85; }

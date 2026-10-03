@@ -6,7 +6,6 @@
    `refined` is the real setting; `plain` exists as a control to compare
    against, not as a second look. These are corrections, not decoration. */
 
-[data-type='refined'] .hero__names,
 [data-type='refined'] .section__title,
 [data-type='refined'] .event__name,
 [data-type='refined'] .stay__name {
