@@ -38,9 +38,10 @@ Mehendi ki Raat (13 Nov, 6 pm) · Haldi aur Hungama (14 Nov, 11 am) · Chand, Si
 
 Still needed:
 - **Pheras:** the date and start time
-- **Mehendi ki Raat:** is "Sea breeze" the venue name? If so, just the full address
-- **Every other function:** the venue name and full address
-- Google Maps link for each venue if you have one *(optional — I can look it up)*
+- **Venues are settled:** Mehendi ki Raat at Sea breeze, and everything else at Caravela Beach
+  Resort, Varca. Nothing needed except one thing: **there are two Sea Breeze hotels in Varca**
+  (Sea Breeze Sarovar Portico and Sea Breeze Max Resort). Which one is it?
+- **Is Sea breeze also where guests are staying?** If so I'll add it under "Where to stay"
 - Dress code for each *(optional)*
 - A one-line note for Mehendi, Sangeet and the Chooda ceremony, like the ones Haldi, Varmala
   and Pheras already have *(optional)*
