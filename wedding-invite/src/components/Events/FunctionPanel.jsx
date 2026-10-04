@@ -2,6 +2,7 @@ import { describeDay, describeTime } from '../../lib/datetime';
 import { useContent } from '../../hooks/useContent';
 import { Reveal } from '../Layout/Reveal';
 import { Sigil } from '../Ornament/Sigil';
+import { titleSize } from '../../lib/titleSize';
 
 /** The "Next: Mehendi" link at the foot of a panel. It is a real link, so it is
  *  also the keyboard and screen-reader way onward, and because it sits at the very
@@ -22,13 +23,6 @@ export function NextCue({ href, label, nextLabel }) {
   );
 }
 
-/** How big a title can be set. Titles run from "Pheras" to "Chooda Sajjeya, Viyah
- *  Sajjeya", and at one size either the long ones wrap to four lines of display
- *  type and push the panel off the screen, or the short ones are made timid for
- *  the sake of the long ones. Bucketed by length instead: CSS cannot read how much
- *  text there is, so the component says. */
-const titleSize = (name = '') => (name.length <= 10 ? 'short' : name.length <= 18 ? 'medium' : 'long');
-
 /**
  * One function, one screen. Renders a single event and knows nothing about how
  * many there are or what comes after it -- the parent resolves `next`.
@@ -38,7 +32,7 @@ const titleSize = (name = '') => (name.length <= 10 ? 'short' : name.length <= 1
  * anything off or shrinking type to something unreadable.
  */
 export function FunctionPanel({ event, next, nextLabel }) {
-  const { id, name, date, startTime, venue, address, mapUrl, dressCode, note, image } = event;
+  const { id, name, date, startTime, timeNote, venue, address, mapUrl, dressCode, note, image } = event;
   const { wearLabel } = useContent('functions');
   const day = describeDay(date);
   const time = describeTime(startTime);
@@ -59,7 +53,16 @@ export function FunctionPanel({ event, next, nextLabel }) {
         <div className="fn__sigil"><Sigil id={id} size={52} /></div>
         {day && <p className="fn__day">{day}</p>}
         <h3 className="fn__name" id={`fn-${id}-name`} data-size={titleSize(name)}>{name}</h3>
-        {time && <p className="fn__time">{time}</p>}
+        {time && (
+          <p className="fn__time">
+            {time}
+            {/* "onwards", "sharp", "approx." -- how firm the time is, in the
+                family's words rather than ours. Quieter than the time itself.
+                A real space, not just CSS margin: margin is invisible to copy,
+                paste and screen readers, which would hear "pmonwards". */}
+            {timeNote && <>{' '}<span className="fn__time-note">{timeNote}</span></>}
+          </p>
+        )}
         <p className="fn__venue">
           {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">{venue}</a> : venue}
           <span className="fn__address">{address}</span>
