@@ -76,8 +76,8 @@
 
 /* --- back wall: Z = 0, the floor of the box ----------------------------- */
 .envelope__back {
-  background: var(--c-paper-deep);
-  border: 1px solid var(--c-line);
+  background: var(--c-env-deep);
+  border: 1px solid var(--c-env-deep);
   transform: translateZ(0);
   box-shadow: inset 0 14px 22px -14px rgb(var(--c-shade-rgb, 0 0 0) / 0.38);
 }
@@ -91,7 +91,7 @@
    No top wall: that edge is the mouth the card comes out of. */
 .envelope__wall {
   position: absolute;
-  background: var(--c-paper);
+  background: var(--c-env);
   backface-visibility: hidden;
 }
 
@@ -126,11 +126,12 @@
 
 /* --- front panel: Z = --env-depth, keeps its existing triangles ---------- */
 .envelope__body {
-  background: var(--c-paper);
-  border: 1px solid var(--c-line);
+  background: var(--c-env);
+  /* The foil edge: a hairline of the palette's gold, as on the reference. */
+  border: 1px solid var(--c-metal);
   transform: translateZ(var(--env-depth, 18px));
   backface-visibility: hidden;
-  box-shadow: 0 26px 60px -28px rgb(var(--c-cast-rgb, 0 0 0) / 0.5);
+  box-shadow: 0 30px 56px -24px rgb(var(--c-cast-rgb, 0 0 0) / 0.7);
 }
 .envelope__body::before,
 .envelope__body::after {
@@ -139,8 +140,8 @@
   bottom: 0;
   width: 52%;
   height: 100%;
-  background: var(--c-paper-deep);
-  opacity: 0.55;
+  background: var(--c-env-deep);
+  opacity: 0.7;
 }
 .envelope__body::before { left: 0; -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%); clip-path: polygon(0 0, 0 100%, 100% 100%); }
 .envelope__body::after { right: 0; -webkit-clip-path: polygon(100% 0, 0 100%, 100% 100%); clip-path: polygon(100% 0, 0 100%, 100% 100%); }
@@ -177,12 +178,26 @@
 }
 
 .envelope__flap-face--outer {
-  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  background: var(--c-paper-deep);
-  background-image: linear-gradient(to bottom, rgb(var(--c-shade-rgb, 0 0 0) / 0), rgb(var(--c-shade-rgb, 0 0 0) / 0.08));
+  /* The scalloped silhouette is the SVG's own shape, so there is no clip-path
+     here to flatten the preserve-3d flap. overflow stays visible: the cast
+     shadow is painted just past the face's lower edge. */
   transform: translateZ(0.5px);
 }
+.foliage { display: block; width: 100%; height: 100%; overflow: visible; }
+.foliage__base { fill: var(--c-env); }
+.foliage__rim { fill: none; stroke: var(--c-bloom-g); stroke-width: 0.7; opacity: 0.7; }
+/* A soft shadow with no filter: two offset copies of the silhouette, stacked at
+   low opacity. filter and blur are what cost frames on a phone. */
+.foliage__shadow { fill: rgb(var(--c-cast-rgb, 0 0 0)); }
+.foliage__shadow--far { opacity: 0.16; }
+.foliage__shadow--near { opacity: 0.26; }
+.foliage__leaf-d { fill: var(--c-leaf-d); }
+.foliage__leaf-m { fill: var(--c-leaf-m); }
+.foliage__leaf-l { fill: var(--c-leaf-l); }
+.foliage__leaf-o { fill: var(--c-leaf-o); }
+.foliage__bloom-r { fill: var(--c-bloom-r); }
+.foliage__bloom-w { fill: var(--c-bloom-w); }
+.foliage__bloom-g { fill: var(--c-bloom-g); }
 
 /* Lining: a solid metal triangle with paper inset a hairline on top, which
    leaves a gilded rim on all three edges. A border cannot do this -- it would
@@ -203,8 +218,8 @@
   /* Shaded with the palette's own deeper paper rather than a black wash: 14%
      black over warm paper resolves to a cold grey that fights every palette.
      The crease sits at the hinge, which is the bottom of the mirrored polygon. */
-  background: var(--c-paper);
-  background-image: linear-gradient(to bottom, var(--c-paper), var(--c-paper-deep));
+  background: var(--c-env-deep);
+  background-image: linear-gradient(to bottom, var(--c-env), var(--c-env-deep));
 }
 
 /* --- seal ----------------------------------------------------------------
@@ -214,27 +229,31 @@
   position: absolute;
   left: 50%;
   top: 46%;
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 5.25rem;
+  height: 5.25rem;
+  padding: 0;
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 3px));
-  border-radius: 50%;
-  background: var(--c-accent);
-  color: var(--c-paper);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: var(--t-md);
-  letter-spacing: 0.04em;
+  background: none;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 16px -6px rgb(var(--c-cast-rgb, 0 0 0) / 0.5);
+  filter: none;
   transition: transform calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) var(--ease-open),
               opacity calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) ease;
+}
+.badge { display: block; width: 100%; height: 100%; overflow: visible; }
+.badge__field { fill: var(--c-env-deep); }
+.badge__edge { fill: none; stroke: var(--c-surface-accent); stroke-width: 3; stroke-linejoin: round; }
+.badge__line { fill: none; stroke: var(--c-surface-accent); stroke-width: 1; opacity: 0.8; }
+.badge__mark {
+  fill: var(--c-surface-accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: 0.02em;
 }
 .envelope__seal:hover {
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 6px)) scale(1.05);
 }
-.envelope__seal:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.envelope__seal:focus-visible { outline: 2px solid var(--c-surface-accent); outline-offset: 4px; }
 .envelope[data-phase='opening'] .envelope__seal,
 .envelope[data-phase='closing'] .envelope__seal,
 .envelope[data-phase='open'] .envelope__seal {

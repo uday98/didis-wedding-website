@@ -56,7 +56,19 @@ export const palettes = {
       'c-surface-accent': '#EBDDAE', // sampled: the gold foil, for the small accents on the maroon
       'c-surface-line': '#93463C',
       'c-surface-tex': 'var(--tex-glow)',
-      'c-stage': '#6F1E19',          // the envelope sits on the surface colour, so the hand-off is one ground
+      'c-stage': '#6F1E19',
+      // Envelope, sampled from the reference photo: the maroon paper (a touch
+      // lighter than the stage so it reads as an object on it), the foliage
+      // greens and the blossoms painted along the flap.
+      'c-env': '#862A22',
+      'c-env-deep': '#6A1B16',
+      'c-leaf-d': '#25382C',
+      'c-leaf-m': '#3E4D28',
+      'c-leaf-l': '#596931',
+      'c-leaf-o': '#7A6747',
+      'c-bloom-r': '#A33A2D',
+      'c-bloom-w': '#F2E7B8',
+      'c-bloom-g': '#C9A24A',          // the envelope sits on the surface colour, so the hand-off is one ground
     },
   },
 };

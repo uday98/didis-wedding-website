@@ -1,5 +1,7 @@
 import './Envelope.css';
 import { useContent } from '../../hooks/useContent';
+import { Badge } from './Badge';
+import { FlapFoliage } from './FlapFoliage';
 
 /**
  * Presentation only. All state is owned by useEnvelope and passed in,
@@ -34,7 +36,9 @@ export function Envelope({ phase, runId, onOpen, onSkip }) {
         <div className="envelope__body" />
 
         <div className="envelope__flap">
-          <div className="envelope__flap-face envelope__flap-face--outer" />
+          <div className="envelope__flap-face envelope__flap-face--outer">
+            <FlapFoliage />
+          </div>
           <div className="envelope__flap-face envelope__flap-face--inner" />
         </div>
 
@@ -44,7 +48,7 @@ export function Envelope({ phase, runId, onOpen, onSkip }) {
           onClick={onOpen}
           aria-label={openAriaLabel}
         >
-          {sealInitials}
+          <Badge initials={sealInitials} />
         </button>
       </div>
       {phase === 'closed' && (
