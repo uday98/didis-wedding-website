@@ -9,11 +9,11 @@
     "photoAlt": ""
   },
   "families": {
-    "invocation": "॥ श्री गणेशाय नमः ॥",
-    "invocationRoman": "Shri Ganeshaya Namah",
+    "invocation": "",
+    "invocationRoman": "",
     "hosts": "bride",
-    "fatherHonorific": "Mr",
-    "motherHonorific": "Mrs",
+    "fatherHonorific": "",
+    "motherHonorific": "",
     "bride": {
       "father": "Sumit Talwar",
       "mother": "Aneeta Talwar",
@@ -26,7 +26,7 @@
     },
     "requestLine": "request the honour of your presence at the marriage of their",
     "withLine": "with",
-    "closingLine": "PLACEHOLDER — a closing blessing, or leave empty"
+    "closingLine": ""
   },
   "envelope": {
     "addressedTo": "You and your family",
@@ -38,9 +38,8 @@
   },
   "functions": {
     "title": "The functions",
-    "kicker": "Timings are when things start, not when they are called for.",
+    "kicker": "",
     "nextLabel": "Next",
-    "afterLast": "Getting there and staying",
     "wearLabel": "Wear"
   },
   "events": [
@@ -53,7 +52,7 @@
       "venue": "Sea breeze by Sarovar Portico, South Goa",
       "address": "Fatrade Road, Varca, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sea+Breeze+Sarovar+Portico&query_place_id=ChIJlzaCBgmzvzsRrpQzdNsn31E",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "PLACEHOLDER — one line of context.",
       "image": ""
     },
@@ -66,7 +65,7 @@
       "venue": "Beach lawn, Caravela Beach Resort",
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "Ivory Pehen Kar Aana, Haldi Hum Lagayenge",
       "image": ""
     },
@@ -79,7 +78,7 @@
       "venue": "New lawn, Caravela Beach Resort",
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "PLACEHOLDER — one line of context.",
       "image": ""
     },
@@ -92,7 +91,7 @@
       "venue": "Varca halls, Caravela Beach Resort",
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "PLACEHOLDER — one line of context.",
       "image": ""
     },
@@ -105,7 +104,7 @@
       "venue": "Beach lawn, Caravela Beach Resort",
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "Saath Ki Shuruaat",
       "image": ""
     },
@@ -118,63 +117,9 @@
       "venue": "Beach lawn, Caravela Beach Resort",
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
-      "dressCode": "PLACEHOLDER — dress code",
+      "dressCode": "",
       "note": "Saat Janmon Ka Vaada",
       "image": ""
     }
-  ],
-  "travel": {
-    "intro": "PLACEHOLDER — one paragraph for guests travelling in.",
-    "arrivals": [
-      {
-        "id": "air",
-        "mode": "By air",
-        "hub": "PLACEHOLDER Airport (CODE)",
-        "detail": "PLACEHOLDER — distance and usual drive time to the venue."
-      },
-      {
-        "id": "rail",
-        "mode": "By train",
-        "hub": "PLACEHOLDER Junction",
-        "detail": "PLACEHOLDER — which station to book to, and why."
-      },
-      {
-        "id": "road",
-        "mode": "By road",
-        "hub": "PLACEHOLDER highway",
-        "detail": "PLACEHOLDER — parking at the venue."
-      }
-    ],
-    "stays": [
-      {
-        "id": "stay-1",
-        "name": "PLACEHOLDER HOTEL",
-        "tier": "Rooms held for guests",
-        "distance": "PLACEHOLDER min from the venue",
-        "priceNote": "Held under PLACEHOLDER until DD Mon",
-        "bookingUrl": "",
-        "phone": ""
-      },
-      {
-        "id": "stay-2",
-        "name": "PLACEHOLDER HOTEL",
-        "tier": "Nearby alternative",
-        "distance": "PLACEHOLDER min from the venue",
-        "priceNote": "PLACEHOLDER",
-        "bookingUrl": "",
-        "phone": ""
-      }
-    ],
-    "localHelp": {
-      "transportNote": "PLACEHOLDER — shuttle timings, or how to get a cab locally.",
-      "contacts": [
-        {
-          "id": "c1",
-          "name": "PLACEHOLDER",
-          "role": "Travel and stay",
-          "phone": "+91 00000 00000"
-        }
-      ]
-    }
-  }
+  ]
 }

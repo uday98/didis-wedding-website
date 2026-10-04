@@ -2,15 +2,16 @@
 
    Each panel is a card at least one screen tall. The height is a MINIMUM:
    a function with a long address and note on a 280px fold phone grows rather
-   than being cut off or squeezed into unreadable type. The nav's height is taken
-   off so a panel exactly fills the space BELOW the nav, and svh (the small
-   viewport, with the browser toolbar showing) means it never ends up hidden
-   behind the toolbar on a phone. 100vh is the fallback for browsers without svh;
-   the first declaration is dropped by them rather than overridden. */
+   than being cut off or squeezed into unreadable type. svh (the small viewport,
+   with the browser toolbar showing) means a panel never ends up hidden behind the
+   toolbar on a phone. 100vh is the fallback for browsers without svh; the first
+   declaration is dropped by them rather than overridden. The gap is the
+   breathing room between one card and the next. There is no nav to subtract: the
+   page used to have a sticky bar, and its height was taken off here. */
 .fn,
 .fn-intro {
-  min-height: calc(100vh - var(--nav-h, 44px) - var(--sp-2));
-  min-height: calc(100svh - var(--nav-h, 44px) - var(--sp-2));
+  min-height: calc(100vh - var(--sp-2));
+  min-height: calc(100svh - var(--sp-2));
   margin-block-end: var(--sp-2);
   /* Top padding follows the screen's HEIGHT: generous on a tall one, tight on a
      short one. A fixed 80px was a third of the spare room on a 280x653 fold phone

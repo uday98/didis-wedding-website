@@ -71,7 +71,7 @@ export function FunctionPanel({ event, next, nextLabel }) {
         {note && <p className="fn__note">{note}</p>}
       </Reveal>
 
-      <NextCue href={next.href} label={next.label} nextLabel={nextLabel} />
+      {next && <NextCue href={next.href} label={next.label} nextLabel={nextLabel} />}
     </article>
   );
 }

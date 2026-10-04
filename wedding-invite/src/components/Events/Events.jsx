@@ -15,8 +15,6 @@ import { useContent } from '../../hooks/useContent';
  * who lands on Sangeet mid-scroll has no group heading to tell them which day it
  * is. A sixth function still needs no code.
  *
- * #events stays on the wrapper so the nav link and the scrollspy keep working
- * unchanged.
  *
  * Scrolling is the browser's normal scrolling. Page-wide scroll snapping was
  * tried and removed: on a phone it redirected flicks to snap points the guest had
@@ -24,11 +22,14 @@ import { useContent } from '../../hooks/useContent';
  */
 export function Events() {
   const events = useContent('events');
-  const { title, kicker, nextLabel, afterLast } = useContent('functions');
+  const { title, kicker, nextLabel } = useContent('functions');
 
+  /* The last function has nothing after it, so no cue. It used to point at the
+     travel section; that section is gone and a cue to nowhere would be worse
+     than none. */
   const after = (i) => (events[i + 1]
     ? { href: `#fn-${events[i + 1].id}`, label: events[i + 1].name }
-    : { href: '#travel', label: afterLast });
+    : null);
 
   return (
     <section className="functions" id="events" aria-labelledby="events-title">

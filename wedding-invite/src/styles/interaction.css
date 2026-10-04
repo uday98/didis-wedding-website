@@ -118,25 +118,11 @@
    Everything below had no hover, no focus treatment and no pressed state.
    --c-accent-soft is defined in all four palettes and had zero consumers. */
 
-.stay {
-  transition:
-    border-color var(--d-hover, 220ms) ease,
-    transform var(--d-hover, 220ms) var(--ease-open);
-}
-.stay:hover { border-color: var(--c-ink-soft); transform: translateY(-2px); }
-[data-motion='off'] .stay:hover { transform: none; }
-
-.stay__actions a,
-.local__contacts a,
 .fn__venue a {
   transition: color var(--d-hover, 220ms) ease,
               text-decoration-color var(--d-hover, 220ms) ease;
 }
-.stay__actions a:hover,
-.local__contacts a:hover,
 .fn__venue a:hover { color: var(--c-accent); text-decoration-color: var(--c-accent); }
-.stay__actions a:active,
-.local__contacts a:active,
 .fn__venue a:active { color: var(--c-accent-soft); }
 
 /* .envelope__skip had cursor:pointer and a focus ring but no hover, while
