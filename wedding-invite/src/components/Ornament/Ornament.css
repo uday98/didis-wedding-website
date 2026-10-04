@@ -56,8 +56,9 @@
 [data-ornament='full'] .sigil { opacity: 1; }
 
 
+/* Both sit in the hero, on the surface. */
 .rosette,
-.torana { color: var(--c-metal); }
+.torana { color: var(--c-surface-accent, var(--c-metal)); }
 .rosette { position: absolute; top: 0; right: 0; opacity: 0.5; pointer-events: none; }
 .torana { display: block; margin-top: var(--sp-2); opacity: 0.65; }
 

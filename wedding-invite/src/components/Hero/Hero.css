@@ -1,10 +1,14 @@
 .hero { padding-block: var(--sp-5) var(--sp-4); }
+/* The hero sits directly on the SURFACE, not on a card. On most palettes the
+   surface is lighter than the ink, so the ink colours work; on a palette with a
+   dark surface they would be invisible, so each of these takes the palette's
+   surface-specific colour and falls back to the ordinary one. */
 .hero__date {
-  color: var(--c-accent);
+  color: var(--c-surface-accent, var(--c-accent));
   font-size: var(--t-sm);
   letter-spacing: 0.08em;
 }
-.hero__tagline { max-width: var(--measure); color: var(--c-ink-soft); }
+.hero__tagline { max-width: var(--measure); color: var(--c-on-surface-soft, var(--c-ink-soft)); }
 
 /* --- optional photograph --------------------------------------------------
    Absent by default. Everything here is scoped to [data-photo], so the hero is

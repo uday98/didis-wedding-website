@@ -131,9 +131,11 @@
   transition: color var(--d-hover, 220ms) ease,
               border-bottom-color var(--d-hover, 220ms) ease;
 }
-.envelope__skip:hover { color: var(--c-ink); border-bottom-color: var(--c-ink-soft); }
+.envelope__skip:hover { color: var(--c-on-surface, var(--c-ink)); border-bottom-color: var(--c-on-surface-soft, var(--c-ink-soft)); }
 .envelope__skip:active,
-.invite-replay:active { color: var(--c-accent-soft); }
+/* Both sit on the surface colour in a dark-surface palette: the skip link on the
+   envelope stage, the replay link in the footer. */
+.invite-replay:active { color: var(--c-surface-accent, var(--c-accent-soft)); }
 .invite-replay {
   transition: color var(--d-hover, 220ms) ease,
               border-bottom-color var(--d-hover, 220ms) ease;

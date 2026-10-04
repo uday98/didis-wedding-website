@@ -14,6 +14,17 @@
  *
  * c-surface is what the cards lie on; it must differ from c-paper by enough to
  * see a card's edge without drawing a border.
+ * c-on-surface, c-on-surface-soft, c-surface-accent, c-surface-line, c-surface-tex,
+ * c-stage
+ * are OPTIONAL, for a palette whose surface is DARKER than its ink. Everything
+ * that sits directly on the surface rather than on a card (the hero's date and
+ * tagline, the footer, the replay link, the corner ornaments) is normally drawn in
+ * the palette's dark ink -- which is invisible on a maroon surface. A palette like
+ * that supplies its own text colours for the surface; the others omit these and
+ * fall back to ink, accent and line, so they are unchanged. c-surface-tex swaps
+ * the surface's grain to the light tile, since dark noise does nothing on dark.
+ * c-stage is the colour behind the envelope (default: paper-deep).
+ *
  * c-on-photo is type over a photograph. It cannot be derived from the palette:
  * ink's paper and midnight's ink are both near-white and point opposite ways,
  * so the scrim is always dark and this is always light.
@@ -182,8 +193,64 @@ export const palettes = {
       'c-shade-rgb': '255 255 255',
     },
   },
+
+  // Maroon -- taken from a photograph of an invitation: deep maroon cards, cream
+  // and gold foil, forest green, on a warm brown table. Every colour here is
+  // sampled from that image rather than chosen, then adjusted only where the UI
+  // needed it (noted per line). The structure is the photo's too: cream paper
+  // cards lying on a deep maroon surface.
+  maroon: {
+    label: 'Maroon',
+    tokens: {
+      'c-paper': '#F8EFD9',          // the cream of the ornaments (#FDF0C5), eased off the yellow for a large area
+      'c-paper-deep': '#E3D6AC',     // sampled: the cream-gold cluster
+      'c-ink': '#261510',            // the photo's near-black (#200E09), lifted a touch for body text
+      'c-ink-soft': '#5A4636',       // the brown of the table (#795944), darkened to pass AA on cream
+      'c-accent': '#74201B',         // sampled: the deep maroon of the cards
+      'c-accent-soft': '#9A382B',    // sampled: the brighter red of the flowers
+      'c-metal': '#B09A5B',          // the gold foil (#EBDDAE) deepened -- pale foil vanishes on cream paper
+      'c-line': '#D8CBA3',
+      'c-shade-rgb': '0 0 0',
+      'c-surface': '#6F1E19',        // sampled: the dominant colour of the photograph (31%)
+      'c-cast-rgb': '0 0 0',
+      'c-on-photo': '#FFF8E8',
+      'c-on-surface': '#F6EACB',     // cream, for text on the maroon
+      'c-on-surface-soft': '#DCCBA0',
+      'c-surface-accent': '#EBDDAE', // sampled: the gold foil, for the small accents on the maroon
+      'c-surface-line': '#93463C',
+      'c-surface-tex': 'var(--tex-glow)',
+      'c-stage': '#6F1E19',          // the envelope sits on the surface colour, so the hand-off is one ground
+    },
+  },
+
+  // Forest -- the same photograph's other identity colour. Same cream cards and
+  // maroon accent, but lying on the deep forest green (#2B3E27) instead, with the
+  // olive (#4E5B34) as the secondary text.
+  forest: {
+    label: 'Forest',
+    tokens: {
+      'c-paper': '#F8EFD9',
+      'c-paper-deep': '#E3D6AC',
+      'c-ink': '#1F1A14',
+      'c-ink-soft': '#4E5B34',       // sampled: the olive green
+      'c-accent': '#74201B',
+      'c-accent-soft': '#9A382B',
+      'c-metal': '#B09A5B',
+      'c-line': '#D8CBA3',
+      'c-shade-rgb': '0 0 0',
+      'c-surface': '#2D3B2B',        // sampled: the deep forest green
+      'c-cast-rgb': '0 0 0',
+      'c-on-photo': '#FFF8E8',
+      'c-on-surface': '#F6EACB',
+      'c-on-surface-soft': '#CFC9A0',
+      'c-surface-accent': '#EBDDAE',
+      'c-surface-line': '#56664F',
+      'c-surface-tex': 'var(--tex-glow)',
+      'c-stage': '#2D3B2B',
+    },
+  },
 };
 
-export const ACTIVE_PALETTE = 'heirloom';
+export const ACTIVE_PALETTE = 'maroon';
 
 export const paletteNames = Object.keys(palettes);
