@@ -1,4 +1,4 @@
-import { formatDate, formatTime, formatWeekday } from '../../lib/datetime';
+import { describeDay, describeTime } from '../../lib/datetime';
 import { useContent } from '../../hooks/useContent';
 import { Reveal } from '../Layout/Reveal';
 import { Sigil } from '../Ornament/Sigil';
@@ -22,6 +22,13 @@ export function NextCue({ href, label, nextLabel }) {
   );
 }
 
+/** How big a title can be set. Titles run from "Pheras" to "Chooda Sajjeya, Viyah
+ *  Sajjeya", and at one size either the long ones wrap to four lines of display
+ *  type and push the panel off the screen, or the short ones are made timid for
+ *  the sake of the long ones. Bucketed by length instead: CSS cannot read how much
+ *  text there is, so the component says. */
+const titleSize = (name = '') => (name.length <= 10 ? 'short' : name.length <= 18 ? 'medium' : 'long');
+
 /**
  * One function, one screen. Renders a single event and knows nothing about how
  * many there are or what comes after it -- the parent resolves `next`.
@@ -33,6 +40,8 @@ export function NextCue({ href, label, nextLabel }) {
 export function FunctionPanel({ event, next, nextLabel }) {
   const { id, name, date, startTime, venue, address, mapUrl, dressCode, note, image } = event;
   const { wearLabel } = useContent('functions');
+  const day = describeDay(date);
+  const time = describeTime(startTime);
 
   return (
     <article className="fn card" id={`fn-${id}`} aria-labelledby={`fn-${id}-name`} data-image={image ? '' : undefined}>
@@ -48,9 +57,9 @@ export function FunctionPanel({ event, next, nextLabel }) {
 
       <Reveal stagger className="fn__body">
         <div className="fn__sigil"><Sigil id={id} size={52} /></div>
-        <p className="fn__day">{formatWeekday(date)}, {formatDate(date, { day: 'numeric', month: 'long' })}</p>
-        <h3 className="fn__name" id={`fn-${id}-name`}>{name}</h3>
-        <p className="fn__time">{formatTime(startTime)}</p>
+        {day && <p className="fn__day">{day}</p>}
+        <h3 className="fn__name" id={`fn-${id}-name`} data-size={titleSize(name)}>{name}</h3>
+        {time && <p className="fn__time">{time}</p>}
         <p className="fn__venue">
           {mapUrl ? <a href={mapUrl} target="_blank" rel="noreferrer">{venue}</a> : venue}
           <span className="fn__address">{address}</span>

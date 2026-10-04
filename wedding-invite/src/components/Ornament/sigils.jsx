@@ -46,8 +46,38 @@ export const SIGILS = {
     </>
   ),
 
-  // Wedding -- the saat phere: the fire, and seven turns around it.
-  wedding: (
+  // Chooda -- the stack of bangles, seen edge-on: three overlapping tall ovals.
+  chooda: (
+    <>
+      <ellipse cx="8.5" cy="12" rx="3" ry="8" />
+      <ellipse cx="12" cy="12" rx="3" ry="8" />
+      <ellipse cx="15.5" cy="12" rx="3" ry="8" />
+    </>
+  ),
+
+  // Varmala -- the garland: a ring of blooms around an open centre, the thing
+  // that is exchanged.
+  varmala: (
+    <>
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i * 2 * Math.PI) / 12;
+        return (
+          <circle
+            key={i}
+            r="1.15"
+            fill="currentColor"
+            stroke="none"
+            cx={(12 + 8 * Math.cos(a)).toFixed(2)}
+            cy={(12 + 8 * Math.sin(a)).toFixed(2)}
+          />
+        );
+      })}
+      <circle cx="12" cy="12" r="3.2" />
+    </>
+  ),
+
+  // Pheras -- the saat phere: the fire, and seven turns around it.
+  pheras: (
     <>
       <circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none" />
       {Array.from({ length: 7 }, (_, i) => (

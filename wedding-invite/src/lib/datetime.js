@@ -15,17 +15,29 @@ export function formatTime(hhmm) {
   return d.toLocaleTimeString(LOCALE, { hour: 'numeric', minute: '2-digit' });
 }
 
-/** Groups events into days without assuming how many there are. */
-export function groupByDate(events) {
-  const map = new Map();
-  for (const ev of events) {
-    if (!map.has(ev.date)) map.set(ev.date, []);
-    map.get(ev.date).push(ev);
-  }
-  return [...map.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, items]) => ({
-      date,
-      items: items.sort((a, b) => a.startTime.localeCompare(b.startTime)),
-    }));
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const CLOCK = /^\d{1,2}:\d{2}$/;
+
+export const isIsoDate = (v) =>
+  typeof v === 'string' && ISO_DATE.test(v) && !Number.isNaN(new Date(`${v}T00:00:00`).getTime());
+export const isClock = (v) => typeof v === 'string' && CLOCK.test(v);
+
+/**
+ * "Friday, 13 November" for a real date, and the text itself for anything else.
+ *
+ * The content file is edited by hand and is full of placeholders before it is
+ * final, and a date that is genuinely not fixed yet is a legitimate state for an
+ * invitation. new Date('PLACEHOLDER') is "Invalid Date", which is what a guest
+ * would have seen. Showing the value as written means a placeholder stays
+ * visibly a placeholder, and free text like "After sunset" just works.
+ */
+export function describeDay(value, opts = { day: 'numeric', month: 'long' }) {
+  if (!value) return '';
+  return isIsoDate(value) ? `${formatWeekday(value)}, ${formatDate(value, opts)}` : value;
+}
+
+/** "6:00 pm" for HH:MM, and the text itself for anything else. */
+export function describeTime(value) {
+  if (!value) return '';
+  return isClock(value) ? formatTime(value) : value;
 }

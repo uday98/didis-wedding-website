@@ -55,10 +55,13 @@
 .fn__name {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: var(--td-xl);
-  line-height: 1.05;
+  font-size: calc(var(--td-xl) * var(--fn-name-k, 1));
+  line-height: 1.08;
   color: var(--c-ink);
   margin-block: var(--sp-1) 0;
+  /* Balanced rather than ragged: a long title that has to wrap should break into
+     two even lines, not a full line and a stranded word. Ignored where unknown. */
+  text-wrap: balance;
   /* Same wrap guard as the invitation names, for the same reason: a long name in
      a 257px column on a fold phone. */
   max-width: 100%;
@@ -147,3 +150,22 @@
 .fn[data-image] .fn__next,
 .fn[data-image] .fn__next-name { color: var(--c-on-photo, #fff); }
 .fn[data-image] .fn__venue { border-top-color: rgb(255 255 255 / 0.35); }
+
+/* Title size by length (see titleSize in FunctionPanel.jsx). Short titles keep the
+   full display size; poetic ones step down so they sit on two lines instead of
+   four, and a panel with a long title still fits the screen. */
+.fn__name[data-size='medium'] { --fn-name-k: 0.86; }
+.fn__name[data-size='long'] { --fn-name-k: 0.72; }
+@media (max-width: 30rem) {
+  .fn__name[data-size='medium'] { --fn-name-k: 0.78; }
+  .fn__name[data-size='long'] { --fn-name-k: 0.62; }
+}
+
+/* On a short screen every pixel of gap is a pixel the panel can overflow by. */
+@media (max-height: 720px) {
+  .fn__body { gap: 0.25rem; }
+  .fn__sigil { margin-bottom: 0; }
+  .fn__sigil .sigil { width: 32px; }
+  .fn__time { margin-bottom: var(--sp-1); }
+  .fn__venue { padding-top: var(--sp-1); }
+}
