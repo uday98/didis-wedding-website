@@ -22,7 +22,10 @@
   z-index: 50;
   display: grid;
   place-items: center;
-  background: var(--c-paper-deep);
+  /* A palette may set its own stage colour (--c-stage). The maroon palettes use
+     their surface, so the envelope sits on the same colour the page does and the
+     hand-off is one continuous ground rather than cream fading to maroon. */
+  background: var(--c-stage, var(--c-paper-deep));
   perspective: var(--env-perspective, 1100px);
   /* Looking slightly down into the box is what reads as a tray rather than a
      stack of flat rectangles. */
@@ -320,8 +323,9 @@
   transform: translateX(-50%);
   background: none;
   border: none;
-  border-bottom: 1px solid var(--c-line);
-  color: var(--c-ink-soft);
+  /* On the stage, which is the surface colour in a dark-surface palette. */
+  border-bottom: 1px solid var(--c-surface-line, var(--c-line));
+  color: var(--c-on-surface-soft, var(--c-ink-soft));
   font-family: var(--font-body);
   font-size: var(--t-sm);
   padding-bottom: 2px;
@@ -334,15 +338,19 @@
 .invite-replay {
   background: none;
   border: none;
-  border-bottom: 1px solid var(--c-line);
-  color: var(--c-ink-soft);
+  /* Lives in the footer, which is on the surface -- see palettes.js. */
+  border-bottom: 1px solid var(--c-surface-line, var(--c-line));
+  color: var(--c-on-surface-soft, var(--c-ink-soft));
   font-family: var(--font-body);
   font-size: var(--t-sm);
   padding-bottom: 2px;
   margin-top: var(--sp-1);
   cursor: pointer;
 }
-.invite-replay:hover { color: var(--c-ink); border-bottom-color: var(--c-ink-soft); }
+.invite-replay:hover {
+  color: var(--c-on-surface, var(--c-ink));
+  border-bottom-color: var(--c-on-surface-soft, var(--c-ink-soft));
+}
 .invite-replay:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {

@@ -17,10 +17,12 @@
   padding-bottom: var(--sp-5);
 }
 .shell__footer {
-  border-top: 1px solid var(--c-line);
+  /* On the surface, so it takes the surface's own colours where a palette has
+     them (see palettes.js) and the ordinary ink otherwise. */
+  border-top: 1px solid var(--c-surface-line, var(--c-line));
   padding: var(--sp-3) 0 var(--sp-4);
   text-align: center;
-  color: var(--c-ink-soft);
+  color: var(--c-on-surface-soft, var(--c-ink-soft));
   font-size: var(--t-sm);
 }
 
@@ -35,7 +37,9 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: var(--tex-ink);
+  /* A palette with a dark surface swaps in the light tile via --c-surface-tex;
+     dark noise does nothing on dark. */
+  background-image: var(--c-surface-tex, var(--tex-ink));
   background-size: 256px 256px;
   opacity: 0;
 }
