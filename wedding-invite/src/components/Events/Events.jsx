@@ -15,7 +15,11 @@ import { groupByDate } from '../../lib/datetime';
  * tell them which day it is.
  *
  * #events stays on the wrapper so the nav link and the scrollspy keep working
- * unchanged; the wrapper itself is not a snap target, only its panels are.
+ * unchanged.
+ *
+ * Scrolling is the browser's normal scrolling. Page-wide scroll snapping was
+ * tried and removed: on a phone it redirected flicks to snap points the guest had
+ * not aimed at, and re-snapped when the address bar moved.
  */
 export function Events() {
   const events = groupByDate(useContent('events')).flatMap((day) => day.items);

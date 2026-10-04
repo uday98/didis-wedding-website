@@ -24,7 +24,7 @@
   justify-items: center;
   text-align: center;
   /* Clips the optional photo to the card's corners. `clip`, not `hidden`: hidden
-     makes the card a scroll container, which is not wanted for a snap target. */
+     makes the card a scroll container, which nothing here needs. */
   overflow: hidden;
   overflow: clip;
 }
