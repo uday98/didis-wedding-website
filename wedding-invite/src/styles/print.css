@@ -35,9 +35,10 @@
   /* Keep a function and its details together across a page break. */
   .event,
   .stay,
-  .day { break-inside: avoid; }
+  .fn, .fn-intro { break-inside: avoid; min-height: 0 !important; box-shadow: none; }
+  .fn__next, .fn__photo { display: none !important; }
   .section { break-before: auto; border-top: 1px solid var(--c-line); }
 
   /* A map link is useless on paper; the address beneath it is not. */
-  .event__venue a { text-decoration: none; }
+  .fn__venue a { text-decoration: none; }
 }

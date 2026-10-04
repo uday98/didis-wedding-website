@@ -6,11 +6,20 @@ html { scroll-behavior: smooth; }
 
 /* An anchor jump otherwise lands the heading underneath the sticky nav, which
    is most of why moving between sections read as landing on a different page.
+
+   The nav's height is a scroll-PADDING on the page rather than a scroll-margin on
+   each target, so one declaration covers every anchor on the site -- the nav
+   links, the "Next" links between functions, and anything added later --
+   instead of each target having to remember it.
+
    --nav-h is published by useNavMetrics from the bar's measured height; the
-   fallback covers the frame before that effect runs. --reveal-rise is added
-   because a section still animating in is translated downward by that much. */
-:target,
-.section { scroll-margin-top: calc(var(--nav-h, 44px) + var(--reveal-rise, 8px) + var(--sp-2)); }
+   fallback covers the frame before that effect runs. */
+html { scroll-padding-top: var(--nav-h, 44px); }
+
+/* What is left on a headed section is only the breathing room above it.
+   --reveal-rise is added because a section still animating in is translated
+   downward by that much. */
+.section { scroll-margin-top: calc(var(--reveal-rise, 8px) + var(--sp-2)); }
 
 body {
   font-family: var(--font-body);

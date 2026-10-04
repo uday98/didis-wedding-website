@@ -53,10 +53,6 @@
 }
 [data-nav='floating'] .nav__list { gap: var(--sp-1); padding-block: var(--sp-1); }
 
-/* Zero-height marker just above the nav. Once it scrolls out of view the nav
-   is stuck, which an IntersectionObserver reports without any per-frame work. */
-.nav__sentinel { height: 1px; margin-bottom: -1px; }
-
 .nav__list {
   display: flex;
   gap: var(--sp-1);
@@ -111,17 +107,6 @@
   background: var(--c-accent);
   border-color: var(--c-accent);
 }
-
-/* Shrink capped at 3px of padding deliberately: --nav-h feeds scroll-margin-top,
-   and the shrink fires as soon as you scroll 1px -- which during a smooth anchor
-   jump is immediately. A larger change would move the target mid-flight and you
-   would land short. Anything bigger needs --nav-h frozen while stuck.
-
-   Not animated. Padding is a LAYOUT property, so transitioning it re-lays-out
-   the page every frame for ~300ms, and each frame also fired the --nav-h
-   observer. For 3px, and with no visible bar to give it context, the animation
-   was cost with nothing to show for it: it now snaps, which is one layout. */
-.nav[data-stuck] .nav__list { padding-block: calc(var(--sp-1) - 3px) var(--sp-1); }
 
 @media (prefers-reduced-motion: reduce) {
   .nav__link { transition: none; }
