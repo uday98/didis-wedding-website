@@ -38,8 +38,10 @@ Mehendi ki Raat (13 Nov, 6 pm) · Haldi aur Hungama (14 Nov, 11 am) · Chand, Si
 
 Still needed:
 - **Pheras:** the date and start time
-- **Mehendi ki Raat:** is "Sea breeze" the venue name? If so, just the full address
-- **Every other function:** the venue name and full address
+- **Mehendi ki Raat** is at the Sea breeze hotel, Goa. Just the area or street address.
+- **Every other function:** the venue name, if it's not the same hotel, and the area or street
+  address (everything is in Goa, so no need for the city)
+- **Is Sea breeze also where guests are staying?** If so I'll add it under "Where to stay"
 - Google Maps link for each venue if you have one *(optional — I can look it up)*
 - Dress code for each *(optional)*
 - A one-line note for Mehendi, Sangeet and the Chooda ceremony, like the ones Haldi, Varmala
