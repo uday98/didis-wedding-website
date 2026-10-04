@@ -49,8 +49,7 @@
   opacity: 0.55;
 }
 
-/* Joins --c-metal's established gilt-small-type role (.fn__time,
-   .stay__tier) rather than inventing a new one. */
+/* Joins --c-metal's established gilt-small-type role (.fn__time) rather than inventing a new one. */
 .sigil { color: var(--c-metal); display: block; }
 [data-ornament='none'] .sigil { display: none; }
 [data-ornament='light'] .sigil { opacity: 0.7; }

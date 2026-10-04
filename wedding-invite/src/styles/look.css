@@ -6,10 +6,8 @@
    `refined` is the real setting; `plain` exists as a control to compare
    against, not as a second look. These are corrections, not decoration. */
 
-[data-type='refined'] .section__title,
 [data-type='refined'] .fn__name,
-[data-type='refined'] .fn-intro__title,
-[data-type='refined'] .stay__name {
+[data-type='refined'] .fn-intro__title {
   /* Tracking comes from the pairing, since the right value is a property of
      the face, not of the site. Was hardcoded to Prata's -0.012em. */
   letter-spacing: var(--font-display-track, 0);
@@ -26,7 +24,6 @@
 }
 
 [data-type='refined'] .hero__tagline,
-[data-type='refined'] .section__kicker,
 [data-type='refined'] .fn__note {
   text-wrap: pretty;
 }
@@ -39,8 +36,6 @@
    Vertical breathing only. An information-density axis would dominate any
    judgement made against placeholder content. */
 
-[data-rhythm='normal'] .section { padding-block: var(--sp-5); }
-[data-rhythm='generous'] .section { padding-block: clamp(var(--sp-5), 9vw, var(--sp-6)); }
 [data-rhythm='generous'] .hero { padding-block: clamp(var(--sp-5), 10vw, var(--sp-6)) var(--sp-4); }
 
 /* --- texture -------------------------------------------------------------
@@ -53,14 +48,6 @@
    .grain is kept as an empty hook so App does not need to change shape and a
    future vignette has somewhere to go. */
 .grain { display: none; }
-
-/* --- section rule --------------------------------------------------------
-   The hard hairline becomes a rule that fades at both ends under `full`, so
-   sections feel laid on the page rather than ruled off from each other. */
-
-/* Was a fading border on .section. Sections are cards now, so the hairline is
-   inside the card under the heading instead -- where the jaali already sits. */
-[data-ornament='full'] .section__head { border-bottom: 1px solid transparent; }
 
 /* --- headline scale ------------------------------------------------------
    The hero names are the single biggest typographic decision, and the right

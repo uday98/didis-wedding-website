@@ -3,20 +3,12 @@ import { useEnvelope } from './components/Envelope/useEnvelope';
 import { useScrollLock } from './hooks/useScrollLock';
 import { StageProvider } from './hooks/useStage';
 import { Shell } from './components/Layout/Shell';
-import { Nav } from './components/Layout/Nav';
 import { Hero } from './components/Hero/Hero';
 import { Invitation } from './components/Invitation/Invitation';
 import { Events } from './components/Events/Events';
-import { Travel } from './components/Travel/Travel';
 import { DevPanel } from './components/DevPanel';
 import { useContent } from './hooks/useContent';
 import './components/Ornament/Ornament.css';
-
-// Adding a section later means adding a component and one entry here.
-const SECTIONS = [
-  { id: 'events', label: 'Functions', Component: Events },
-  { id: 'travel', label: 'Travel & stay', Component: Travel },
-];
 
 export default function App() {
   const { phase, stage, runId, open, skip, replay, isOpen } = useEnvelope();
@@ -33,8 +25,8 @@ export default function App() {
           FADING, so the page has settled by the time it clears -- gating on
           isOpen would mean the overlay lifts onto a blank sheet and the sections
           pop in afterwards. Nothing may reveal while it is sealed, though: the
-          overlay is fixed over a laid-out page and body scroll is not locked, so
-          every section is intersecting the viewport the whole time. */}
+          overlay is fixed over a laid-out page, so everything on it is
+          intersecting the viewport the whole time. */}
       <StageProvider live={stage !== 'sealed'}>
         <Shell
           enter={stage === 'sealed' ? 'out' : 'in'}
@@ -51,12 +43,11 @@ export default function App() {
             </>
           }
         >
-          <Nav items={SECTIONS.map(({ id, label }) => ({ id, label }))} />
           <Hero />
-          {/* The formal invitation sits between the hero and the details:
-              it is the card, the sections below are the logistics. */}
+          {/* The formal invitation sits between the hero and the functions:
+              it is the card, the functions below are the details. */}
           <Invitation />
-          {SECTIONS.map(({ id, Component }) => <Component key={id} />)}
+          <Events />
         </Shell>
       </StageProvider>
       <div className="grain" aria-hidden="true" />

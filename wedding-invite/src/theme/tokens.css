@@ -9,7 +9,6 @@
  *   --d-*            applyMotionVars, from motion.js MOTION
  *   --pace-k         applyPaceVar, from motion.js PACE_SCALE
  *   --font-*         applyPairingVars, from fonts.js PAIRINGS
- *   --nav-h          useNavMetrics, measured from the nav
  *
  * To change one of these, change it at its source. Everything below is an
  * ordinary token and can be overridden normally. */

@@ -1,6 +1,7 @@
 import './Invitation.css';
 import { useContent } from '../../hooks/useContent';
 import { Jaali } from '../Ornament/Jaali';
+import { titleSize } from '../../lib/titleSize';
 
 /**
  * The formal invitation itself -- the part a paper card would carry above
@@ -19,13 +20,26 @@ import { Jaali } from '../Ornament/Jaali';
  * honorific or a connective phrase -- including "and", which is not "and" in
  * every family's wording.
  */
-function Parents({ family }) {
-  const { honorific, father, mother } = family;
+function Parents({ family, fatherHonorific, motherHonorific }) {
+  const { father, mother } = family;
   if (!father && !mother) return null;
+  /* "Mr Sumit Talwar & Mrs Aneeta Talwar", not "Mr & Mrs Sumit Talwar & Aneeta
+     Talwar". With two different first names the honorific has to sit on each
+     person -- "Mr and Mrs Sumit Talwar" would name the husband and leave the wife
+     out. The honorifics are content, not code: some families use Shri and Smt. */
+  /* `tail` is the ampersand, kept INSIDE the first person's unit so it travels
+     with them: "Mr Sumit Talwar &" then "Mrs Aneeta Talwar", never a line that
+     begins with a dangling "&". */
+  const person = (honorific, name, tail = '') => (name ? (
+    <span className="invitation__person">
+      {honorific && <span className="invitation__honorific">{honorific} </span>}
+      {name}{tail}
+    </span>
+  ) : null);
   return (
     <p className="invitation__parents">
-      {honorific && <span className="invitation__honorific">{honorific} </span>}
-      {[father, mother].filter(Boolean).join(' & ')}
+      {person(fatherHonorific, father, father && mother ? ' &' : '')}{' '}
+      {person(motherHonorific, mother)}
     </p>
   );
 }
@@ -33,7 +47,8 @@ function Parents({ family }) {
 export function Invitation() {
   const families = useContent('families');
   const { brideName, groomName } = useContent('couple');
-  const { invocation, invocationRoman, hosts, requestLine, withLine, closingLine } = families;
+  const { invocation, invocationRoman, hosts, requestLine, withLine, closingLine,
+    fatherHonorific, motherHonorific } = families;
 
   const hostSide = hosts === 'groom' ? families.groom : families.bride;
   const otherSide = hosts === 'groom' ? families.bride : families.groom;
@@ -51,7 +66,7 @@ export function Invitation() {
         </p>
       )}
 
-      <Parents family={hostSide} />
+      <Parents family={hostSide} fatherHonorific={fatherHonorific} motherHonorific={motherHonorific} />
       {requestLine && (
         <p className="invitation__request">
           {requestLine} {hostSide.relation}
@@ -59,9 +74,9 @@ export function Invitation() {
       )}
 
       <h1 className="invitation__couple">
-        <span className="invitation__name">{hostChild}</span>
+        <span className="invitation__name" data-size={titleSize(hostChild)}>{hostChild}</span>
         {withLine && <span className="invitation__with">{withLine}</span>}
-        <span className="invitation__name">{otherChild}</span>
+        <span className="invitation__name" data-size={titleSize(otherChild)}>{otherChild}</span>
       </h1>
 
       {otherSide.relation && (
@@ -69,7 +84,7 @@ export function Invitation() {
           {otherSide.relation} of
         </p>
       )}
-      <Parents family={otherSide} />
+      <Parents family={otherSide} fatherHonorific={fatherHonorific} motherHonorific={motherHonorific} />
 
       <Jaali />
       {closingLine && <p className="invitation__closing">{closingLine}</p>}

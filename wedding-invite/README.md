@@ -14,7 +14,7 @@ npm run dev
 | Colour | `src/theme/palettes.js` | The only file with hex values. Change `ACTIVE_PALETTE` to switch. |
 | Type, spacing, easing | `src/theme/tokens.css` | No component sets a font-size in px. |
 | All wedding text | `src/content/wedding.json` | Edit this; never edit a component to change a name or a time. |
-| Section order | `SECTIONS` array in `src/App.jsx` | Adding a section is one component + one array entry. |
+| Page order | the children of `<Shell>` in `src/App.jsx` | Hero, invitation, functions. Adding a section is one component and one line there. |
 
 ## Auditioning palettes
 
@@ -28,7 +28,7 @@ Four are defined: `heirloom`, `marigold`, `dusk`, `ink`.
 - No component reads `wedding.json` directly. They call `useContent(slice)`, so the source can become a fetch or a CMS later without touching a component.
 - `Envelope.jsx` renders; `useEnvelope.js` decides. State and presentation stay apart, so the animation is reusable.
 - `FunctionPanel` knows about one function and nothing about how many exist. The Events section lays them out in the order `wedding.json` lists them, so a seventh function needs no code and the running order is the family's to decide, not something the page recomputes.
-- Layout primitives (`Shell`, `Section`, `Nav`) carry no wedding content.
+- Layout primitives (`Shell`, `Reveal`) carry no wedding content.
 
 ## The envelope, deliberately
 

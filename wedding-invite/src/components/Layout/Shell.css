@@ -7,7 +7,7 @@
   background: var(--c-surface, var(--c-paper));
   color: var(--c-ink);
   /* 100dvh is a literal, so an unsupporting browser drops it at parse time and
-     keeps this line. (Contrast Nav.css, where var() forces an @supports.) */
+     keeps this line. (Contrast a var()-based value, which parses fine and only fails later, so it needs an @supports.) */
   min-height: 100vh;
   min-height: 100dvh;
 }

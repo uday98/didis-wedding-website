@@ -2,15 +2,16 @@
 
    Each panel is a card at least one screen tall. The height is a MINIMUM:
    a function with a long address and note on a 280px fold phone grows rather
-   than being cut off or squeezed into unreadable type. The nav's height is taken
-   off so a panel exactly fills the space BELOW the nav, and svh (the small
-   viewport, with the browser toolbar showing) means it never ends up hidden
-   behind the toolbar on a phone. 100vh is the fallback for browsers without svh;
-   the first declaration is dropped by them rather than overridden. */
+   than being cut off or squeezed into unreadable type. svh (the small viewport,
+   with the browser toolbar showing) means a panel never ends up hidden behind the
+   toolbar on a phone. 100vh is the fallback for browsers without svh; the first
+   declaration is dropped by them rather than overridden. The gap is the
+   breathing room between one card and the next. There is no nav to subtract: the
+   page used to have a sticky bar, and its height was taken off here. */
 .fn,
 .fn-intro {
-  min-height: calc(100vh - var(--nav-h, 44px) - var(--sp-2));
-  min-height: calc(100svh - var(--nav-h, 44px) - var(--sp-2));
+  min-height: calc(100vh - var(--sp-2));
+  min-height: calc(100svh - var(--sp-2));
   margin-block-end: var(--sp-2);
   /* Top padding follows the screen's HEIGHT: generous on a tall one, tight on a
      short one. A fixed 80px was a third of the spare room on a 280x653 fold phone
@@ -83,15 +84,39 @@
   display: grid;
   justify-items: center;
   gap: 0.2em;
-  width: min(16rem, 70%);
+  /* The text gets the full width; only the divider above it is short. They used to
+     share one width (70%), which was fine for "Sea breeze" but made a venue like
+     "Beach lawn, Caravela Beach Resort" wrap onto three lines. The divider is a
+     background, so its length no longer depends on the text's. */
+  width: 100%;
+  max-width: 26rem;
   padding-top: var(--sp-2);
-  border-top: 1px solid var(--c-line);
+  background: linear-gradient(var(--c-line), var(--c-line)) top center / min(14rem, 60%) 1px no-repeat;
   font-size: var(--t-base);
 }
 .fn__venue a { color: var(--c-ink); text-decoration-color: var(--c-line); }
 .fn__address { font-size: var(--t-sm); color: var(--c-ink-soft); max-width: 28ch; overflow-wrap: anywhere; }
 .fn__meta { font-size: var(--t-sm); color: var(--c-ink-soft); margin-top: var(--sp-1); }
-.fn__note { max-width: 30ch; color: var(--c-ink-soft); margin-top: var(--sp-1); }
+.fn__note {
+  max-width: 30ch;
+  color: var(--c-ink-soft);
+  margin-top: var(--sp-1);
+  /* The first letter of every word, as a rule rather than a one-off edit to the
+     text -- so a line the family adds later follows it without anyone having to
+     remember. text-transform changes what is drawn, not what is stored, so the
+     content file stays as the family wrote it. */
+  text-transform: capitalize;
+}
+
+/* The firmness of the time -- "onwards" -- set beside it, smaller and quieter. */
+.fn__time-note {
+  margin-left: 0.1em;
+  font-family: var(--font-body);
+  font-size: var(--t-sm);
+  letter-spacing: 0.04em;
+  color: var(--c-ink-soft);
+}
+.fn[data-image] .fn__time-note { color: var(--c-on-photo, #fff); opacity: 0.85; }
 
 /* --- the intro screen ---------------------------------------------------- */
 .fn-intro__title {
@@ -149,7 +174,7 @@
 .fn[data-image] .fn__note,
 .fn[data-image] .fn__next,
 .fn[data-image] .fn__next-name { color: var(--c-on-photo, #fff); }
-.fn[data-image] .fn__venue { border-top-color: rgb(255 255 255 / 0.35); }
+.fn[data-image] .fn__venue { background-image: linear-gradient(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.35)); }
 
 /* Title size by length (see titleSize in FunctionPanel.jsx). Short titles keep the
    full display size; poetic ones step down so they sit on two lines instead of
