@@ -3,7 +3,7 @@ import { SIGILS, FALLBACK_SIGIL } from './sigils';
 /**
  * Looked up by the event's id, with a plain ring as the default. A lookup with
  * a fallback, not a hardcode -- so a sixth function needs no code here, the
- * same promise groupByDate already makes about deriving days from the data.
+ * same promise the Events section makes about deriving the functions from the data.
  */
 export function Sigil({ id, size = 22 }) {
   return (

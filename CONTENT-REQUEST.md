@@ -13,11 +13,8 @@ I need a few details to fill it in. No rush, but the more complete this is, the 
 
 You can just reply point by point. 🙏
 
-*1. The couple*
-- Bride's full name, spelled exactly as it should appear on the invitation
-- Groom's full name, same
-- Wedding date
-- A one-line phrase for under the names — something the families would actually say, not a quote off the internet *(optional, but it makes a difference)*
+*1. The couple* — already have this: Chhavi & Krishna Sai.
+- Please just confirm the wedding date is 15 November 2026 (I've used the day of the Varmala)
 
 *2. The families*
 This is the formal invitation line, the way it reads on a printed card.
@@ -33,23 +30,21 @@ This is the formal invitation line, the way it reads on a printed card.
 Also — should grandparents be named? Some families include them, some don't. Tell me if yes
 and I'll add them.
 
-*3. The envelope*
-- Who should the invitation be addressed to? e.g. "You and your family"
-- Two initials for the wax seal — e.g. if it's Anjali and Rohan, "AR"
+*3. The envelope* — already have this ("You and your family", seal "CK"). Nothing needed.
 
-*4. The functions*
-There are five set up right now — Haldi, Mehendi, Sangeet, Wedding, Reception.
-Tell me if any should be removed, or if there are more.
+*4. The functions* — I have the names, order, dates and times for these six:
+Mehendi ki Raat (13 Nov, 6 pm) · Haldi aur Hungama (14 Nov, 11 am) · Chand, Sitare aur Sangeet
+(14 Nov, 7 pm) · Chooda Sajjeya, Viyah Sajjeya (15 Nov, 11 am) · Varmala (15 Nov, 5 pm) · Pheras
 
-For **each** function:
-- Name (if it's called something specific in your family)
-- Date
-- Start time — and please say whether that's when it actually starts or when people are called for
-- Venue name
-- Full address
-- Google Maps link if you have one *(optional — I can look it up)*
-- Dress code *(optional)*
-- One line of context — anything a guest would want to know. e.g. "the muhurat is early, plan the night before"  *(optional)*
+Still needed:
+- **Pheras:** the date and start time
+- **Mehendi ki Raat:** is "Sea breeze" the venue name? If so, just the full address
+- **Every other function:** the venue name and full address
+- Google Maps link for each venue if you have one *(optional — I can look it up)*
+- Dress code for each *(optional)*
+- A one-line note for Mehendi, Sangeet and the Chooda ceremony, like the ones Haldi, Varmala
+  and Pheras already have *(optional)*
+- For each time: is that when it actually starts, or when people are called for?
 
 *5. Travel*
 - A short paragraph for guests travelling in — one or two sentences is plenty
@@ -90,10 +85,10 @@ That's everything. Thank you! 💐
 
 | Section | Asked | Received | In `wedding.json` |
 |---|---|---|---|
-| Couple | ✅ | ☐ | ☐ |
+| Couple | ✅ | ✅ (date to confirm) | ✅ |
 | Families (parents' names) | ✅ | ☐ | ☐ |
-| Envelope | ✅ | ☐ | ☐ |
-| Functions ×5 | ✅ | ☐ | ☐ |
+| Envelope | ✅ | ✅ | ✅ |
+| Functions ×6 | ✅ | partly: names, order, dates, times (Pheras date/time missing) | ✅ names/order/dates/times; venues still placeholder |
 | Travel — arrivals | ✅ | ☐ | ☐ |
 | Stays ×2 | ✅ | ☐ | ☐ |
 | Local help | ✅ | ☐ | ☐ |

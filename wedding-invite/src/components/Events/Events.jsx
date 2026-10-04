@@ -3,16 +3,17 @@ import { FunctionPanel, NextCue } from './FunctionPanel';
 import { Reveal } from '../Layout/Reveal';
 import { Jaali } from '../Ornament/Jaali';
 import { useContent } from '../../hooks/useContent';
-import { groupByDate } from '../../lib/datetime';
 
 /**
  * The functions, one per screen.
  *
- * Still derived from the data: groupByDate already sorts by date then time, so
- * flattening it gives the running order and a sixth function needs no code. The
- * day is no longer a heading above a group -- each panel carries its own day
- * label, because a guest who lands on Sangeet mid-scroll has no group heading to
- * tell them which day it is.
+ * Derived from the data, in the ORDER THE CONTENT FILE LISTS THEM. It used to
+ * sort by date and time, which was wrong twice over: a function with no date yet
+ * sorts first ('' < '2026'), and an invitation's running order is a decision the
+ * family makes, not something to be recomputed. The day is no longer a heading
+ * above a group either -- each panel carries its own day label, because a guest
+ * who lands on Sangeet mid-scroll has no group heading to tell them which day it
+ * is. A sixth function still needs no code.
  *
  * #events stays on the wrapper so the nav link and the scrollspy keep working
  * unchanged.
@@ -22,7 +23,7 @@ import { groupByDate } from '../../lib/datetime';
  * not aimed at, and re-snapped when the address bar moved.
  */
 export function Events() {
-  const events = groupByDate(useContent('events')).flatMap((day) => day.items);
+  const events = useContent('events');
   const { title, kicker, nextLabel, afterLast } = useContent('functions');
 
   const after = (i) => (events[i + 1]
