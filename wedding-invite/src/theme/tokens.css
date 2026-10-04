@@ -48,7 +48,7 @@
      correct and everything else wrong.
 
      Deliberately NOT applied to --t-*: those have mixed consumers. --t-md is
-     used by .event__name (display) and by .envelope__seal, a two-glyph monogram
+     used by .fn__name (display) and by .envelope__seal, a two-glyph monogram
      inside a fixed 4.25rem circle. Scaling --t-md by Cormorant's 1.14 overflows
      the seal.
 

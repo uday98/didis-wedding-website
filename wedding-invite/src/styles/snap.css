@@ -1,0 +1,28 @@
+/* Scroll snapping, driven by the look switcher's `snap` row ([data-snap] on
+   <html>).
+
+   Page-level, not a nested scroll container: a 100svh scroller inside the page
+   would trap touch scrolling and fight the browser's own address-bar behaviour.
+   With snapping on the document, every block that is a top-level part of the
+   page has to be a snap target too -- otherwise `mandatory` would drag the reader
+   away from any stretch with no snap point. The hero, the invitation, the
+   function panels, Travel and the footer all are.
+
+   Blocks taller than the screen (the invitation and Travel on a phone, a long
+   function on a fold) are "oversized snap areas": by the spec the browser lets
+   the reader rest anywhere inside one and only snaps at its edges, which is what
+   lets you scroll through a tall panel before the next flick moves on. */
+
+html[data-snap='mandatory'] { scroll-snap-type: y mandatory; }
+html[data-snap='proximity'] { scroll-snap-type: y proximity; }
+
+.hero,
+.invitation,
+.fn-intro,
+.fn,
+.section,
+.shell__footer { scroll-snap-align: start; }
+
+/* Landing BELOW the sticky nav is done once, by `html { scroll-padding-top }` in
+   base.css, not per panel. See the note there: a per-panel scroll-margin breaks
+   the end of a panel that is taller than the screen. */

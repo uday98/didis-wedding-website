@@ -36,6 +36,13 @@
     "skipLabel": "Skip to the details",
     "replayLabel": "Play the opening again"
   },
+  "functions": {
+    "title": "The functions",
+    "kicker": "Timings are when things start, not when they are called for.",
+    "nextLabel": "Next",
+    "afterLast": "Getting there and staying",
+    "wearLabel": "Wear"
+  },
   "events": [
     {
       "id": "haldi",
@@ -46,7 +53,8 @@
       "address": "PLACEHOLDER, City",
       "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
       "dressCode": "Yellow, and nothing you mind staining",
-      "note": "PLACEHOLDER — one sentence of context."
+      "note": "PLACEHOLDER — one sentence of context.",
+      "image": ""
     },
     {
       "id": "mehendi",
@@ -57,7 +65,8 @@
       "address": "PLACEHOLDER, City",
       "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
       "dressCode": "Bright, comfortable",
-      "note": "PLACEHOLDER."
+      "note": "PLACEHOLDER.",
+      "image": ""
     },
     {
       "id": "sangeet",
@@ -68,7 +77,8 @@
       "address": "PLACEHOLDER, City",
       "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
       "dressCode": "Whatever you can dance in",
-      "note": "PLACEHOLDER."
+      "note": "PLACEHOLDER.",
+      "image": ""
     },
     {
       "id": "wedding",
@@ -79,7 +89,8 @@
       "address": "PLACEHOLDER, City",
       "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
       "dressCode": "Traditional",
-      "note": "PLACEHOLDER — the muhurat is early. Plan the night before."
+      "note": "PLACEHOLDER — the muhurat is early. Plan the night before.",
+      "image": ""
     },
     {
       "id": "reception",
@@ -90,7 +101,8 @@
       "address": "PLACEHOLDER, City",
       "mapUrl": "https://maps.google.com/?q=PLACEHOLDER",
       "dressCode": "Formal",
-      "note": "PLACEHOLDER."
+      "note": "PLACEHOLDER.",
+      "image": ""
     }
   ],
   "travel": {

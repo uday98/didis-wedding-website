@@ -72,6 +72,16 @@ export const DIMENSIONS = {
     rich: 'fade',
     help: 'flat: a strip with a hairline. fade: the page colour, fading out. floating: no strip, just chips.',
   },
+  snap: {
+    label: 'Snap',
+    values: ['off', 'proximity', 'mandatory'],
+    restrained: 'mandatory',
+    /* Declared: `mandatory` IS the behaviour that was asked for (one function
+       per screen), so it is both the default and what `rich` means. proximity is
+       the forgiving fallback if a phone handles tall panels badly. */
+    rich: 'mandatory',
+    help: 'off: panels scroll freely. proximity: snaps only when you stop near one. mandatory: always lands on a panel.',
+  },
   rhythm: {
     label: 'Rhythm',
     values: ['normal', 'generous'],
@@ -91,6 +101,7 @@ export const ACTIVE_LOOK = {
   pairing: 'prata-karla',
   headline: 'grand',
   nav: 'fade',
+  snap: 'mandatory',
   rhythm: 'normal',
 };
 

@@ -7,7 +7,8 @@
    against, not as a second look. These are corrections, not decoration. */
 
 [data-type='refined'] .section__title,
-[data-type='refined'] .event__name,
+[data-type='refined'] .fn__name,
+[data-type='refined'] .fn-intro__title,
 [data-type='refined'] .stay__name {
   /* Tracking comes from the pairing, since the right value is a property of
      the face, not of the site. Was hardcoded to Prata's -0.012em. */
@@ -17,8 +18,7 @@
   text-wrap: balance;
 }
 
-[data-type='refined'] .event__time,
-[data-type='refined'] .day__date {
+[data-type='refined'] .fn__time {
   /* Times and dates sit in a column; lining tabular figures stop them dancing
      as the digits change. */
   font-variant-numeric: tabular-nums lining-nums;
@@ -27,11 +27,11 @@
 
 [data-type='refined'] .hero__tagline,
 [data-type='refined'] .section__kicker,
-[data-type='refined'] .event__note {
+[data-type='refined'] .fn__note {
   text-wrap: pretty;
 }
 
-[data-type='refined'] .day__label {
+[data-type='refined'] .fn__day {
   font-variant-numeric: tabular-nums;
 }
 

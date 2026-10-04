@@ -8,6 +8,7 @@ import './theme/tokens.css';
 import './styles/base.css';
 import './styles/look.css';
 import './styles/interaction.css';
+import './styles/snap.css';
 import './styles/print.css';
 
 applyMotionVars();
