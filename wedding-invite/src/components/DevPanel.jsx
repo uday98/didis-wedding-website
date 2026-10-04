@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { PaletteSwitcher } from './PaletteSwitcher';
 import { LookSwitcher } from './LookSwitcher';
 import { safeLocalGet, safeLocalSet } from '../lib/storage';
 
@@ -52,7 +51,6 @@ export function DevPanel({ onPaceChange }) {
           away the sheet's scroll position every time it closes. */}
       <div className="dev__sheet" id="dev-sheet" data-open={open ? '' : undefined}>
         <LookSwitcher onPaceChange={onPaceChange} />
-        <PaletteSwitcher />
         <p className="dev__hint">Press d to toggle. Changing pace replays the opening. Delete DevPanel before launch.</p>
       </div>
     </div>
