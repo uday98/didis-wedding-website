@@ -13,7 +13,7 @@ import { Badge } from './Badge';
  */
 export function Envelope({ phase, runId, onOpen }) {
   const { openAriaLabel } = useContent('envelope');
-  const { brideName, groomName, tagline } = useContent('couple');
+  const { tagline } = useContent('couple');
 
   return (
     <div className="envelope-stage" data-phase={phase} aria-hidden={phase === 'open'}>
@@ -27,8 +27,7 @@ export function Envelope({ phase, runId, onOpen }) {
 
         <div className="envelope__card">
           <div>
-            <p className="envelope__addressee">{tagline}</p>
-            <p className="envelope__names">{brideName} &amp; {groomName}</p>
+            <p className="envelope__tagline">{tagline}</p>
           </div>
         </div>
 
