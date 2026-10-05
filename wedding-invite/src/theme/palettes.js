@@ -57,18 +57,10 @@ export const palettes = {
       'c-surface-line': '#526B55',
       'c-surface-tex': 'var(--tex-glow)',
       'c-stage': '#173629',
-      // Envelope, sampled from the reference photo: the maroon paper (a touch
-      // lighter than the stage so it reads as an object on it), the foliage
-      // greens and the blossoms painted along the flap.
+      // Envelope: the maroon paper, a touch lighter than the stage so it reads as
+      // an object lying on it.
       'c-env': '#862A22',
-      'c-env-deep': '#6A1B16',
-      'c-leaf-d': '#25382C',
-      'c-leaf-m': '#3E4D28',
-      'c-leaf-l': '#596931',
-      'c-leaf-o': '#7A6747',
-      'c-bloom-r': '#A33A2D',
-      'c-bloom-w': '#F2E7B8',
-      'c-bloom-g': '#C9A24A',          // the envelope sits on the surface colour, so the hand-off is one ground
+      'c-env-deep': '#6A1B16',          // the envelope sits on the surface colour, so the hand-off is one ground
     },
   },
 };

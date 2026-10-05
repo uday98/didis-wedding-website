@@ -11,7 +11,7 @@ import { useContent } from './hooks/useContent';
 import './components/Ornament/Ornament.css';
 
 export default function App() {
-  const { phase, stage, runId, open, skip, replay, isOpen } = useEnvelope();
+  const { phase, stage, runId, open, replay, isOpen } = useEnvelope();
   const { monogram } = useContent('couple');
   // The page stays put while the envelope is sealed. Released at `live`, so the
   // scrollbar returns as the overlay starts to fade rather than after it.
@@ -20,7 +20,7 @@ export default function App() {
 
   return (
     <>
-      <Envelope phase={phase} runId={runId} onOpen={open} onSkip={skip} />
+      <Envelope phase={phase} runId={runId} onOpen={open} />
       {/* `stage`, not `isOpen`. Reveals must start while the overlay is still
           FADING, so the page has settled by the time it clears -- gating on
           isOpen would mean the overlay lifts onto a blank sheet and the sections

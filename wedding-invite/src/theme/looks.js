@@ -23,8 +23,8 @@
 export const DIMENSIONS = {
   pace: {
     label: 'Pace',
-    values: ['brisk', 'measured', 'slow'],
-    restrained: 'measured',
+    values: ['slow'],
+    restrained: 'slow',
     help: 'Speed of everything, including the envelope.',
   },
   motion: {
@@ -74,7 +74,7 @@ export const dimensionNames = Object.keys(DIMENSIONS);
 
 /** What ships if the dev panel is deleted. */
 export const ACTIVE_LOOK = {
-  pace: 'measured',
+  pace: 'slow',
   motion: 'subtle',
   ornament: 'full',
   type: 'refined',
