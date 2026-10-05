@@ -43,6 +43,8 @@
 }
 
 .fn__sigil { display: grid; place-items: center; margin-bottom: var(--sp-1); }
+[data-ornament='full'] .fn:not([data-image]) { outline: 1px solid color-mix(in srgb, var(--c-metal) 55%, transparent); outline-offset: -8px; }
+[data-ornament='full'] .fn[data-image] { border-color: var(--c-metal); }
 /* Scaled with screen height too; height:auto keeps the 24x24 viewBox's aspect. */
 .fn__sigil .sigil { width: clamp(34px, 7vh, 52px); width: clamp(34px, 7svh, 52px); height: auto; }
 
@@ -162,7 +164,7 @@
 .fn__scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.5) 50%, rgb(0 0 0 / 0.38));
+  background: linear-gradient(to top, rgb(22 12 9 / 0.82), rgb(22 12 9 / 0.48) 52%, rgb(22 12 9 / 0.18));
 }
 .fn[data-image] .fn__day,
 .fn[data-image] .fn__name,

@@ -74,7 +74,7 @@ export const PAIRINGS = {
   },
 };
 
-export const ACTIVE_PAIRING = 'prata-karla';
+export const ACTIVE_PAIRING = 'cormorant-jost';
 
 export const pairingNames = Object.keys(PAIRINGS);
 
