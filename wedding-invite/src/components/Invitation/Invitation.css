@@ -30,7 +30,7 @@
   font-family: var(--font-display);
   /* A step below the couple's own names, which are what this card is about. At
      the full size "Mr Paduri Srinivasa Reddy" did not fit one line at 360px. */
-  font-size: calc(var(--td-md) * 0.88);
+  font-size: var(--fs-family);
   color: var(--c-ink);
   line-height: 1.3;
   /* Wide enough for "Mr Paduri Srinivasa Reddy" on one line; it was 22ch, which
@@ -48,7 +48,7 @@
 /* The connective phrases are deliberately quiet: they are grammar, not content,
    and at this size they would otherwise compete with the names. */
 .invitation__request {
-  font-size: var(--t-sm);
+  font-size: var(--fs-invite);
   color: var(--c-ink-soft);
   max-width: 34ch;
   margin-block: var(--sp-1);
@@ -66,9 +66,12 @@
   margin-block: var(--sp-2);
 }
 .invitation__name {
-  font-family: var(--font-display);
-  font-size: calc(var(--td-xl) * var(--inv-name-k, 1));
-  line-height: 1.1;
+  /* Pinyon Script: the names, and only the names. Its tall ascenders and loops
+     need more line height than a serif of the same size. */
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: calc(var(--fs-names) * var(--inv-name-k, 1));
+  line-height: 1.3;
   color: var(--c-ink);
   /* A long name in a 257px column on a fold phone would otherwise give the whole
      page a sideways scroll. All three are needed, which is not obvious:
@@ -85,7 +88,7 @@
 }
 .invitation__with {
   font-family: var(--font-body);
-  font-size: var(--t-sm);
+  font-size: var(--fs-with);
   letter-spacing: 0.2em;
   text-transform: lowercase;
   color: var(--c-ink-soft);
@@ -95,7 +98,7 @@
 .invitation .jaali { margin-top: var(--sp-3); }
 
 .invitation__closing {
-  font-size: var(--t-sm);
+  font-size: var(--fs-invite);
   color: var(--c-ink-soft);
   max-width: 40ch;
   margin-top: var(--sp-2);
@@ -104,9 +107,5 @@
 /* The couple's FULL names are long -- "Paduri Krishna Sai Reddy" is 24 characters --
    so they step down by length (see lib/titleSize.js) or the groom's name takes
    four lines of display type and the card grows well past a screen. */
-.invitation__name[data-size='medium'] { --inv-name-k: 0.9; }
-.invitation__name[data-size='long'] { --inv-name-k: 0.76; }
-@media (max-width: 30rem) {
-  .invitation__name[data-size='medium'] { --inv-name-k: 0.82; }
-  .invitation__name[data-size='long'] { --inv-name-k: 0.66; }
-}
+.invitation__name[data-size='medium'] { --inv-name-k: 1; }
+.invitation__name[data-size='long'] { --inv-name-k: 0.8; }

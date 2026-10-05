@@ -13,8 +13,9 @@
  * To change one of these, change it at its source. Everything below is an
  * ordinary token and can be overridden normally. */
 :root {
-  --font-display: 'Prata', Georgia, serif;
-  --font-body: 'Karla', system-ui, sans-serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
 
   /* Type scale, 1.25 ratio off a 17px base */
   --t-xs: 0.72rem;
@@ -24,6 +25,24 @@
   --t-lg: 1.66rem;
   --t-xl: 2.6rem;
   --t-2xl: 4rem;
+
+
+  /* --- named type sizes, from the family's brief: mobile / desktop px ---------
+     Fluid between a 360px phone and a 1024px window, so a tablet lands between
+     the two rather than jumping, and a fold phone (below 360px) holds the mobile
+     size. Written in rem so a guest's own text-size setting still scales them.
+     --font-script is Pinyon Script and is for the couple's names ONLY. */
+  --fs-names: clamp(2.625rem, calc(2.625rem + (1.3750) * (100vw - 22.5rem) / 41.5), 4rem);
+  --fs-with: 0.75rem;
+  --fs-family: clamp(1.125rem, calc(1.125rem + (0.1875) * (100vw - 22.5rem) / 41.5), 1.312rem);
+  --fs-invite: clamp(0.9375rem, calc(0.9375rem + (0.0625) * (100vw - 22.5rem) / 41.5), 1rem);
+  --fs-heading: clamp(2.5rem, calc(2.5rem + (0.7500) * (100vw - 22.5rem) / 41.5), 3.25rem);
+  --fs-event: clamp(2.25rem, calc(2.25rem + (0.5000) * (100vw - 22.5rem) / 41.5), 2.75rem);
+  --fs-date: 0.75rem;
+  --fs-time: clamp(1.125rem, calc(1.125rem + (0.1250) * (100vw - 22.5rem) / 41.5), 1.25rem);
+  --fs-venue: clamp(0.875rem, calc(0.875rem + (0.0625) * (100vw - 22.5rem) / 41.5), 0.9375rem);
+  --fs-desc: clamp(0.9375rem, calc(0.9375rem + (0.0625) * (100vw - 22.5rem) / 41.5), 1rem);
+  --fs-next: clamp(0.8125rem, calc(0.8125rem + (0.0625) * (100vw - 22.5rem) / 41.5), 0.875rem);
 
   --sp-1: 0.5rem;
   --sp-2: 1rem;
@@ -85,4 +104,16 @@
   --env-card-z: 6px;          /* card resting Z, inside the box */
   --env-card-lift: 48px;      /* how far the card comes toward the viewer */
   --env-perspective: 1100px;  /* shorter than 1400 = more visible depth */
+}
+
+/* Below a 360px phone -- a folded foldable is ~280px, leaving a 200px text
+   column inside the card -- the mobile sizes for the three largest faces would
+   wrap "The functions" to two lines and put a short name on one line and a long
+   one on three. These three step down; everything small stays as briefed. */
+@media (max-width: 22rem) {
+  :root {
+    --fs-names: 2.2rem;
+    --fs-heading: 2.1rem;
+    --fs-event: 2.1rem;
+  }
 }

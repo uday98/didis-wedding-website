@@ -47,13 +47,13 @@ export const DIMENSIONS = {
   },
   pairing: {
     label: 'Faces',
-    values: ['prata-karla', 'cormorant-jost', 'playfair-lato', 'fraunces-inter'],
-    restrained: 'prata-karla',
+    values: ['script-trio'],
+    restrained: 'script-trio',
     /* Declared, because this is the one dimension with no intensity ordering --
        the positional rule would make `rich` mean "whichever pairing happens to
        be listed last". Cormorant is the most engraved-stationery of the four,
        which is what `rich` is reaching for. */
-    rich: 'cormorant-jost',
+    rich: 'script-trio',
     help: 'Display and body font pairing.',
   },
   headline: {
@@ -78,7 +78,7 @@ export const ACTIVE_LOOK = {
   motion: 'subtle',
   ornament: 'full',
   type: 'refined',
-  pairing: 'cormorant-jost',
+  pairing: 'script-trio',
   headline: 'grand',
   rhythm: 'normal',
 };
