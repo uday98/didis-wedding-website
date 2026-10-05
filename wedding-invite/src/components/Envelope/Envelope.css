@@ -274,19 +274,26 @@
    stage fades around it. */
 .envelope[data-phase='opening'] .envelope__card,
 .envelope[data-phase='closing'] .envelope__card {
-  animation: envelope-card-rise calc(var(--d-card, 1480ms) * var(--pace-k, 1.35)) var(--ease-open)
-             calc(var(--d-card-delay, 1400ms) * var(--pace-k, 1.35)) both;
+  /* Two animations, same duration and delay. The rise is ONE smooth
+     ease-in-out from the mouth to clear air; the old three-stop keyframe eased
+     to a halt at its middle stop, which read as the letter pausing halfway. The
+     forward lean is separate and held back until the letter has cleared the
+     front panel. */
+  animation:
+    envelope-card-rise calc(var(--d-card, 1480ms) * var(--pace-k, 1.35)) cubic-bezier(0.45, 0, 0.25, 1) calc(var(--d-card-delay, 1400ms) * var(--pace-k, 1.35)) both,
+    envelope-card-lean calc(var(--d-card, 1480ms) * var(--pace-k, 1.35)) linear calc(var(--d-card-delay, 1400ms) * var(--pace-k, 1.35)) both;
 }
 
 /* The card now leaves the envelope completely rather than peeking out of it.
    -108% puts its bottom edge above the mouth, so for the hold beat it is a
    letter on its own -- which is what the sequence is building to. */
 @keyframes envelope-card-rise {
-  0% { transform: translate3d(0, 0, var(--env-card-z, 6px)); }
-  /* clears the mouth while still inside the box in Z */
-  46% { transform: translate3d(0, -52%, var(--env-card-z, 6px)); }
-  /* then rises free and leans toward the viewer */
-  100% { transform: translate3d(0, -108%, var(--env-card-lift, 48px)); }
+  from { translate: 0 0; }
+  to { translate: 0 -108%; }
+}
+@keyframes envelope-card-lean {
+  0%, 85% { transform: translate3d(0, 0, var(--env-card-z, 6px)); }
+  100% { transform: translate3d(0, 0, var(--env-card-lift, 48px)); }
 }
 
 /* The box dims as the card leaves it so the eye follows the letter. Not a fade
