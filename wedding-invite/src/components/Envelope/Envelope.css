@@ -307,17 +307,15 @@
    lines and spilled 62px out of the bottom of the card. Scaling with the same
    viewport the envelope scales with keeps the card's contents inside it.
    The clamp ceiling is the original --t-lg, so nothing changes above ~510px. */
-.envelope__addressee {
-  font-size: clamp(0.72rem, 3vw, var(--t-sm));
-  color: var(--c-ink-soft);
-  max-width: 24ch;
-}
-.envelope__names {
+.envelope__tagline {
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 5.2vw, var(--td-lg));
-  line-height: 1.15;
+  font-size: clamp(1.1rem, min(6.2vw, 3.4vh), var(--td-lg));
+  font-size: clamp(1.1rem, min(6.2vw, 3.4svh), var(--td-lg));
+  line-height: 1.2;
   color: var(--c-ink);
-  margin-block: var(--sp-1);
+  text-transform: capitalize;
+  text-wrap: balance;
+  max-width: 14ch;
 }
 
 
