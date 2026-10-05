@@ -18,63 +18,26 @@
  * what stops them drifting.
  */
 export const PAIRINGS = {
-  // High-contrast didone display over a humanist grotesque. The original.
-  'prata-karla': {
-    label: 'Prata / Karla',
-    href: 'https://fonts.googleapis.com/css2?family=Prata&family=Karla:wght@400;700&display=swap',
+  /* Three faces, three jobs:
+       Pinyon Script       the couple's names only -- calligraphy, never a paragraph.
+       Cormorant Garamond  event titles and the other elegant headings.
+       Manrope             dates, times, addresses, links and practical details.
+     Sizes are in tokens.css (--fs-*), set in px terms by the family and made
+     fluid there, so the display scale is 1 and not a per-face correction. */
+  'script-trio': {
+    label: 'Pinyon / Cormorant / Manrope',
+    href: 'https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap',
     vars: {
-      'font-display': "'Prata', Georgia, 'Times New Roman', serif",
-      'font-body': "'Karla', system-ui, -apple-system, sans-serif",
-      /* Faces differ in how large they run on the em and how tight they read at
-         hero sizes. One scale and one tracking value per pairing keeps the type
-         scale in tokens.css face-agnostic, instead of retuning --t-2xl every
-         time this row is clicked. */
-      'font-display-scale': '1',
-      'font-display-track': '-0.012em',
-    },
-  },
-
-  // The lightest, most engraved-stationery option. Cormorant at 500/600 because
-  // 400 is too fine to survive a phone screen at body-adjacent sizes.
-  'cormorant-jost': {
-    label: 'Cormorant / Jost',
-    href: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap',
-    vars: {
+      'font-script': "'Pinyon Script', 'Snell Roundhand', cursive",
       'font-display': "'Cormorant Garamond', Georgia, serif",
-      'font-body': "'Jost', system-ui, -apple-system, sans-serif",
-      'font-display-scale': '1.14',
+      'font-body': "'Manrope', system-ui, -apple-system, sans-serif",
+      'font-display-scale': '1',
       'font-display-track': '0.004em',
-    },
-  },
-
-  // The conventionally bridal one. Worth having as the control the family will
-  // recognise, even if it is the least interesting of the four.
-  'playfair-lato': {
-    label: 'Playfair / Lato',
-    href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Lato:wght@400;700&display=swap',
-    vars: {
-      'font-display': "'Playfair Display', Georgia, serif",
-      'font-body': "'Lato', system-ui, -apple-system, sans-serif",
-      'font-display-scale': '0.98',
-      'font-display-track': '-0.006em',
-    },
-  },
-
-  // The modern one. Fraunces has a soft, slightly wonky warmth that reads less
-  // formal than the other three without reading casual.
-  'fraunces-inter': {
-    label: 'Fraunces / Inter',
-    href: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;600&display=swap',
-    vars: {
-      'font-display': "'Fraunces', Georgia, serif",
-      'font-body': "'Inter', system-ui, -apple-system, sans-serif",
-      'font-display-scale': '0.96',
-      'font-display-track': '-0.016em',
     },
   },
 };
 
-export const ACTIVE_PAIRING = 'cormorant-jost';
+export const ACTIVE_PAIRING = 'script-trio';
 
 export const pairingNames = Object.keys(PAIRINGS);
 
