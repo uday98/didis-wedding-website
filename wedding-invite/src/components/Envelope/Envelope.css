@@ -64,7 +64,12 @@
 
 .envelope {
   position: relative;
-  width: min(86vw, 30rem);
+  /* Also capped by height. The card leaves the envelope upward by more than its
+     own height, so on a wide, short screen (desktop, an unfolded fold) a width
+     set only by vw sent the top of the letter off the screen. The 1.8 is the
+     letter's travel: envelope height x 3/2 x ~1.2, plus the envelope's own half. */
+  width: min(86vw, 30rem, calc((100vh - 3.5rem) / 1.8));
+  width: min(86vw, 30rem, calc((100svh - 3.5rem) / 1.8));
   aspect-ratio: 3 / 2;
   transform-style: preserve-3d;
 }
@@ -178,26 +183,12 @@
 }
 
 .envelope__flap-face--outer {
-  /* The scalloped silhouette is the SVG's own shape, so there is no clip-path
-     here to flatten the preserve-3d flap. overflow stays visible: the cast
-     shadow is painted just past the face's lower edge. */
+  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: var(--c-env);
+  background-image: linear-gradient(to bottom, rgb(var(--c-shade-rgb, 0 0 0) / 0), rgb(var(--c-shade-rgb, 0 0 0) / 0.14));
   transform: translateZ(0.5px);
 }
-.foliage { display: block; width: 100%; height: 100%; overflow: visible; }
-.foliage__base { fill: var(--c-env); }
-.foliage__rim { fill: none; stroke: var(--c-bloom-g); stroke-width: 0.7; opacity: 0.7; }
-/* A soft shadow with no filter: two offset copies of the silhouette, stacked at
-   low opacity. filter and blur are what cost frames on a phone. */
-.foliage__shadow { fill: rgb(var(--c-cast-rgb, 0 0 0)); }
-.foliage__shadow--far { opacity: 0.16; }
-.foliage__shadow--near { opacity: 0.26; }
-.foliage__leaf-d { fill: var(--c-leaf-d); }
-.foliage__leaf-m { fill: var(--c-leaf-m); }
-.foliage__leaf-l { fill: var(--c-leaf-l); }
-.foliage__leaf-o { fill: var(--c-leaf-o); }
-.foliage__bloom-r { fill: var(--c-bloom-r); }
-.foliage__bloom-w { fill: var(--c-bloom-w); }
-.foliage__bloom-g { fill: var(--c-bloom-g); }
 
 /* Lining: a solid metal triangle with paper inset a hairline on top, which
    leaves a gilded rim on all three edges. A border cannot do this -- it would
@@ -229,8 +220,8 @@
   position: absolute;
   left: 50%;
   top: 46%;
-  width: 5.25rem;
-  height: 5.25rem;
+  width: 6rem;
+  height: 6rem;
   padding: 0;
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 3px));
   background: none;
@@ -242,14 +233,10 @@
 }
 .badge { display: block; width: 100%; height: 100%; overflow: visible; }
 .badge__field { fill: var(--c-env-deep); }
-.badge__edge { fill: none; stroke: var(--c-surface-accent); stroke-width: 3; stroke-linejoin: round; }
-.badge__line { fill: none; stroke: var(--c-surface-accent); stroke-width: 1; opacity: 0.8; }
-.badge__mark {
-  fill: var(--c-surface-accent);
-  font-family: var(--font-display);
-  font-style: italic;
-  letter-spacing: 0.02em;
-}
+.badge__edge { fill: none; stroke: var(--c-surface-accent); stroke-width: 3; }
+.badge__line { fill: none; stroke: var(--c-surface-accent); stroke-width: 0.9; opacity: 0.75; }
+.badge__mark { fill: none; stroke: var(--c-surface-accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.badge__heart { fill: none; stroke: var(--c-surface-accent); stroke-width: 1.5; stroke-linejoin: round; }
 .envelope__seal:hover {
   transform: translate(-50%, -50%) translateZ(calc(var(--env-depth, 18px) + 6px)) scale(1.05);
 }
@@ -333,24 +320,6 @@
   margin-block: var(--sp-1);
 }
 
-/* Child of .envelope-stage, not .envelope, so it sits outside the 3D context
-   and plain absolute positioning still applies. */
-.envelope__skip {
-  position: absolute;
-  bottom: var(--sp-3);
-  left: 50%;
-  transform: translateX(-50%);
-  background: none;
-  border: none;
-  /* On the stage, which is the surface colour in a dark-surface palette. */
-  border-bottom: 1px solid var(--c-surface-line, var(--c-line));
-  color: var(--c-on-surface-soft, var(--c-ink-soft));
-  font-family: var(--font-body);
-  font-size: var(--t-sm);
-  padding-bottom: 2px;
-  cursor: pointer;
-}
-.envelope__skip:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 
 /* Lives in the Shell footer but belongs to the envelope, so its styles stay
    with the component that owns the behaviour. */

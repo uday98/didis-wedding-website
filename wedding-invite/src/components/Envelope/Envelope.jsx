@@ -1,7 +1,6 @@
 import './Envelope.css';
 import { useContent } from '../../hooks/useContent';
 import { Badge } from './Badge';
-import { FlapFoliage } from './FlapFoliage';
 
 /**
  * Presentation only. All state is owned by useEnvelope and passed in,
@@ -12,9 +11,9 @@ import { FlapFoliage } from './FlapFoliage';
  * --env-depth nearer the viewer, and the card rests in the gap between them.
  * DOM order no longer decides what paints on top -- translateZ does.
  */
-export function Envelope({ phase, runId, onOpen, onSkip }) {
-  const { addressedTo, sealInitials, openAriaLabel, skipLabel } = useContent('envelope');
-  const { brideName, groomName } = useContent('couple');
+export function Envelope({ phase, runId, onOpen }) {
+  const { openAriaLabel } = useContent('envelope');
+  const { brideName, groomName, tagline } = useContent('couple');
 
   return (
     <div className="envelope-stage" data-phase={phase} aria-hidden={phase === 'open'}>
@@ -28,7 +27,7 @@ export function Envelope({ phase, runId, onOpen, onSkip }) {
 
         <div className="envelope__card">
           <div>
-            <p className="envelope__addressee">{addressedTo}</p>
+            <p className="envelope__addressee">{tagline}</p>
             <p className="envelope__names">{brideName} &amp; {groomName}</p>
           </div>
         </div>
@@ -36,9 +35,7 @@ export function Envelope({ phase, runId, onOpen, onSkip }) {
         <div className="envelope__body" />
 
         <div className="envelope__flap">
-          <div className="envelope__flap-face envelope__flap-face--outer">
-            <FlapFoliage />
-          </div>
+          <div className="envelope__flap-face envelope__flap-face--outer" />
           <div className="envelope__flap-face envelope__flap-face--inner" />
         </div>
 
@@ -48,14 +45,9 @@ export function Envelope({ phase, runId, onOpen, onSkip }) {
           onClick={onOpen}
           aria-label={openAriaLabel}
         >
-          <Badge initials={sealInitials} />
+          <Badge />
         </button>
       </div>
-      {phase === 'closed' && (
-        <button type="button" className="envelope__skip" onClick={onSkip}>
-          {skipLabel}
-        </button>
-      )}
     </div>
   );
 }
