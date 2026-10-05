@@ -1,6 +1,8 @@
 /* Centred, unlike every other block on the site, because this is the one part
    that is the card rather than information about the card. */
 .invitation {
+  outline: 1px solid color-mix(in srgb, var(--c-metal) 55%, transparent);
+  outline-offset: -8px;
   text-align: center;
   padding-block: var(--sp-5);
   display: grid;

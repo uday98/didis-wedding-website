@@ -48,15 +48,15 @@ export const palettes = {
       'c-metal': '#B09A5B',          // the gold foil (#EBDDAE) deepened -- pale foil vanishes on cream paper
       'c-line': '#D8CBA3',
       'c-shade-rgb': '0 0 0',
-      'c-surface': '#6F1E19',        // sampled: the dominant colour of the photograph (31%)
+      'c-surface': '#173629',        // forest green from the reference stationery grounds the paper cards
       'c-cast-rgb': '0 0 0',
       'c-on-photo': '#FFF8E8',
       'c-on-surface': '#F6EACB',     // cream, for text on the maroon
       'c-on-surface-soft': '#DCCBA0',
-      'c-surface-accent': '#EBDDAE', // sampled: the gold foil, for the small accents on the maroon
-      'c-surface-line': '#93463C',
+      'c-surface-accent': '#EBDDAE', // antique gold accents on the green surface
+      'c-surface-line': '#526B55',
       'c-surface-tex': 'var(--tex-glow)',
-      'c-stage': '#6F1E19',
+      'c-stage': '#173629',
       // Envelope, sampled from the reference photo: the maroon paper (a touch
       // lighter than the stage so it reads as an object on it), the foliage
       // greens and the blossoms painted along the flap.

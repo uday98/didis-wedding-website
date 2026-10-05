@@ -76,9 +76,9 @@ export const dimensionNames = Object.keys(DIMENSIONS);
 export const ACTIVE_LOOK = {
   pace: 'measured',
   motion: 'subtle',
-  ornament: 'light',
+  ornament: 'full',
   type: 'refined',
-  pairing: 'prata-karla',
+  pairing: 'cormorant-jost',
   headline: 'grand',
   rhythm: 'normal',
 };
