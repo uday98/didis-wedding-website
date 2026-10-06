@@ -10,6 +10,7 @@
      keeps this line. (Contrast a var()-based value, which parses fine and only fails later, so it needs an @supports.) */
   min-height: 100vh;
   min-height: 100dvh;
+  overflow-x: clip;
 }
 .shell__main {
   width: min(92vw, 62rem);

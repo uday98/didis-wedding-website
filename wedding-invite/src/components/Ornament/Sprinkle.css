@@ -1,0 +1,37 @@
+/* The layer spans the whole shell and clips sideways, so an ornament can hang
+   off the edge of the screen without making the page scroll sideways.
+   overflow-x: clip, not hidden: hidden would turn the shell into a scroll
+   container. */
+.sprinkle {
+  position: absolute;
+  inset: 0 0 6rem 0;       /* clear of the footer */
+  overflow-x: clip;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sprinkle__item {
+  --w: calc(clamp(5.5rem, 22vw, 15rem) * var(--k, 1));
+  /* The gutter is the surface showing either side of the cards. On a phone it is
+     ~4vw, so most of an ornament has to overlap the card edge; on a tablet or
+     desktop it is wide and the ornament sits in it. Either way no more is shown
+     than the card's own side padding (1.6rem) beyond the gutter -- the text
+     column starts there, and an ornament must never sit on a word. */
+  --gutter: calc((100vw - min(92vw, 62rem)) / 2);
+  --vis: min(calc(var(--gutter) + 1.6rem), calc(var(--w) * var(--show, 0.6)));
+  position: absolute;
+  top: var(--top);
+  width: var(--w);
+  height: auto;
+  transform-origin: center;
+}
+/* Left-hand ones point in, right-hand ones are mirrored to point in too; the
+   seed's own flip is applied on top. */
+.sprinkle__item[data-side='left'] {
+  left: calc(var(--vis) - var(--w));
+  transform: rotate(var(--tilt)) scaleX(var(--flip));
+}
+.sprinkle__item[data-side='right'] {
+  right: calc(var(--vis) - var(--w));
+  transform: rotate(calc(var(--tilt) * -1)) scaleX(calc(var(--flip) * -1));
+}
