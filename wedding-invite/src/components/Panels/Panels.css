@@ -1,0 +1,205 @@
+/* The illustrated panels.
+
+   Each panel is a 9:16 card of artwork (public/art, text-free) with the words laid
+   over it as live text. Everything is sized from the PANEL'S OWN WIDTH with cqw
+   (1cqw = 1% of the panel's width), not from the screen: the artwork is a fixed
+   drawing, so the words must scale with it -- on a 280px fold phone, a 390px phone
+   and a 30rem-wide column on a desktop they keep the same proportions to the
+   picture. Each size has a px floor so the smallest lines stay readable on a fold
+   phone, where 3.4cqw would be 9.5px.
+
+   aspect-ratio makes the panel exactly 9:16 when the text fits; if the text is
+   taller (very large type setting, very narrow screen) the panel grows rather than
+   clipping a line. */
+
+.panel {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  overflow: clip;
+  color: var(--c-on-surface);
+  /* The artwork. Without it (a missing file) the panel is still a deep green card
+     with a gold edge, so the words never sit on the page's maroon. */
+  background-color: #16291c;
+  background-image: var(--art, none);
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+.panel:not([style*='--art'])::before {
+  content: '';
+  position: absolute;
+  inset: 5cqw;
+  border: 1px solid var(--c-metal);
+  border-radius: 6cqw;
+  opacity: 0.6;
+}
+
+.panel__body {
+  position: relative;
+  /* Where the text block starts, as a fraction of the panel's HEIGHT. A percentage
+     padding is a fraction of the WIDTH, and the panel is 16/9 as tall as it is wide. */
+  padding-top: calc(var(--top, 0.22) * 177.78%);
+  padding-bottom: 6cqw;
+}
+.panel[data-panel='cover'] { --top: 0.3; }
+.panel[data-panel='invitation'] { --top: 0.17; }
+.panel[data-panel='invitation'] .pn-center { gap: 0.4cqw; }
+.panel[data-panel='mehendi'] { --top: 0.23; }
+.panel[data-panel='haldi'] { --top: 0.24; }
+.panel[data-panel='sangeet'] { --top: 0.26; }
+.panel[data-panel='chooda'] { --top: 0.19; }
+.panel[data-panel='varmala'] { --top: 0.19; }
+.panel[data-panel='pheras'] { --top: 0.15; }
+.panel[data-panel='closing'] { --top: 0.28; }
+
+.pn-center {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1.3cqw;
+  padding-inline: 12cqw;
+  font-family: var(--font-display);
+  /* A whisper of shadow so the lettering holds against the artwork behind it. */
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
+}
+/* The Chooda artwork hangs its jewellery down the left, so the text sits right of it. */
+.panel[data-panel='chooda'] .pn-center { padding-left: 36cqw; padding-right: 7cqw; }
+
+/* --- gold ornaments -------------------------------------------------------- */
+.pn-divider { width: 46cqw; height: auto; color: var(--c-surface-accent); opacity: 0.85; margin-block: 1.2cqw; }
+.pn-monogram { width: 34cqw; height: auto; color: var(--c-surface-accent); margin-bottom: 3cqw; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.5)); }
+.pn-sigil { margin-bottom: 1.5cqw; }
+.pn-sigil .sigil { width: max(7cqw, 26px); height: auto; color: var(--c-surface-accent); opacity: 1; }
+
+/* --- the tagline in three tiers: THE WEDDING / we have all been waiting for ---- */
+.pn-tagline {
+  font-size: max(3.7cqw, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.55;
+  color: var(--c-surface-accent);
+  max-width: 78cqw;
+}
+.tt__a { color: var(--c-surface-accent); }
+.tt__b { font-size: 2.7em; letter-spacing: 0.05em; font-weight: 500; color: var(--c-on-surface); line-height: 1.1; }
+.tt__c { display: block; text-wrap: balance; margin-top: 0.4em; color: var(--c-surface-accent); }
+
+/* --- invitation -------------------------------------------------------------- */
+.pn-blessing {
+  font-size: max(3.7cqw, 12px);
+  font-style: italic;
+  letter-spacing: 0.1em;
+  color: var(--c-on-surface-soft);
+  max-width: 72cqw;
+  margin-block: 0.6cqw;
+}
+.pn-parents {
+  font-size: max(4.9cqw, 15px);
+  line-height: 1.3;
+  color: var(--c-on-surface);
+  max-width: 82cqw;
+  overflow-wrap: anywhere;
+}
+.pn-parents span { display: inline-block; }
+.pn-request {
+  font-size: max(3.9cqw, 12px);
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  color: var(--c-on-surface-soft);
+  max-width: 70cqw;
+  margin-block: 0.8cqw;
+}
+.pn-couple {
+  font-weight: 400;
+  font-size: inherit;
+  max-width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  margin-block: 1.6cqw;
+}
+.pn-name {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 9.8cqw;
+  line-height: 1.12;
+  color: var(--c-on-surface);
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.pn-name[data-size='long'] { font-size: 8.8cqw; }
+.pn-with {
+  font-size: max(3.2cqw, 11px);
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--c-surface-accent);
+  margin-block: 0.5cqw;
+}
+
+/* --- function panels ----------------------------------------------------------- */
+.pn-day {
+  font-size: max(3.3cqw, 10px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-surface-accent);
+}
+.pn-title {
+  font-weight: 500;
+  font-size: 12.5cqw;
+  line-height: 1.05;
+  color: var(--c-on-surface);
+  text-wrap: balance;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  margin-block: 1cqw 0.5cqw;
+}
+.pn-title[data-size='medium'] { font-size: 9.6cqw; }
+.pn-title[data-size='long'] { font-size: 8.4cqw; }
+.pn-sub {
+  font-size: max(3.7cqw, 11px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--c-surface-accent);
+  max-width: 60cqw;
+  text-wrap: balance;
+}
+.pn-time {
+  font-weight: 500;
+  font-size: max(6.4cqw, 18px);
+  line-height: 1.2;
+  color: var(--c-on-surface);
+  margin-top: 1cqw;
+}
+.pn-time-note { font-size: max(3.6cqw, 11px); font-weight: 400; letter-spacing: 0.05em; color: var(--c-on-surface-soft); }
+.pn-venue { font-size: max(4.2cqw, 13px); letter-spacing: 0.04em; color: var(--c-on-surface); max-width: 80cqw; line-height: 1.3; }
+.pn-venue a { color: inherit; text-decoration-color: color-mix(in srgb, var(--c-surface-accent) 55%, transparent); text-underline-offset: 0.2em; }
+.pn-address { font-size: max(3.6cqw, 12px); letter-spacing: 0.04em; color: var(--c-on-surface-soft); max-width: 78cqw; overflow-wrap: anywhere; line-height: 1.3; }
+.pn-note {
+  font-size: max(3.7cqw, 12px);
+  font-style: italic;
+  letter-spacing: 0.14em;
+  color: var(--c-on-surface-soft);
+  max-width: 70cqw;
+  margin-top: 2.5cqw;
+  text-transform: capitalize;
+  text-wrap: balance;
+}
+
+/* --- closing ---------------------------------------------------------------------- */
+.pn-closing-title {
+  font-size: 13cqw;
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--c-on-surface);
+  text-wrap: balance;
+  max-width: 82cqw;
+  margin-block: 3cqw;
+}

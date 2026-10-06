@@ -24,9 +24,10 @@
       "mother": "Paduri Nagamani",
       "relation": "son"
     },
-    "requestLine": "request the honour of your presence at the marriage of their",
+    "requestLine": "invite you to celebrate the wedding of their",
     "withLine": "with",
-    "closingLine": ""
+    "closingLine": "in celebration of love, family & a lifetime together.",
+    "openingLine": "With the blessings of their families"
   },
   "envelope": {
     "addressedTo": "You and your family",
@@ -52,8 +53,9 @@
       "address": "Fatrade Road, Varca, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Sea+Breeze+Sarovar+Portico&query_place_id=ChIJlzaCBgmzvzsRrpQzdNsn31E",
       "dressCode": "",
-      "note": "PLACEHOLDER — one line of context.",
-      "image": ""
+      "note": "",
+      "image": "/art/mehendi.webp",
+      "subtitle": ""
     },
     {
       "id": "haldi",
@@ -66,7 +68,8 @@
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
       "dressCode": "",
       "note": "Ivory Pehen Kar Aana, Haldi Hum Lagayenge",
-      "image": ""
+      "image": "/art/haldi.webp",
+      "subtitle": ""
     },
     {
       "id": "sangeet",
@@ -78,8 +81,9 @@
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
       "dressCode": "",
-      "note": "PLACEHOLDER — one line of context.",
-      "image": ""
+      "note": "",
+      "image": "/art/sangeet.webp",
+      "subtitle": ""
     },
     {
       "id": "chooda",
@@ -91,8 +95,9 @@
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
       "dressCode": "",
-      "note": "PLACEHOLDER — one line of context.",
-      "image": ""
+      "note": "",
+      "image": "/art/chooda.webp",
+      "subtitle": ""
     },
     {
       "id": "varmala",
@@ -104,13 +109,14 @@
       "address": "Varca Beach, Salcete, Goa, India",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
       "dressCode": "",
-      "note": "Saath Ki Shuruaat",
-      "image": ""
+      "note": "",
+      "image": "/art/varmala.webp",
+      "subtitle": "A Sundowner Of Forever"
     },
     {
       "id": "pheras",
       "name": "Pheras",
-      "date": "PLACEHOLDER — date",
+      "date": "2026-11-15",
       "startTime": "21:30",
       "timeNote": "onwards",
       "venue": "Beach lawn, Caravela Beach Resort",
@@ -118,7 +124,16 @@
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Caravela+Beach+Resort+Varca+Goa",
       "dressCode": "",
       "note": "Saat Janmon Ka Vaada",
-      "image": ""
+      "image": "/art/pheras.webp",
+      "subtitle": ""
     }
-  ]
+  ],
+  "panels": {
+    "cover": "/art/cover.webp",
+    "invitation": "/art/invitation.webp",
+    "closing": "/art/closing.webp"
+  },
+  "closing": {
+    "title": "Milte Hain Goa Mein!"
+  }
 }
