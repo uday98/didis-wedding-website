@@ -1,6 +1,8 @@
 import './Envelope.css';
 import { useContent } from '../../hooks/useContent';
 import { Badge } from './Badge';
+import { TaglineTiers } from '../Panels/TaglineTiers';
+import '../Panels/Panels.css';
 
 /**
  * Presentation only. All state is owned by useEnvelope and passed in,
@@ -26,8 +28,8 @@ export function Envelope({ phase, runId, onOpen }) {
         <div className="envelope__wall envelope__wall--bottom" />
 
         <div className="envelope__card">
-          <div>
-            <p className="envelope__tagline">{tagline}</p>
+          <div className="envelope__letter">
+            <p className="envelope__tagline"><TaglineTiers text={tagline} /></p>
           </div>
         </div>
 

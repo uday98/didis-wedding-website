@@ -3,9 +3,10 @@ import { useEnvelope } from './components/Envelope/useEnvelope';
 import { useScrollLock } from './hooks/useScrollLock';
 import { StageProvider } from './hooks/useStage';
 import { Shell } from './components/Layout/Shell';
-import { Hero } from './components/Hero/Hero';
-import { Invitation } from './components/Invitation/Invitation';
-import { Events } from './components/Events/Events';
+import { Cover } from './components/Panels/Cover';
+import { Invitation } from './components/Panels/Invitation';
+import { Functions } from './components/Panels/Functions';
+import { Closing } from './components/Panels/Closing';
 import { DevPanel } from './components/DevPanel';
 import { useContent } from './hooks/useContent';
 import './components/Ornament/Ornament.css';
@@ -43,11 +44,10 @@ export default function App() {
             </>
           }
         >
-          <Hero />
-          {/* The formal invitation sits between the hero and the functions:
-              it is the card, the functions below are the details. */}
+          <Cover />
           <Invitation />
-          <Events />
+          <Functions />
+          <Closing />
         </Shell>
       </StageProvider>
       <div className="grain" aria-hidden="true" />

@@ -48,19 +48,19 @@ export const palettes = {
       'c-metal': '#B09A5B',          // the gold foil (#EBDDAE) deepened -- pale foil vanishes on cream paper
       'c-line': '#D8CBA3',
       'c-shade-rgb': '0 0 0',
-      'c-surface': '#173629',        // forest green from the reference stationery grounds the paper cards
+      'c-surface': '#5A1015',        // the deep maroon border of the final stationery, which the green panels sit on
       'c-cast-rgb': '0 0 0',
       'c-on-photo': '#FFF8E8',
       'c-on-surface': '#F6EACB',     // cream, for text on the maroon
       'c-on-surface-soft': '#DCCBA0',
       'c-surface-accent': '#EBDDAE', // antique gold accents on the green surface
-      'c-surface-line': '#526B55',
+      'c-surface-line': '#8A3B38',
       'c-surface-tex': 'var(--tex-glow)',
-      'c-stage': '#173629',
-      // Envelope: the maroon paper, a touch lighter than the stage so it reads as
-      // an object lying on it.
-      'c-env': '#862A22',
-      'c-env-deep': '#6A1B16',          // the envelope sits on the surface colour, so the hand-off is one ground
+      'c-stage': '#5A1015',
+      // Envelope: the panels' deep green, lying on the maroon stage, with a maroon
+      // liner (c-surface) and gold edges.
+      'c-env': '#1F3B2B',
+      'c-env-deep': '#12261B',
     },
   },
 };

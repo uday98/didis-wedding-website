@@ -134,6 +134,8 @@
   background: var(--c-env);
   /* The foil edge: a hairline of the palette's gold, as on the reference. */
   border: 1px solid var(--c-metal);
+  outline: 1px solid color-mix(in srgb, var(--c-metal) 45%, transparent);
+  outline-offset: -7px;
   transform: translateZ(var(--env-depth, 18px));
   backface-visibility: hidden;
   box-shadow: 0 30px 56px -24px rgb(var(--c-cast-rgb, 0 0 0) / 0.7);
@@ -185,9 +187,20 @@
 .envelope__flap-face--outer {
   -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  background: var(--c-env);
-  background-image: linear-gradient(to bottom, rgb(var(--c-shade-rgb, 0 0 0) / 0), rgb(var(--c-shade-rgb, 0 0 0) / 0.14));
+  /* A solid gold triangle with the green inset a hairline on top leaves a gilded
+     rim along the flap's two long edges, as on the stationery. A border cannot do
+     this: it would be clipped away with everything outside the polygon. */
+  background: var(--c-metal);
   transform: translateZ(0.5px);
+}
+.envelope__flap-face--outer::before {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: var(--c-env);
+  background-image: linear-gradient(to bottom, rgb(var(--c-shade-rgb, 0 0 0) / 0), rgb(var(--c-shade-rgb, 0 0 0) / 0.16));
 }
 
 /* Lining: a solid metal triangle with paper inset a hairline on top, which
@@ -209,8 +222,8 @@
   /* Shaded with the palette's own deeper paper rather than a black wash: 14%
      black over warm paper resolves to a cold grey that fights every palette.
      The crease sits at the hinge, which is the bottom of the mirrored polygon. */
-  background: var(--c-env-deep);
-  background-image: linear-gradient(to bottom, var(--c-env), var(--c-env-deep));
+  background: var(--c-surface);
+  background-image: linear-gradient(to bottom, var(--c-surface), rgb(0 0 0 / 0.35));
 }
 
 /* --- seal ----------------------------------------------------------------
@@ -232,7 +245,7 @@
               opacity calc(var(--d-seal, 400ms) * var(--pace-k, 1.35)) ease;
 }
 .badge { display: block; width: 100%; height: 100%; overflow: visible; }
-.badge__field { fill: var(--c-env-deep); }
+.badge__field { fill: var(--c-surface); }
 .badge__edge { fill: none; stroke: var(--c-surface-accent); stroke-width: 3; }
 .badge__line { fill: none; stroke: var(--c-surface-accent); stroke-width: 0.9; opacity: 0.75; }
 .badge__mark { fill: none; stroke: var(--c-surface-accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -257,15 +270,20 @@
   top: 8%;
   height: 84%;
   margin-inline: 6%;
-  background: var(--c-paper);
-  border: 1px solid var(--c-line);
+  /* The cover's own artwork, cropped to the letter: a deep green card with a gold
+     frame, the same object the page opens onto. */
+  background: #16291c url(/art/cover.webp) center 42% / cover no-repeat;
+  border: 1px solid var(--c-metal);
+  outline: 1px solid color-mix(in srgb, var(--c-metal) 50%, transparent);
+  outline-offset: -6px;
   display: grid;
   place-items: center;
   text-align: center;
   padding: var(--sp-2);
   transform: translate3d(0, 0, var(--env-card-z, 6px));
-  box-shadow: 0 10px 22px -14px rgb(var(--c-cast-rgb, 0 0 0) / 0.45);
+  box-shadow: 0 10px 22px -14px rgb(var(--c-cast-rgb, 0 0 0) / 0.6);
 }
+.envelope__letter { container-type: inline-size; width: 100%; }
 
 /* `both`, not `forwards`: the delayed start must hold frame 0, or the card
    flashes at its resting position for one frame. Paced by the same multiplier
@@ -316,13 +334,13 @@
    The clamp ceiling is the original --t-lg, so nothing changes above ~510px. */
 .envelope__tagline {
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, min(6.2vw, 3.4vh), var(--td-lg));
-  font-size: clamp(1.1rem, min(6.2vw, 3.4svh), var(--td-lg));
-  line-height: 1.2;
-  color: var(--c-ink);
-  text-transform: capitalize;
-  text-wrap: balance;
-  max-width: 14ch;
+  font-size: max(4.4cqw, 11px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--c-surface-accent);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
+  max-width: 100%;
 }
 
 

@@ -13,9 +13,9 @@
   overflow-x: clip;
 }
 .shell__main {
-  width: min(92vw, 62rem);
+  width: min(100%, 30rem);
   margin-inline: auto;
-  padding-bottom: var(--sp-5);
+  padding-bottom: 0;
 }
 .shell__footer {
   /* On the surface, so it takes the surface's own colours where a palette has
